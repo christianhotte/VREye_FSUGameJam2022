@@ -31,6 +31,7 @@ public class FPSPlayer : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
@@ -43,7 +44,6 @@ public class FPSPlayer : MonoBehaviour
         if (cc.isGrounded)
         {
             currentGrav = 2.0f;
-            Debug.Log("Grounded");
         }
         else
         {
@@ -99,10 +99,11 @@ public class FPSPlayer : MonoBehaviour
     {
         if (!ctx.performed) return;
         Transform newRocket = Instantiate(rocketPrefab);
-        newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.2f - cam.transform.up*0.2f;
+        newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.3f - cam.transform.up*0.2f;
         newRocket.rotation = cam.transform.rotation;
         toMove = Vector3.zero;
         movementDir = Vector3.zero;
+        currentGrav = 0;
     }
 
 }

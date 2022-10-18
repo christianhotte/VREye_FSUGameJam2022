@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1658674683545223285}
   - component: {fileID: 1658674683545223284}
   - component: {fileID: 1658674683545223287}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 1658674684814655491}
   - component: {fileID: 1658674684814655490}
   - component: {fileID: 1658674684814655488}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FPSPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,9 +186,10 @@ MonoBehaviour:
   cam: {fileID: 1658674683545223284}
   mouseSpeedX: 0.1
   mouseSpeedY: 0.08
-  movementSpeed: 15
-  directionLerpRate: 50
-  speedLerpRate: 30
+  movementSpeed: 10
+  directionLerpRate: 20
+  speedLerpRate: 5
+  rocketPrefab: {fileID: 767697876143057398, guid: 1aac0db7bbc03234ba22a1aac4638a31, type: 3}
 --- !u!114 &1658674684814655490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,6 +263,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c08a4d94-51f3-4ccc-83cf-179103dc459a
     m_ActionName: Map/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1658674684814655491}
+        m_TargetAssemblyTypeName: FPSPlayer, Assembly-CSharp
+        m_MethodName: Shoot
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e14d8d77-8377-413d-b8c6-2a4f1e9bddeb
+    m_ActionName: Map/Shoot[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Map
