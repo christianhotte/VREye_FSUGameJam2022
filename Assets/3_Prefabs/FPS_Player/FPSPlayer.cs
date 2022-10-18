@@ -11,6 +11,7 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] float movementSpeed;
     [SerializeField] float directionLerpRate;
     [SerializeField] float speedLerpRate;
+    [SerializeField] float jumpHeight;
 
     [SerializeField] Transform rocketPrefab;
 
@@ -45,7 +46,7 @@ public class FPSPlayer : MonoBehaviour
 
         if (cc.isGrounded)
         {
-            currentGrav = 2.0f;
+            currentGrav = 10.0f;
         }
         else
         {
@@ -55,13 +56,7 @@ public class FPSPlayer : MonoBehaviour
 
         cc.Move(currentGrav * -Vector3.up * Time.deltaTime * gravScalar);
 
-        if (cc.isGrounded && bufferTime > 0)
-        {
-            ActuallyJump();
-        }
-        if (bufferTime > 0) bufferTime -= Time.deltaTime;
-
-        gravScalar = Mathf.Lerp(gravScalar, iGravScalar, Time.deltaTime * 3.5f);
+        gravScalar = Mathf.Lerp(gravScalar, iGravScalar, Time.deltaTime * 2.5f);
     }
 
     public void MouseLook(InputAction.CallbackContext ctx)
@@ -84,7 +79,10 @@ public class FPSPlayer : MonoBehaviour
     {
         if (ctx.performed)
         {
-            bufferTime = 0.5f;
+            if (cc.isGrounded)
+            {
+                currentGrav = -jumpHeight;
+            }
         }
         else if (ctx.canceled)
         {
@@ -93,11 +91,6 @@ public class FPSPlayer : MonoBehaviour
         }
     }
 
-    private void ActuallyJump()
-    {
-        bufferTime = 0;
-        currentGrav = -8.0f;
-    }
 
     public void Shoot(InputAction.CallbackContext ctx)
     {
