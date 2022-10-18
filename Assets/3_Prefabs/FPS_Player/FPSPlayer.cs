@@ -40,8 +40,8 @@ public class FPSPlayer : MonoBehaviour
     {
         movementDir = Vector3.Lerp(movementDir, movementIDir, directionLerpRate * Time.deltaTime);
         iToMove = ((transform.forward * movementDir.z) + (transform.right * movementDir.x)) * (movementSpeed * Time.deltaTime);
-        toMove = Vector3.Lerp(toMove, iToMove, speedLerpRate * Time.deltaTime * gravScalar);
-        cc.Move(toMove);
+        toMove = Vector3.Lerp(toMove, iToMove, speedLerpRate * Time.deltaTime);
+        cc.Move(toMove * gravScalar);
 
         if (cc.isGrounded)
         {
@@ -105,7 +105,7 @@ public class FPSPlayer : MonoBehaviour
         Transform newRocket = Instantiate(rocketPrefab);
         newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.3f - cam.transform.up*0.2f;
         newRocket.rotation = cam.transform.rotation;
-        gravScalar *= 0.1f;
+        gravScalar *= 0.0f;
     }
 
 }
