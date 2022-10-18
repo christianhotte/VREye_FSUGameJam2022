@@ -100,18 +100,23 @@ public class FPSPlayer : MonoBehaviour
             tempVel.x = toMove.x;
             tempVel.z = toMove.z;
             rb.velocity = tempVel;
+            if (!dead)
+            {
+                if (grounded)
+                    iWeaponOrigin.y = -(new Vector2(rb.velocity.x, rb.velocity.z).magnitude) * 0.01f;
+                else
+                    iWeaponOrigin.y = 0.0f;
+            }
         }
         else
         {
+            if (!dead)
+                iWeaponOrigin.y = 0.4f;
             if (GroundCheck())
             {
                 inControl = true;
             }
         }
-        if (grounded)
-            iWeaponOrigin.y = -(new Vector2(rb.velocity.x, rb.velocity.z).magnitude) * 0.01f;
-        else
-            iWeaponOrigin.y = 0.0f;
     }
 
     private void LateUpdate()
@@ -163,7 +168,7 @@ public class FPSPlayer : MonoBehaviour
                 tempVel.y = jumpHeight;
                 rb.velocity = tempVel;
                 jumps = 1;
-                weaponOrigin += Vector3.up * 0.1f;
+                weaponOrigin += Vector3.up * 0.2f;
             }
             else if (jumps > 0)
             {
@@ -171,7 +176,7 @@ public class FPSPlayer : MonoBehaviour
                 Vector3 tempVel = rb.velocity;
                 tempVel.y = jumpHeight-1.0f;
                 rb.velocity = tempVel;
-                weaponOrigin += Vector3.up * 0.13f;
+                weaponOrigin += Vector3.up * 0.25f;
             }
 
         }
@@ -188,7 +193,7 @@ public class FPSPlayer : MonoBehaviour
     {
         if (dead) return;
         if (!ctx.performed) return;
-        if (moveState == MoveStates.Sprinting) return;
+        if (moveState == MoveStates.Sprinting && grounded) return;
         Transform newRocket = Instantiate(rocketPrefab);
         newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.3f - cam.transform.up*0.3f;
         newRocket.rotation = cam.transform.rotation;
@@ -219,8 +224,13 @@ public class FPSPlayer : MonoBehaviour
         }
     }
 
-    public void SendOutOfControl()
+    public void SendOutOfControl(Vector2 _xz, float _bounce)
     {
+        Vector3 tempVel = rb.velocity;
+        tempVel.x = _xz.x;
+        tempVel.z = _xz.y;
+        tempVel.y = _bounce;
+        rb.velocity = tempVel;
         inControl = false;
     }
 
@@ -236,8 +246,11 @@ public class FPSPlayer : MonoBehaviour
 
     public void ForceDie(InputAction.CallbackContext ctx)
     {
+        /*
         if (!ctx.performed) return;
         Die();
+        */
+        SendOutOfControl(Vector3.right * 5.0f, 4.0f);
     }
 
 }
