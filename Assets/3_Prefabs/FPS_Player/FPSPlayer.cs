@@ -8,6 +8,7 @@ public class FPSPlayer : MonoBehaviour
     Rigidbody rb;
 
     [SerializeField] Camera cam;
+    [SerializeField] Transform armsHolder;
     [SerializeField] float mouseSpeedX;
     [SerializeField] float mouseSpeedY;
     [SerializeField] float walkSpeed;
@@ -21,8 +22,8 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] LayerMask groundLayers;
 
     float cameraPitch = 0;
-    Vector3 xzMovement;
 
+    Vector3 xzMovement;
     Vector3 toMove;
     Vector3 itoMove;
 
@@ -36,11 +37,16 @@ public class FPSPlayer : MonoBehaviour
     }
     MoveStates moveState = MoveStates.Walking;
 
+    Vector3 camStartPos;
+    Vector3 camIPos;
+
     private void Awake()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
+        camStartPos = cam.transform.localPosition;
+        camIPos = cam.transform.localPosition;
     }
 
     private bool GroundCheck()
@@ -89,6 +95,13 @@ public class FPSPlayer : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, camIPos, Time.deltaTime * 5.0f);
+        armsHolder.localPosition = Vector3.Lerp(armsHolder.localPosition, Vector3.zero, Time.deltaTime * 5.0f);
+        armsHolder.localRotation = Quaternion.Lerp(armsHolder.localRotation, Quaternion.identity, Time.deltaTime * 5.0f);
+    }
+
     public void MouseLook(InputAction.CallbackContext ctx)
     {
         Vector2 camera_turn = ctx.ReadValue<Vector2>();
@@ -96,6 +109,8 @@ public class FPSPlayer : MonoBehaviour
         cameraPitch -= camera_turn.y * mouseSpeedY;
         cameraPitch = Mathf.Clamp(cameraPitch, -80.0f, 80.0f);
         cam.transform.localEulerAngles = Vector3.right * cameraPitch;
+        armsHolder.Translate(armsHolder.right * camera_turn.x * Time.deltaTime * 0.5f);
+        armsHolder.Translate(armsHolder.up * -camera_turn.y * Time.deltaTime * 0.5f);
     }
 
     public void Walk(InputAction.CallbackContext ctx)
@@ -149,8 +164,16 @@ public class FPSPlayer : MonoBehaviour
 
     public void Crouch(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed) moveState = MoveStates.Crouching;
-        else if (ctx.canceled) moveState = MoveStates.Walking;
+        if (ctx.performed)
+        {
+            moveState = MoveStates.Crouching;
+            camIPos = camStartPos - Vector3.up*0.8f;
+        }
+        else if (ctx.canceled) 
+        { 
+            moveState = MoveStates.Walking;
+            camIPos = camStartPos;
+        }
     }
 
     public void SendOutOfControl()
