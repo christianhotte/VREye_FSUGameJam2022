@@ -220,9 +220,10 @@ MonoBehaviour:
   cam: {fileID: 1658674683545223284}
   mouseSpeedX: 0.1
   mouseSpeedY: 0.08
-  movementSpeed: 10
-  directionLerpRate: 20
+  movementSpeed: 15
+  directionLerpRate: 15
   speedLerpRate: 5
+  jumpHeight: 15
   rocketPrefab: {fileID: 767697876143057398, guid: 1aac0db7bbc03234ba22a1aac4638a31, type: 3}
 --- !u!114 &1658674684814655490
 MonoBehaviour:
