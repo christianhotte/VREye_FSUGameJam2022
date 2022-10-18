@@ -23,6 +23,8 @@ public class FPSPlayer : MonoBehaviour
     Vector3 iToMove;
 
     float currentGrav = 10.0f;
+    float iGravScalar = 1.0f;
+    float gravScalar = 1.0f;
 
     float coyoteTime = 0;
     float bufferTime = 0;
@@ -38,7 +40,7 @@ public class FPSPlayer : MonoBehaviour
     {
         movementDir = Vector3.Lerp(movementDir, movementIDir, directionLerpRate * Time.deltaTime);
         iToMove = ((transform.forward * movementDir.z) + (transform.right * movementDir.x)) * (movementSpeed * Time.deltaTime);
-        toMove = Vector3.Lerp(toMove, iToMove, speedLerpRate * Time.deltaTime);
+        toMove = Vector3.Lerp(toMove, iToMove, speedLerpRate * Time.deltaTime * gravScalar);
         cc.Move(toMove);
 
         if (cc.isGrounded)
@@ -47,17 +49,19 @@ public class FPSPlayer : MonoBehaviour
         }
         else
         {
-            currentGrav += Time.deltaTime * 20.0f;
+            currentGrav += Time.deltaTime * 20.0f * gravScalar;
             if (currentGrav > 60 ) currentGrav = 60;
         }
 
-        cc.Move(currentGrav * -Vector3.up * Time.deltaTime);
+        cc.Move(currentGrav * -Vector3.up * Time.deltaTime * gravScalar);
 
         if (cc.isGrounded && bufferTime > 0)
         {
             ActuallyJump();
         }
         if (bufferTime > 0) bufferTime -= Time.deltaTime;
+
+        gravScalar = Mathf.Lerp(gravScalar, iGravScalar, Time.deltaTime * 3.5f);
     }
 
     public void MouseLook(InputAction.CallbackContext ctx)
@@ -101,9 +105,7 @@ public class FPSPlayer : MonoBehaviour
         Transform newRocket = Instantiate(rocketPrefab);
         newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.3f - cam.transform.up*0.2f;
         newRocket.rotation = cam.transform.rotation;
-        toMove = Vector3.zero;
-        movementDir = Vector3.zero;
-        currentGrav = 0;
+        gravScalar *= 0.1f;
     }
 
 }
