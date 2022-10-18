@@ -58,7 +58,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 75
   orthographic: 0
   orthographic size: 5
   m_Depth: 1
@@ -186,7 +186,9 @@ MonoBehaviour:
   cam: {fileID: 1658674683545223284}
   mouseSpeedX: 0.1
   mouseSpeedY: 0.08
-  movementSpeed: 20
+  movementSpeed: 15
+  directionLerpRate: 50
+  speedLerpRate: 30
 --- !u!114 &1658674684814655490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +246,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 420afb12-a62a-4650-8347-766c63a68e7b
     m_ActionName: Map/Walk[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1658674684814655491}
+        m_TargetAssemblyTypeName: FPSPlayer, Assembly-CSharp
+        m_MethodName: Jump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c08a4d94-51f3-4ccc-83cf-179103dc459a
+    m_ActionName: Map/Jump[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Map

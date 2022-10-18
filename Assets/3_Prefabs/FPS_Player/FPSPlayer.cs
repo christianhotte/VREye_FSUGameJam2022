@@ -12,6 +12,8 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] float directionLerpRate;
     [SerializeField] float speedLerpRate;
 
+    [SerializeField] Rigidbody rocketPrefab;
+
     CharacterController cc;
     float cameraPitch = 0;
 
@@ -86,10 +88,21 @@ public class FPSPlayer : MonoBehaviour
                 currentGrav *= 0.5f;
         }
     }
+
     private void ActuallyJump()
     {
         bufferTime = 0;
         currentGrav = -8.0f;
+    }
+
+    public void Shoot(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.performed) return;
+        Rigidbody newRocket = Instantiate(rocketPrefab);
+        newRocket.transform.position = cam.transform.position + cam.transform.forward;
+        newRocket.transform.rotation = cam.transform.rotation;
+        toMove = Vector3.zero;
+        movementDir = Vector3.zero;
     }
 
 }
