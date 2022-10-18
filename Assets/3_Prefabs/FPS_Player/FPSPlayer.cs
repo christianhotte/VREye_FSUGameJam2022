@@ -51,6 +51,7 @@ public class FPSPlayer : MonoBehaviour
     Vector3 camIPos;
 
     Vector3 weaponOrigin = Vector3.zero;
+    Vector3 iWeaponOrigin = Vector3.zero;
 
     private void Awake()
     {
@@ -61,6 +62,7 @@ public class FPSPlayer : MonoBehaviour
         camIPos = cam.transform.localPosition;
     }
 
+    bool grounded = false;
     private bool GroundCheck()
     {
         RaycastHit hit;
@@ -71,8 +73,9 @@ public class FPSPlayer : MonoBehaviour
         return false;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
+        grounded = GroundCheck();
         if (inControl)
         {
             float cspeed = 0, clerprate = 0;
@@ -91,19 +94,8 @@ public class FPSPlayer : MonoBehaviour
                     clerprate = crouchLerpRate;
                     break;
             }
-            Vector3 tempVel = rb.velocity;
             itoMove = Quaternion.Euler(0, transform.eulerAngles.y, 0) * xzMovement * cspeed;
-            toMove = Vector3.Lerp(toMove, itoMove, Time.deltaTime * clerprate);
-            tempVel.x = toMove.x;
-            tempVel.z = toMove.z;
-            rb.velocity = tempVel;
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (inControl)
-        {
+            toMove = Vector3.Lerp(toMove, itoMove, Time.fixedDeltaTime * clerprate);
             Vector3 tempVel = rb.velocity;
             tempVel.x = toMove.x;
             tempVel.z = toMove.z;
@@ -116,11 +108,16 @@ public class FPSPlayer : MonoBehaviour
                 inControl = true;
             }
         }
+        if (grounded)
+            iWeaponOrigin.y = -(new Vector2(rb.velocity.x, rb.velocity.z).magnitude) * 0.01f;
+        else
+            iWeaponOrigin.y = 0.0f;
     }
 
     private void LateUpdate()
     {
         cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, camIPos, Time.deltaTime * 5.0f);
+        weaponOrigin = Vector3.Lerp(weaponOrigin, iWeaponOrigin, Time.deltaTime * 8.0f);
         armsHolder.localPosition = Vector3.Lerp(armsHolder.localPosition, weaponOrigin, Time.deltaTime * weaponReturn);
         armsHolder.localRotation = Quaternion.Lerp(armsHolder.localRotation, Quaternion.identity, Time.deltaTime * weaponReturn);
     }
@@ -153,18 +150,20 @@ public class FPSPlayer : MonoBehaviour
         Vector2 movement = ctx.ReadValue<Vector2>();
         xzMovement.x = movement.x;
         xzMovement.z = movement.y;
+        xzMovement = xzMovement.normalized;
     }
     public void Jump(InputAction.CallbackContext ctx)
     {
         if (dead) return;
         if (ctx.performed)
         {
-            if (GroundCheck())
+            if (grounded)
             {
                 Vector3 tempVel = rb.velocity;
                 tempVel.y = jumpHeight;
                 rb.velocity = tempVel;
                 jumps = 1;
+                weaponOrigin += Vector3.up * 0.1f;
             }
             else if (jumps > 0)
             {
@@ -172,6 +171,7 @@ public class FPSPlayer : MonoBehaviour
                 Vector3 tempVel = rb.velocity;
                 tempVel.y = jumpHeight-1.0f;
                 rb.velocity = tempVel;
+                weaponOrigin += Vector3.up * 0.13f;
             }
 
         }
@@ -197,7 +197,7 @@ public class FPSPlayer : MonoBehaviour
     public void Sprint(InputAction.CallbackContext ctx)
     {
         if (dead) return;
-        if (GroundCheck() && ctx.performed)
+        if (grounded && ctx.performed)
         {
             moveState = MoveStates.Sprinting;
         }
@@ -207,7 +207,7 @@ public class FPSPlayer : MonoBehaviour
     public void Crouch(InputAction.CallbackContext ctx)
     {
         if (dead) return;
-        if (GroundCheck() && ctx.performed)
+        if (grounded && ctx.performed)
         {
             moveState = MoveStates.Crouching;
             camIPos = camStartPos - Vector3.up * crouchDistance;
@@ -229,7 +229,7 @@ public class FPSPlayer : MonoBehaviour
         camIPos = camStartPos - Vector3.up * deathDistance;
         dead = true;
         inControl = false;
-        weaponOrigin = -Vector3.up*2.0f;
+        iWeaponOrigin = -Vector3.up*2.0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
