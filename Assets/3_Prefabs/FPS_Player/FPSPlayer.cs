@@ -5,49 +5,88 @@ using UnityEngine.InputSystem;
 
 public class FPSPlayer : MonoBehaviour
 {
+    Rigidbody rb;
+
     [SerializeField] Camera cam;
     [SerializeField] float mouseSpeedX;
     [SerializeField] float mouseSpeedY;
-    [SerializeField] float movementSpeed;
-    [SerializeField] float directionLerpRate;
-    [SerializeField] float speedLerpRate;
+    [SerializeField] float walkSpeed;
+    [SerializeField] float walkLerpRate;
+    [SerializeField] float sprintSpeed;
+    [SerializeField] float sprintLerpRate;
+    [SerializeField] float crouchSpeed;
+    [SerializeField] float crouchLerpRate;
     [SerializeField] float jumpHeight;
-
     [SerializeField] Transform rocketPrefab;
+    [SerializeField] LayerMask groundLayers;
 
-    CharacterController cc;
     float cameraPitch = 0;
+    Vector3 xzMovement;
 
-    Vector3 movementDir;
     Vector3 toMove;
-    Vector3 iToMove;
+    Vector3 itoMove;
 
-    float currentGrav = 10.0f;
+    int jumps;
+    bool inControl;
+    enum MoveStates
+    {
+        Walking,
+        Sprinting,
+        Crouching
+    }
+    MoveStates moveState = MoveStates.Walking;
 
     private void Awake()
     {
-        cc = GetComponent<CharacterController>();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private bool GroundCheck()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 1.1f))
+        {
+            return true;
+        }
+        return false;
     }
 
     private void Update()
     {
-        iToMove = ((transform.forward * movementDir.z) + (transform.right * movementDir.x)) * (movementSpeed * Time.deltaTime);
-        toMove = Vector3.Lerp(toMove, iToMove, speedLerpRate * Time.deltaTime);
-        cc.Move(toMove);
-
-        if (cc.isGrounded)
+        if (inControl)
         {
-            currentGrav = 2.0f;
+            float cspeed = 0, clerprate = 0;
+            switch (moveState)
+            {
+                case MoveStates.Walking:
+                    cspeed = walkSpeed;
+                    clerprate = walkLerpRate;
+                    break;
+                case MoveStates.Sprinting:
+                    cspeed = sprintSpeed;
+                    clerprate = sprintLerpRate;
+                    break;
+                case MoveStates.Crouching:
+                    cspeed = crouchSpeed;
+                    clerprate = crouchLerpRate;
+                    break;
+            }
+            Vector3 tempVel = rb.velocity;
+            itoMove = Quaternion.Euler(0, transform.eulerAngles.y, 0) * xzMovement * cspeed;
+            toMove = Vector3.Lerp(toMove, itoMove, Time.deltaTime * clerprate);
+            tempVel.x = toMove.x;
+            tempVel.z = toMove.z;
+            rb.velocity = tempVel;
         }
         else
         {
-            currentGrav += Time.deltaTime * 30.0f;
-            if (currentGrav > 60 ) currentGrav = 60;
+            if (GroundCheck())
+            {
+                inControl = true;
+            }
         }
-
-        cc.Move(currentGrav * -Vector3.up * Time.deltaTime);
     }
 
     public void MouseLook(InputAction.CallbackContext ctx)
@@ -62,23 +101,34 @@ public class FPSPlayer : MonoBehaviour
     public void Walk(InputAction.CallbackContext ctx)
     {
         Vector2 movement = ctx.ReadValue<Vector2>();
-        movementDir.x = movement.x;
-        movementDir.z = movement.y;
-        movementDir = movementDir.normalized;
+        xzMovement.x = movement.x;
+        xzMovement.z = movement.y;
     }
     public void Jump(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)
         {
-            if (cc.isGrounded)
+            if (GroundCheck())
             {
-                currentGrav = -jumpHeight;
+                Vector3 tempVel = rb.velocity;
+                tempVel.y = jumpHeight;
+                rb.velocity = tempVel;
+                jumps = 1;
             }
+            else if (jumps > 0)
+            {
+                jumps -= 1;
+                Vector3 tempVel = rb.velocity;
+                tempVel.y = jumpHeight-1.0f;
+                rb.velocity = tempVel;
+            }
+
         }
         else if (ctx.canceled)
         {
-            if (currentGrav < 0)
-                currentGrav *= 0.5f;
+            Vector3 tempVel = rb.velocity;
+            if (tempVel.y > 0) tempVel.y *= 0.75f;
+            rb.velocity = tempVel;
         }
     }
 
@@ -89,6 +139,23 @@ public class FPSPlayer : MonoBehaviour
         Transform newRocket = Instantiate(rocketPrefab);
         newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.3f - cam.transform.up*0.2f;
         newRocket.rotation = cam.transform.rotation;
+    }
+
+    public void Sprint(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed) moveState = MoveStates.Sprinting;
+        else if (ctx.canceled) moveState = MoveStates.Walking;
+    }
+
+    public void Crouch(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed) moveState = MoveStates.Crouching;
+        else if (ctx.canceled) moveState = MoveStates.Walking;
+    }
+
+    public void SendOutOfControl()
+    {
+        inControl = false;
     }
 
 }

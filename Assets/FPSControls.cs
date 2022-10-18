@@ -62,6 +62,24 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""da05a86b-02c4-44d8-92c3-eba9f9b698cd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""8d9b7f93-1771-4825-aa87-bd36afb3d798"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +170,28 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1bcaa65b-6d97-40e6-8ece-277e971a93be"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9173d9fd-aec2-47f1-b7a4-18c69c89150b"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +204,8 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         m_Map_Walk = m_Map.FindAction("Walk", throwIfNotFound: true);
         m_Map_Jump = m_Map.FindAction("Jump", throwIfNotFound: true);
         m_Map_Shoot = m_Map.FindAction("Shoot", throwIfNotFound: true);
+        m_Map_Sprint = m_Map.FindAction("Sprint", throwIfNotFound: true);
+        m_Map_Crouch = m_Map.FindAction("Crouch", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -227,6 +269,8 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Map_Walk;
     private readonly InputAction m_Map_Jump;
     private readonly InputAction m_Map_Shoot;
+    private readonly InputAction m_Map_Sprint;
+    private readonly InputAction m_Map_Crouch;
     public struct MapActions
     {
         private @FPSControls m_Wrapper;
@@ -235,6 +279,8 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         public InputAction @Walk => m_Wrapper.m_Map_Walk;
         public InputAction @Jump => m_Wrapper.m_Map_Jump;
         public InputAction @Shoot => m_Wrapper.m_Map_Shoot;
+        public InputAction @Sprint => m_Wrapper.m_Map_Sprint;
+        public InputAction @Crouch => m_Wrapper.m_Map_Crouch;
         public InputActionMap Get() { return m_Wrapper.m_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -256,6 +302,12 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Shoot.started -= m_Wrapper.m_MapActionsCallbackInterface.OnShoot;
                 @Shoot.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnShoot;
                 @Shoot.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnShoot;
+                @Sprint.started -= m_Wrapper.m_MapActionsCallbackInterface.OnSprint;
+                @Sprint.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnSprint;
+                @Sprint.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnSprint;
+                @Crouch.started -= m_Wrapper.m_MapActionsCallbackInterface.OnCrouch;
+                @Crouch.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnCrouch;
+                @Crouch.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnCrouch;
             }
             m_Wrapper.m_MapActionsCallbackInterface = instance;
             if (instance != null)
@@ -272,6 +324,12 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Shoot.started += instance.OnShoot;
                 @Shoot.performed += instance.OnShoot;
                 @Shoot.canceled += instance.OnShoot;
+                @Sprint.started += instance.OnSprint;
+                @Sprint.performed += instance.OnSprint;
+                @Sprint.canceled += instance.OnSprint;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
             }
         }
     }
@@ -282,5 +340,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         void OnWalk(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
     }
 }
