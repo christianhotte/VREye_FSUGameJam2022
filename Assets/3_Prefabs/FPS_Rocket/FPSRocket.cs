@@ -5,11 +5,12 @@ using UnityEngine;
 public class FPSRocket : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
+    [SerializeField] float turnDownSpeed;
     [SerializeField] LayerMask canHit;
 
     private void Start()
     {
-        Destroy(gameObject, 2.0f);
+        Destroy(gameObject, 5.0f);
     }
 
     private void Update()
@@ -18,13 +19,12 @@ public class FPSRocket : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, distanceToMove, canHit))
         {
-            Destroy(gameObject);
+            transform.position = hit.point;
+            Destroy(this);
         }
         else
         {
             transform.Translate(Vector3.forward * distanceToMove);
-            moveSpeed += moveSpeed * Time.deltaTime * 10.0f;
-            if (moveSpeed > 50.0f) moveSpeed = 50.0f;
         }
     }
 }

@@ -551,6 +551,14 @@ PrefabInstance:
       propertyPath: m_Dithering
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1260793246, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1260793246, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 1658674684814655490, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: m_ActionEvents.Array.size
       value: 7
@@ -592,8 +600,20 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: weaponSwayX
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: weaponReturn
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: deathDistance
       value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: looseWeaponSway
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1658674684814655493, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: m_RootOrder
