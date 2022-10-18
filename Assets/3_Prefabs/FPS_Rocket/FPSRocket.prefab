@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 767697876126488261}
   - component: {fileID: 767697876126488260}
   - component: {fileID: 767697876126488263}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 767697876143057399}
   - component: {fileID: 1645304420330585698}
   - component: {fileID: 4202571723585656312}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FPSRocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dff256ae1afd6754f8b453423b41fd99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 25
+  moveSpeed: 1
 --- !u!54 &1645304420330585698
 Rigidbody:
   m_ObjectHideFlags: 0

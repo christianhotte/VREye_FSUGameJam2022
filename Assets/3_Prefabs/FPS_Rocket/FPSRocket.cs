@@ -14,7 +14,8 @@ public class FPSRocket : MonoBehaviour
     private void Update()
     {
         transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed);
-        moveSpeed += Time.deltaTime;
+        moveSpeed += moveSpeed * Time.deltaTime * 10.0f;
+        if (moveSpeed > 50.0f) moveSpeed = 50.0f;
     }
 
     private void OnCollisionEnter(Collision collision)

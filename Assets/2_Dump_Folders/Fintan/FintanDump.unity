@@ -429,6 +429,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1658674683545223286, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1658674684814655490, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: m_ActionEvents.Array.size
       value: 4
@@ -474,8 +478,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1645304420330585698, guid: 1aac0db7bbc03234ba22a1aac4638a31, type: 3}
     - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: movementSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: speedLerpRate
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: directionLerpRate
@@ -528,6 +536,10 @@ PrefabInstance:
     - target: {fileID: 1658674684814655497, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: m_Name
       value: FPSPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655497, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}

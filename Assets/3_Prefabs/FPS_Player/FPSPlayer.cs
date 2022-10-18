@@ -99,7 +99,7 @@ public class FPSPlayer : MonoBehaviour
     {
         if (!ctx.performed) return;
         Rigidbody newRocket = Instantiate(rocketPrefab);
-        newRocket.transform.position = cam.transform.position + cam.transform.forward;
+        newRocket.transform.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.2f - cam.transform.up*0.2f;
         newRocket.transform.rotation = cam.transform.rotation;
         toMove = Vector3.zero;
         movementDir = Vector3.zero;
