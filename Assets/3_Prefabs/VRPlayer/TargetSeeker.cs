@@ -9,25 +9,45 @@ public class TargetSeeker : MonoBehaviour
 {
     //Objects & Components:
     [SerializeField(), Tooltip("Target position which this system will seek toward")] private Transform target;
-    private Rigidbody rb; //Rigidbody component this seeker is using to move toward target
 
     //Settings:
     [SerializeField(), Tooltip("Rate at which this object seeks target position")] private float linearFollowSpeed;
     [SerializeField(), Tooltip("Rate at which this object seeks target rotation")] private float angularFollowSpeed;
 
     //Runtime Vars:
-
+    private Vector3 velocity; //Last recorded linear velocity of this seeker object
 
     //RUNTIME METHODS:
     private void Awake()
     {
         //Get objects & components:
-        if (!TryGetComponent(out rb)) Debug.LogError("TargetSeeker on " + name + " is missing Rigidbody component!"); //Get rigidbody and post error if it is missing
+        
     }
     private void Update()
     {
-        //Update rigidbody:
-        rb.MovePosition(Vector3.Lerp(transform.position, target.position, linearFollowSpeed * Time.deltaTime));      //Update position
-        rb.MoveRotation(Quaternion.Lerp(transform.rotation, target.rotation, angularFollowSpeed * Time.deltaTime)); //Update orientation
+        DoSeeking(Time.deltaTime); //Seek on update
     }
+
+    //FUNCTIONALITY METHODS:
+    private void DoSeeking(float deltaTime)
+    {
+        //Validity checks:
+        if (target == null) return; //Ignore if target is null
+
+        //Update position:
+        Vector3 newPosition = transform.position; //Get current position as modifiable variable
+        newPosition = Vector3.Lerp(transform.position, target.position, linearFollowSpeed * Time.deltaTime);
+
+        velocity = newPosition - transform.position; //Record current velocity
+        transform.position = newPosition;            //Set new position
+
+        //Update rotation:
+        transform.rotation = Quaternion.Slerp(transform.rotation, target.rotation, angularFollowSpeed * Time.deltaTime);
+    }
+
+    //OPERATION METHODS:
+    /// <summary>
+    /// Sets new target for seeker system.
+    /// </summary>
+    public void SetTarget(Transform newTarget) { target = newTarget; }
 }
