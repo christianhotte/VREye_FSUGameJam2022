@@ -19,7 +19,17 @@ public class FPSRocket : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, distanceToMove, canHit))
         {
+            //Quaternion oldRotation = transform.rotation;
+            //Vector3 oldScale = transform.localScale;
+            //transform.parent = hit.collider.transform;
             transform.position = hit.point;
+            //transform.localScale = oldScale;
+            //transform.rotation = oldRotation;
+            IShootable shot = hit.collider.GetComponent<IShootable>();
+            if (shot != null)
+            {
+                shot.Shot();
+            }
             Destroy(this);
         }
         else
