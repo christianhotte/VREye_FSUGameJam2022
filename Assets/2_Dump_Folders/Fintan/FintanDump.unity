@@ -476,7 +476,7 @@ PrefabInstance:
     - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: rocketPrefab
       value: 
-      objectReference: {fileID: 1645304420330585698, guid: 1aac0db7bbc03234ba22a1aac4638a31, type: 3}
+      objectReference: {fileID: 767697876143057398, guid: 1aac0db7bbc03234ba22a1aac4638a31, type: 3}
     - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: movementSpeed
       value: 10

@@ -12,7 +12,7 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] float directionLerpRate;
     [SerializeField] float speedLerpRate;
 
-    [SerializeField] Rigidbody rocketPrefab;
+    [SerializeField] Transform rocketPrefab;
 
     CharacterController cc;
     float cameraPitch = 0;
@@ -98,9 +98,9 @@ public class FPSPlayer : MonoBehaviour
     public void Shoot(InputAction.CallbackContext ctx)
     {
         if (!ctx.performed) return;
-        Rigidbody newRocket = Instantiate(rocketPrefab);
-        newRocket.transform.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.2f - cam.transform.up*0.2f;
-        newRocket.transform.rotation = cam.transform.rotation;
+        Transform newRocket = Instantiate(rocketPrefab);
+        newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.2f - cam.transform.up*0.2f;
+        newRocket.rotation = cam.transform.rotation;
         toMove = Vector3.zero;
         movementDir = Vector3.zero;
     }

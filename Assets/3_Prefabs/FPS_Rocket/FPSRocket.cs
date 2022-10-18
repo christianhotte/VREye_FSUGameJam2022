@@ -5,6 +5,7 @@ using UnityEngine;
 public class FPSRocket : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
+    [SerializeField] LayerMask canHit;
 
     private void Start()
     {
@@ -13,13 +14,17 @@ public class FPSRocket : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed);
-        moveSpeed += moveSpeed * Time.deltaTime * 10.0f;
-        if (moveSpeed > 50.0f) moveSpeed = 50.0f;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Destroy(gameObject);
+        float distanceToMove = Time.deltaTime * moveSpeed;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, distanceToMove, canHit))
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            transform.Translate(Vector3.forward * distanceToMove);
+            moveSpeed += moveSpeed * Time.deltaTime * 10.0f;
+            if (moveSpeed > 50.0f) moveSpeed = 50.0f;
+        }
     }
 }
