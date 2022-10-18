@@ -44,6 +44,15 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""c08a4d94-51f3-4ccc-83cf-179103dc459a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,17 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""action"": ""Walk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6db801fc-6703-44a6-bd1e-2e05057d18e3"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +142,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         m_Map = asset.FindActionMap("Map", throwIfNotFound: true);
         m_Map_Look = m_Map.FindAction("Look", throwIfNotFound: true);
         m_Map_Walk = m_Map.FindAction("Walk", throwIfNotFound: true);
+        m_Map_Jump = m_Map.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,12 +204,14 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
     private IMapActions m_MapActionsCallbackInterface;
     private readonly InputAction m_Map_Look;
     private readonly InputAction m_Map_Walk;
+    private readonly InputAction m_Map_Jump;
     public struct MapActions
     {
         private @FPSControls m_Wrapper;
         public MapActions(@FPSControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Look => m_Wrapper.m_Map_Look;
         public InputAction @Walk => m_Wrapper.m_Map_Walk;
+        public InputAction @Jump => m_Wrapper.m_Map_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -204,6 +227,9 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Walk.started -= m_Wrapper.m_MapActionsCallbackInterface.OnWalk;
                 @Walk.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnWalk;
                 @Walk.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnWalk;
+                @Jump.started -= m_Wrapper.m_MapActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_MapActionsCallbackInterface = instance;
             if (instance != null)
@@ -214,6 +240,9 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Walk.started += instance.OnWalk;
                 @Walk.performed += instance.OnWalk;
                 @Walk.canceled += instance.OnWalk;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -222,5 +251,6 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
     {
         void OnLook(InputAction.CallbackContext context);
         void OnWalk(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }
