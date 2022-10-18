@@ -18,6 +18,13 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] float crouchSpeed;
     [SerializeField] float crouchLerpRate;
     [SerializeField] float jumpHeight;
+    [SerializeField] float crouchDistance;
+
+    [SerializeField] bool looseWeaponSway;
+    [SerializeField] float weaponSwayX;
+    [SerializeField] float weaponSwayY;
+    [SerializeField] float weaponReturn;
+
     [SerializeField] Transform rocketPrefab;
     [SerializeField] LayerMask groundLayers;
 
@@ -86,6 +93,17 @@ public class FPSPlayer : MonoBehaviour
             tempVel.z = toMove.z;
             rb.velocity = tempVel;
         }
+    }
+
+    private void FixedUpdate()
+    {
+        if (inControl)
+        {
+            Vector3 tempVel = rb.velocity;
+            tempVel.x = toMove.x;
+            tempVel.z = toMove.z;
+            rb.velocity = tempVel;
+        }
         else
         {
             if (GroundCheck())
@@ -98,8 +116,8 @@ public class FPSPlayer : MonoBehaviour
     private void LateUpdate()
     {
         cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, camIPos, Time.deltaTime * 5.0f);
-        armsHolder.localPosition = Vector3.Lerp(armsHolder.localPosition, Vector3.zero, Time.deltaTime * 5.0f);
-        armsHolder.localRotation = Quaternion.Lerp(armsHolder.localRotation, Quaternion.identity, Time.deltaTime * 5.0f);
+        armsHolder.localPosition = Vector3.Lerp(armsHolder.localPosition, Vector3.zero, Time.deltaTime * weaponReturn);
+        armsHolder.localRotation = Quaternion.Lerp(armsHolder.localRotation, Quaternion.identity, Time.deltaTime * weaponReturn);
     }
 
     public void MouseLook(InputAction.CallbackContext ctx)
@@ -109,8 +127,18 @@ public class FPSPlayer : MonoBehaviour
         cameraPitch -= camera_turn.y * mouseSpeedY;
         cameraPitch = Mathf.Clamp(cameraPitch, -80.0f, 80.0f);
         cam.transform.localEulerAngles = Vector3.right * cameraPitch;
-        armsHolder.Translate(armsHolder.right * camera_turn.x * Time.deltaTime * 0.5f);
-        armsHolder.Translate(armsHolder.up * -camera_turn.y * Time.deltaTime * 0.5f);
+        if (looseWeaponSway)
+        {
+            armsHolder.Translate(armsHolder.right * camera_turn.x * Time.deltaTime * weaponSwayX);
+            armsHolder.Translate(armsHolder.up * -camera_turn.y * Time.deltaTime * weaponSwayY);
+        }
+        else
+        {
+            armsHolder.localPosition += Vector3.right * camera_turn.x * Time.deltaTime * weaponSwayX;
+            armsHolder.localEulerAngles += Vector3.up * camera_turn.x * Time.deltaTime * weaponSwayX * 20.0f;
+            armsHolder.localPosition += Vector3.up * camera_turn.y * Time.deltaTime * weaponSwayY;
+            armsHolder.localEulerAngles += Vector3.right * camera_turn.y * Time.deltaTime * weaponSwayY * 20.0f;
+        }
     }
 
     public void Walk(InputAction.CallbackContext ctx)
@@ -167,7 +195,7 @@ public class FPSPlayer : MonoBehaviour
         if (ctx.performed)
         {
             moveState = MoveStates.Crouching;
-            camIPos = camStartPos - Vector3.up*0.8f;
+            camIPos = camStartPos - Vector3.up*crouchDistance;
         }
         else if (ctx.canceled) 
         { 

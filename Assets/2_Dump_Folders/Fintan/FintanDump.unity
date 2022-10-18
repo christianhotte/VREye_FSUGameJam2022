@@ -536,6 +536,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1260793246, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: weaponSway
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: weaponSwayX
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: weaponSwayY
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: weaponReturn
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: crouchDistance
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: looseWeaponSway
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1658674684814655493, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: m_RootOrder
       value: 1
