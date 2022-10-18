@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class FPSPlayer : MonoBehaviour
 {
+    static FPSPlayer inst;
+
     Rigidbody rb;
 
     [SerializeField] Camera cam;
@@ -37,8 +39,11 @@ public class FPSPlayer : MonoBehaviour
     Vector3 toMove;
     Vector3 itoMove;
 
+    float customFall = -13.0f;
     int jumps;
     bool inControl;
+
+
     enum MoveStates
     {
         Walking,
@@ -60,6 +65,7 @@ public class FPSPlayer : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         camStartPos = cam.transform.localPosition;
         camIPos = cam.transform.localPosition;
+        inst = this;
     }
 
     bool grounded = false;
@@ -75,6 +81,7 @@ public class FPSPlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Vector3 tempVel = rb.velocity;
         bool groundedLastFrame = grounded;
         grounded = GroundCheck();
         if (grounded && !groundedLastFrame) weaponOrigin -= Vector3.up * 0.25f;
@@ -98,7 +105,6 @@ public class FPSPlayer : MonoBehaviour
             }
             itoMove = Quaternion.Euler(0, transform.eulerAngles.y, 0) * xzMovement * cspeed;
             toMove = Vector3.Lerp(toMove, itoMove, Time.fixedDeltaTime * clerprate);
-            Vector3 tempVel = rb.velocity;
             tempVel.x = toMove.x;
             tempVel.z = toMove.z;
             rb.velocity = tempVel;
@@ -119,6 +125,16 @@ public class FPSPlayer : MonoBehaviour
                 inControl = true;
             }
         }
+        if (grounded)
+        {
+            customFall = Mathf.Lerp(customFall, 0.0f, Time.fixedDeltaTime);
+        }
+        else
+        {
+            customFall = Mathf.Lerp(customFall, -30.0f, Time.fixedDeltaTime*0.5f);
+        }
+        tempVel.y = customFall;
+        rb.velocity = tempVel;
     }
 
     private void LateUpdate()
@@ -166,18 +182,14 @@ public class FPSPlayer : MonoBehaviour
         {
             if (grounded)
             {
-                Vector3 tempVel = rb.velocity;
-                tempVel.y = jumpHeight;
-                rb.velocity = tempVel;
+                customFall = jumpHeight;
                 jumps = 1;
                 weaponOrigin += Vector3.up * 0.2f;
             }
             else if (jumps > 0)
             {
                 jumps -= 1;
-                Vector3 tempVel = rb.velocity;
-                tempVel.y = jumpHeight-1.0f;
-                rb.velocity = tempVel;
+                customFall = jumpHeight-1.0f;
                 weaponOrigin += Vector3.up * 0.25f;
             }
 
@@ -252,6 +264,32 @@ public class FPSPlayer : MonoBehaviour
         if (!ctx.performed) return;
         Die();
         // SendOutOfControl(Vector3.right * 5.0f, 4.0f);
+    }
+
+    public static void FPSShake(float intensity, int times, float curve, float lag)
+    {
+        inst.StartCoroutine(inst.Shake(intensity, times, curve, lag));
+    }
+
+    IEnumerator Shake(float intensity, int times, float curve, float lag)
+    {
+        Vector3 camStartPos = cam.transform.localPosition;
+        Vector3 armsStartPos = armsHolder.localPosition;
+        for (int i = 0; i < times; i++)
+        {
+            cam.transform.localPosition += camStartPos + new Vector3(
+                Random.Range(-intensity, intensity),
+                Random.Range(-intensity, intensity),
+                Random.Range(-intensity, intensity)
+            );
+            armsHolder.localPosition += armsStartPos + new Vector3(
+                Random.Range(-intensity/2.0f, intensity/2.0f),
+                Random.Range(-intensity/2.0f, intensity/2.0f),
+                Random.Range(-intensity/2.0f, intensity/2.0f)
+            );
+            yield return new WaitForSeconds(lag);
+            intensity *= curve;
+        }
     }
 
 }
