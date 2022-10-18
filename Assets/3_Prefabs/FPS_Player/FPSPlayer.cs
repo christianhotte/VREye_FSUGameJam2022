@@ -9,6 +9,9 @@ public class FPSPlayer : MonoBehaviour
 
     Rigidbody rb;
 
+    [SerializeField] Animator torso;
+    [SerializeField] Animator legs;
+
     [SerializeField] Camera cam;
     [SerializeField] Transform armsHolder;
     [SerializeField] float mouseSpeedX;
