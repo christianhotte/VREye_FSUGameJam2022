@@ -75,7 +75,9 @@ public class FPSPlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
+        bool groundedLastFrame = grounded;
         grounded = GroundCheck();
+        if (grounded && !groundedLastFrame) weaponOrigin -= Vector3.up * 0.25f;
         if (inControl)
         {
             float cspeed = 0, clerprate = 0;
@@ -246,11 +248,9 @@ public class FPSPlayer : MonoBehaviour
 
     public void ForceDie(InputAction.CallbackContext ctx)
     {
-        /*
         if (!ctx.performed) return;
         Die();
-        */
-        SendOutOfControl(Vector3.right * 5.0f, 4.0f);
+        // SendOutOfControl(Vector3.right * 5.0f, 4.0f);
     }
 
 }
