@@ -19,6 +19,7 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] float crouchLerpRate;
     [SerializeField] float jumpHeight;
     [SerializeField] float crouchDistance;
+    [SerializeField] float deathDistance;
 
     [SerializeField] bool looseWeaponSway;
     [SerializeField] float weaponSwayX;
@@ -27,6 +28,8 @@ public class FPSPlayer : MonoBehaviour
 
     [SerializeField] Transform rocketPrefab;
     [SerializeField] LayerMask groundLayers;
+
+    bool dead = false;
 
     float cameraPitch = 0;
 
@@ -46,6 +49,8 @@ public class FPSPlayer : MonoBehaviour
 
     Vector3 camStartPos;
     Vector3 camIPos;
+
+    Vector3 weaponOrigin = Vector3.zero;
 
     private void Awake()
     {
@@ -116,12 +121,13 @@ public class FPSPlayer : MonoBehaviour
     private void LateUpdate()
     {
         cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, camIPos, Time.deltaTime * 5.0f);
-        armsHolder.localPosition = Vector3.Lerp(armsHolder.localPosition, Vector3.zero, Time.deltaTime * weaponReturn);
+        armsHolder.localPosition = Vector3.Lerp(armsHolder.localPosition, weaponOrigin, Time.deltaTime * weaponReturn);
         armsHolder.localRotation = Quaternion.Lerp(armsHolder.localRotation, Quaternion.identity, Time.deltaTime * weaponReturn);
     }
 
     public void MouseLook(InputAction.CallbackContext ctx)
     {
+        if (dead) return;
         Vector2 camera_turn = ctx.ReadValue<Vector2>();
         transform.Rotate(camera_turn.x * Vector3.up * mouseSpeedX);
         cameraPitch -= camera_turn.y * mouseSpeedY;
@@ -143,12 +149,14 @@ public class FPSPlayer : MonoBehaviour
 
     public void Walk(InputAction.CallbackContext ctx)
     {
+        if (dead) return;
         Vector2 movement = ctx.ReadValue<Vector2>();
         xzMovement.x = movement.x;
         xzMovement.z = movement.y;
     }
     public void Jump(InputAction.CallbackContext ctx)
     {
+        if (dead) return;
         if (ctx.performed)
         {
             if (GroundCheck())
@@ -178,27 +186,34 @@ public class FPSPlayer : MonoBehaviour
 
     public void Shoot(InputAction.CallbackContext ctx)
     {
+        if (dead) return;
         if (!ctx.performed) return;
+        if (moveState == MoveStates.Sprinting) return;
         Transform newRocket = Instantiate(rocketPrefab);
-        newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.3f - cam.transform.up*0.2f;
+        newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.3f - cam.transform.up*0.3f;
         newRocket.rotation = cam.transform.rotation;
     }
 
     public void Sprint(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed) moveState = MoveStates.Sprinting;
+        if (dead) return;
+        if (GroundCheck() && ctx.performed)
+        {
+            moveState = MoveStates.Sprinting;
+        }
         else if (ctx.canceled) moveState = MoveStates.Walking;
     }
 
     public void Crouch(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed)
+        if (dead) return;
+        if (GroundCheck() && ctx.performed)
         {
             moveState = MoveStates.Crouching;
-            camIPos = camStartPos - Vector3.up*crouchDistance;
+            camIPos = camStartPos - Vector3.up * crouchDistance;
         }
-        else if (ctx.canceled) 
-        { 
+        else if (ctx.canceled)
+        {
             moveState = MoveStates.Walking;
             camIPos = camStartPos;
         }
@@ -207,6 +222,22 @@ public class FPSPlayer : MonoBehaviour
     public void SendOutOfControl()
     {
         inControl = false;
+    }
+
+    public void Die()
+    {
+        camIPos = camStartPos - Vector3.up * deathDistance;
+        dead = true;
+        inControl = false;
+        weaponOrigin = -Vector3.up*2.0f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void ForceDie(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.performed) return;
+        Die();
     }
 
 }

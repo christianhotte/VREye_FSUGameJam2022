@@ -80,6 +80,15 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Die"",
+                    ""type"": ""Button"",
+                    ""id"": ""2e1e3468-a62a-4628-b971-89f104af1872"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -192,6 +201,17 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3c8ee055-2486-4202-a282-28de02297930"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Die"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,6 +226,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         m_Map_Shoot = m_Map.FindAction("Shoot", throwIfNotFound: true);
         m_Map_Sprint = m_Map.FindAction("Sprint", throwIfNotFound: true);
         m_Map_Crouch = m_Map.FindAction("Crouch", throwIfNotFound: true);
+        m_Map_Die = m_Map.FindAction("Die", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -271,6 +292,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Map_Shoot;
     private readonly InputAction m_Map_Sprint;
     private readonly InputAction m_Map_Crouch;
+    private readonly InputAction m_Map_Die;
     public struct MapActions
     {
         private @FPSControls m_Wrapper;
@@ -281,6 +303,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         public InputAction @Shoot => m_Wrapper.m_Map_Shoot;
         public InputAction @Sprint => m_Wrapper.m_Map_Sprint;
         public InputAction @Crouch => m_Wrapper.m_Map_Crouch;
+        public InputAction @Die => m_Wrapper.m_Map_Die;
         public InputActionMap Get() { return m_Wrapper.m_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -308,6 +331,9 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Crouch.started -= m_Wrapper.m_MapActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnCrouch;
+                @Die.started -= m_Wrapper.m_MapActionsCallbackInterface.OnDie;
+                @Die.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnDie;
+                @Die.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnDie;
             }
             m_Wrapper.m_MapActionsCallbackInterface = instance;
             if (instance != null)
@@ -330,6 +356,9 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
+                @Die.started += instance.OnDie;
+                @Die.performed += instance.OnDie;
+                @Die.canceled += instance.OnDie;
             }
         }
     }
@@ -342,5 +371,6 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         void OnShoot(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+        void OnDie(InputAction.CallbackContext context);
     }
 }

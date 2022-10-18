@@ -400,10 +400,15 @@ MonoBehaviour:
   walkSpeed: 8
   walkLerpRate: 20
   sprintSpeed: 15
-  sprintLerpRate: 10
+  sprintLerpRate: 8
   crouchSpeed: 3
   crouchLerpRate: 30
   jumpHeight: 5
+  crouchDistance: 0.7
+  looseWeaponSway: 0
+  weaponSwayX: 0.1
+  weaponSwayY: 0.1
+  weaponReturn: 5
   rocketPrefab: {fileID: 767697876143057398, guid: 1aac0db7bbc03234ba22a1aac4638a31, type: 3}
   groundLayers:
     serializedVersion: 2

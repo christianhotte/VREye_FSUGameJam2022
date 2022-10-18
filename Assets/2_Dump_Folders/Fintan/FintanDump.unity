@@ -220,6 +220,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &993140374 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+  m_PrefabInstance: {fileID: 1658674683591634334}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b39caa2f5e8850f4ebddfd755a9115e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1552676100
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,33 +547,53 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1260793246, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
-      propertyPath: m_Interpolate
+    - target: {fileID: 533474796, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_Dithering
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
-      propertyPath: weaponSway
-      value: 0.3
+    - target: {fileID: 1658674684814655490, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655490, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_ActionId
+      value: 2e1e3468-a62a-4628-b971-89f104af1872
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655490, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_ActionName
+      value: Map/Die[/Keyboard/k]
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655490, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655490, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655490, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 993140374}
+    - target: {fileID: 1658674684814655490, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655490, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Die
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655490, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: FPSPlayer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658674684814655490, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
-      propertyPath: weaponSwayX
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
-      propertyPath: weaponSwayY
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
-      propertyPath: weaponReturn
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
-      propertyPath: crouchDistance
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
-      propertyPath: looseWeaponSway
-      value: 0
+      propertyPath: deathDistance
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 1658674684814655493, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: m_RootOrder
