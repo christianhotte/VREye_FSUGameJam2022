@@ -199,6 +199,7 @@ public class FPSPlayer : MonoBehaviour
         Transform newRocket = Instantiate(rocketPrefab);
         newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.3f - cam.transform.up*0.3f;
         newRocket.rotation = cam.transform.rotation;
+        weaponOrigin -= Vector3.forward * 0.6f;
     }
 
     public void Sprint(InputAction.CallbackContext ctx)
