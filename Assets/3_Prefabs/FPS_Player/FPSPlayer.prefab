@@ -540,7 +540,7 @@ MonoBehaviour:
   torso: {fileID: 3030487561478727225}
   legs: {fileID: 5933303435738288049}
   shadowTrail: {fileID: 1486957863}
-  faceLight: {fileID: 0}
+  faceLight: {fileID: 8130770513139168248}
   cam: {fileID: 1658674683545223284}
   armsHolder: {fileID: 1171928264}
   mouseSpeedX: 0.1
@@ -562,6 +562,8 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 0
+  NoFric: {fileID: 13400000, guid: e02cc60ff86b50d4c80e6b6f6d376806, type: 2}
+  Fric: {fileID: 13400000, guid: 56202e75d8ef17841a1060fd2492cb52, type: 2}
 --- !u!114 &1658674684814655490
 MonoBehaviour:
   m_ObjectHideFlags: 0
