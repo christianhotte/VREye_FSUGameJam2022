@@ -34,8 +34,9 @@ public class VRHandController : MonoBehaviour
     [SerializeField, Tooltip("Physics layers which fingers on hand are able to collide with")]                      private LayerMask obstructionLayers;
     [Min(1), SerializeField, Tooltip("Maximum number of obstructions hand and fingers can collide with per frame")] private int maxObstacleCollisions = 1;
     [Header("Effects:")]
-    [Min(0), SerializeField, Tooltip("Ease by which fingers are affected by changes in velocity")]         private float fingerVelocityDragFactor;
-    [Min(0), SerializeField, Tooltip("Maximum distance by which fingers can be dragged back by velocity")] private float maxFingerVelocityDrag;
+    [Min(0), SerializeField, Tooltip("Ease by which fingers are affected by changes in velocity")]                                   private float fingerVelocityDragFactor;
+    [Min(0), SerializeField, Tooltip("Maximum distance by which fingers can be dragged back by velocity")]                           private float maxFingerVelocityDrag;
+    [Min(0), SerializeField, Tooltip("Angle along forward axis of hand, velocities within which will be counted less towards drag")] private float fingerDragCompressionAngle;
 
     //Runtime Variables:
     /// <summary>
@@ -112,6 +113,8 @@ public class VRHandController : MonoBehaviour
             for (int i = 0; i < fingerTargets.Length; i++) //Iterate through fingerTargets array
             {
                 Vector3 newFingerPos = GetObstructedPosition(prevFingerPositions[i], fingerTargets[i].position, fingerTipRadius * scaleMultiplier); //Keep each finger individually obstructed (scrubbing out velocity movement)
+                Vector3 velocityAdd = Vector3.ClampMagnitude(-(newFingerPos - prevFingerPositions[i]) * fingerVelocityDragFactor, maxFingerVelocityDrag * scaleMultiplier); //Add velocity drag effect to finger
+                newFingerPos += velocityAdd;
                 fingerTargets[i].position = newFingerPos;                                                                                           //Set new finger position
             }
 
@@ -155,6 +158,11 @@ public class VRHandController : MonoBehaviour
             //Commit hand movement:
             Vector3 currentVelocity = (newPosition - transform.position) / Time.deltaTime; //Get velocity this frame (in units per second)
             transform.position = newPosition; //Set new position
+            float compressionAngle = Vector3.Angle(currentVelocity, -transform.forward);
+            if (compressionAngle < fingerDragCompressionAngle)
+            {
+                currentVelocity *= compressionAngle / fingerDragCompressionAngle;
+            }
 
             //Project & obstruct fingers:
             obstructedTarget.position = GetObstructedPosition(obstructedTarget.position, offsetTargetPos, scaledRadius); //Update position of obstructed target
@@ -164,10 +172,9 @@ public class VRHandController : MonoBehaviour
             for (int i = 0; i < fingerTargets.Length; i++) //Iterate through fingerTargets array
             {
                 //Generate target for finger:
-                Vector3 fingerIdealPos = fingerRoots[i].position;                                                                               //Get ideal target relative to finger root
-                if (unobstructedPosition != newPosition) fingerIdealPos += projectionDepth;                                                     //Project fingers away from roots if hand is obstructed
+                Vector3 fingerIdealPos = fingerRoots[i].position;                           //Get ideal target relative to finger root
+                if (unobstructedPosition != newPosition) fingerIdealPos += Vector3.Project(projectionDepth, -fingerRoots[i].up); //Project fingers away from roots if hand is obstructed
 
-                //Vector3 fingerVelocity = (fingerRoots[i].position - prevFingerPositions[i]) / Time.deltaTime;                                  //Get velocity at fingerTip
                 fingerIdealPos += Vector3.ClampMagnitude(-currentVelocity * fingerVelocityDragFactor, maxFingerVelocityDrag * scaleMultiplier); //Add velocity drag effect to finger
 
                 Vector3 newFingerPos = Vector3.MoveTowards(fingerTargets[i].position, fingerIdealPos, maxFingerMoveSpeed * scaleMultiplier * Time.deltaTime); //Move fingers towards target relative to root

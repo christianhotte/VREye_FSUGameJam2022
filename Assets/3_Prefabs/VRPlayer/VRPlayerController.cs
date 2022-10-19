@@ -21,16 +21,48 @@ public class VRPlayerController : MonoBehaviour
     private Transform head;             //Position and orientation of head in scene
     private VRHandController leftHand;  //Controller for left hand object
     private VRHandController rightHand; //Controller for right hand object
+    private AudioSource audioSource;    //Audiosource for VR player head
 
     //Settings:
     [Header("References & Prefabs:")]
     [SerializeField()] private GameObject handPrefab;
+    [SerializeField()] private Transform headModel;
     [Header("General Settings:")]
     [SerializeField(), Tooltip("Health the player starts at")] private int maxHealth;
+    [Header("Death Sequencing:")]
+    [Min(0.01f), SerializeField(), Tooltip("Time (in seconds) taken for eye to fade after VR player dies")] private float death_EyeFadeTime;
+    [Min(0.01f), SerializeField(), Tooltip("Curve describing fade out effect of eye light upon death")]     private AnimationCurve death_EyeFadeCurve;
+    [Header("Sounds:")]
+    [SerializeField] private AudioClip spawnSound;
+    [SerializeField] private AudioClip deathSound;
 
     //Runtime Vars:
     private int health;        //Amount of health player currently has
     private bool dead = false; //Whether or not VR player is currently dead
+
+    //EVENTS & COROUTINES:
+    IEnumerator DeathSequence()
+    {
+        //Eye fade:
+        float fadeTimer = 0; //Initialize timer for checking point in sequence
+        Light[] lights = GetComponentsInChildren<Light>();
+        List<float> initialLightValues = new List<float>();
+        foreach (Light light in lights) initialLightValues.Add(light.intensity);
+        while (fadeTimer <= death_EyeFadeTime)
+        {
+            fadeTimer += Time.fixedDeltaTime;
+            float fadeValue = death_EyeFadeCurve.Evaluate(fadeTimer / death_EyeFadeTime);
+            for (int i = 0; i < lights.Length; i++) lights[i].intensity = initialLightValues[i] * fadeValue;
+            yield return new WaitForFixedUpdate();
+        }
+
+        //Cleanup:
+        yield return null; //End sequence
+    }
+    private void Start()
+    {
+        audioSource.PlayOneShot(spawnSound);
+    }
 
     //RUNTIME METHODS:
     private void Awake()
@@ -41,6 +73,7 @@ public class VRPlayerController : MonoBehaviour
 
         //Get objects & components:
         head = GetComponentInChildren<Camera>().transform; if (head == null) { Debug.LogError("VR player could not find head!"); } //Get head transform
+        audioSource = GetComponent<AudioSource>();
 
         //Hand setup:
         ActionBasedController[] handControllers = GetComponentsInChildren<ActionBasedController>();                                                                          //Get hand controllers
@@ -56,6 +89,9 @@ public class VRPlayerController : MonoBehaviour
     /// </summary>
     private void Die()
     {
+        dead = true;
+        StartCoroutine(DeathSequence());
+        audioSource.PlayOneShot(deathSound);
         print("KILLED VR PLAYER");
     }
 

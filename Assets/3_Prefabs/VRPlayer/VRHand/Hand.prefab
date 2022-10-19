@@ -634,8 +634,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   maxObstacleCollisions: 4
-  fingerVelocityDragFactor: 0.2
-  maxFingerVelocityDrag: 0.05
+  fingerVelocityDragFactor: 0.1
+  maxFingerVelocityDrag: 0.03
+  fingerDragCompressionAngle: 30
 --- !u!1001 &2294744210894480806
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -709,19 +710,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7170186871356102567, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9721563
+      value: 0.99119323
       objectReference: {fileID: 0}
     - target: {fileID: -7170186871356102567, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0046136044
+      value: 0.0065897363
       objectReference: {fileID: 0}
     - target: {fileID: -7170186871356102567, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.019208271
+      value: -0.018623143
       objectReference: {fileID: 0}
     - target: {fileID: -7170186871356102567, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.23349941
+      value: 0.13094202
       objectReference: {fileID: 0}
     - target: {fileID: -7170186871356102567, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -733,7 +734,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7170186871356102567, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 26.994
+      value: 15.033
       objectReference: {fileID: 0}
     - target: {fileID: -6917632405954181427, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
@@ -777,31 +778,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6724494737128672508, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99964285
+      value: 0.99415517
       objectReference: {fileID: 0}
     - target: {fileID: -6724494737128672508, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.000055533354
+      value: 0.00022495232
       objectReference: {fileID: 0}
     - target: {fileID: -6724494737128672508, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.026646007
+      value: -0.10794062
       objectReference: {fileID: 0}
     - target: {fileID: -6724494737128672508, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0020835462
+      value: 0.0020721306
       objectReference: {fileID: 0}
     - target: {fileID: -6724494737128672508, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0.013
+      value: 0.051
       objectReference: {fileID: 0}
     - target: {fileID: -6724494737128672508, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -3.054
+      value: -12.393
       objectReference: {fileID: 0}
     - target: {fileID: -6724494737128672508, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0.239
+      value: 0.233
       objectReference: {fileID: 0}
     - target: {fileID: -5955921836466847915, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
@@ -845,19 +846,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3897755738096795257, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.89061725
+      value: 0.93409556
       objectReference: {fileID: 0}
     - target: {fileID: -3897755738096795257, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.013912782
+      value: -0.01675815
       objectReference: {fileID: 0}
     - target: {fileID: -3897755738096795257, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.02730975
+      value: -0.025662044
       objectReference: {fileID: 0}
     - target: {fileID: -3897755738096795257, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.45371962
+      value: -0.35570493
       objectReference: {fileID: 0}
     - target: {fileID: -3897755738096795257, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -869,47 +870,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3897755738096795257, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -53.941
+      value: -41.643
       objectReference: {fileID: 0}
     - target: {fileID: -3144689355143864512, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99905175
+      value: 0.99864924
       objectReference: {fileID: 0}
     - target: {fileID: -3144689355143864512, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0000000043364703
+      value: -0.000000076135585
       objectReference: {fileID: 0}
     - target: {fileID: -3144689355143864512, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.04353946
+      value: -0.051960036
       objectReference: {fileID: 0}
     - target: {fileID: -3144689355143864512, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00000002499291
+      value: 0.000000061085274
       objectReference: {fileID: 0}
     - target: {fileID: -3144689355143864512, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -4.991
+      value: -5.957
       objectReference: {fileID: 0}
     - target: {fileID: -2187716861383229552, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99951
+      value: 0.9999457
       objectReference: {fileID: 0}
     - target: {fileID: -2187716861383229552, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.00000007865672
+      value: -0.00000013400856
       objectReference: {fileID: 0}
     - target: {fileID: -2187716861383229552, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.031303592
+      value: -0.010425215
       objectReference: {fileID: 0}
     - target: {fileID: -2187716861383229552, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000018610531
+      value: 0.000000068954236
       objectReference: {fileID: 0}
     - target: {fileID: -2187716861383229552, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -3.588
+      value: -1.195
       objectReference: {fileID: 0}
     - target: {fileID: -1254852805234700849, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
@@ -945,47 +946,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -959328151928721772, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8638476
+      value: 0.9550686
       objectReference: {fileID: 0}
     - target: {fileID: -959328151928721772, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0039390465
+      value: -0.011921779
       objectReference: {fileID: 0}
     - target: {fileID: -959328151928721772, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.0067555313
+      value: 0.025550827
       objectReference: {fileID: 0}
     - target: {fileID: -959328151928721772, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.5036925
+      value: 0.29504088
       objectReference: {fileID: 0}
     - target: {fileID: -959328151928721772, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0.78
+      value: -2.169
       objectReference: {fileID: 0}
     - target: {fileID: -959328151928721772, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -0.441
+      value: 2.396
       objectReference: {fileID: 0}
     - target: {fileID: -959328151928721772, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 60.488
+      value: 34.289
       objectReference: {fileID: 0}
     - target: {fileID: 658735688957840663, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9804908
+      value: 0.98449564
       objectReference: {fileID: 0}
     - target: {fileID: 658735688957840663, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0030424912
+      value: -0.0033707123
       objectReference: {fileID: 0}
     - target: {fileID: 658735688957840663, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.015223634
+      value: -0.015154233
       objectReference: {fileID: 0}
     - target: {fileID: 658735688957840663, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.19595116
+      value: -0.17472076
       objectReference: {fileID: 0}
     - target: {fileID: 658735688957840663, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -997,7 +998,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 658735688957840663, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -22.594
+      value: -20.117
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_Name
@@ -1005,71 +1006,71 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1331910910619836004, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9988997
+      value: 0.9970982
       objectReference: {fileID: 0}
     - target: {fileID: 1331910910619836004, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.00000006912886
+      value: -0.00000013719544
       objectReference: {fileID: 0}
     - target: {fileID: 1331910910619836004, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.046898887
+      value: -0.07612591
       objectReference: {fileID: 0}
     - target: {fileID: 1331910910619836004, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000013344717
+      value: -0.000000045385598
       objectReference: {fileID: 0}
     - target: {fileID: 1331910910619836004, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -5.376
+      value: -8.732
       objectReference: {fileID: 0}
     - target: {fileID: 4039049174349317492, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9990013
+      value: 0.9949868
       objectReference: {fileID: 0}
     - target: {fileID: 4039049174349317492, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.000000051077205
+      value: -0.000000108004286
       objectReference: {fileID: 0}
     - target: {fileID: 4039049174349317492, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.044680282
+      value: -0.10000728
       objectReference: {fileID: 0}
     - target: {fileID: 4039049174349317492, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000003408967
+      value: -0.000000047271886
       objectReference: {fileID: 0}
     - target: {fileID: 4039049174349317492, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -5.122
+      value: -11.479
       objectReference: {fileID: 0}
     - target: {fileID: 4804488361045750094, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99939924
+      value: 0.9941801
       objectReference: {fileID: 0}
     - target: {fileID: 4804488361045750094, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.000032893382
+      value: 0.00010235795
       objectReference: {fileID: 0}
     - target: {fileID: 4804488361045750094, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.03464691
+      value: -0.10772725
       objectReference: {fileID: 0}
     - target: {fileID: 4804488361045750094, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0009491589
+      value: 0.00094417075
       objectReference: {fileID: 0}
     - target: {fileID: 4804488361045750094, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0.008
+      value: 0.023
       objectReference: {fileID: 0}
     - target: {fileID: 4804488361045750094, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -3.971
+      value: -12.369
       objectReference: {fileID: 0}
     - target: {fileID: 4804488361045750094, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0.109
+      value: 0.106
       objectReference: {fileID: 0}
     - target: {fileID: 4893471481560247985, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1124,7 +1125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 1, z: 0}
-  defaultLocalRotation: {x: -0.00000006912886, y: -0.046898887, z: -0.00000013344717, w: 0.9988997}
+  defaultLocalRotation: {x: -0.00000013719544, y: -0.07612591, z: -0.000000045385598, w: 0.9970982}
   useLimits: 1
   min: -38.2
   max: 54.5
@@ -1167,8 +1168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: -1, y: 0, z: 0}
-  defaultLocalRotation: {x: -0.013912782, y: -0.02730975, z: -0.45371962, w: 0.89061725}
-  twistLimit: 180
+  defaultLocalRotation: {x: -0.01675815, y: -0.025662044, z: -0.35570493, w: 0.93409556}
+  twistLimit: 10
   smoothIterations: 0
   points:
   - point: {x: -0.11328426, y: 0.018999785, z: -0.99338096}
@@ -1309,56 +1310,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: -1, y: 0, z: 0}
-  defaultLocalRotation: {x: 0.0046136044, y: -0.019208271, z: 0.23349941, w: 0.9721563}
-  twistLimit: 180
+  defaultLocalRotation: {x: 0.0065897363, y: -0.018623143, z: 0.13094202, w: 0.99119323}
+  twistLimit: 10
   smoothIterations: 0
   points:
-  - point: {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+  - point: {x: -0.09981841, y: 0.044822097, z: -0.9939956}
     tangentWeight: 1
-  - point: {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+  - point: {x: -0.9994948, y: -0.030113656, z: -0.010163185}
     tangentWeight: 1
-  - point: {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+  - point: {x: -0.3181212, y: 0.02249442, z: 0.9477832}
     tangentWeight: 1
-  - point: {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+  - point: {x: -0.991171, y: 0.13258865, z: 0.00052420783}
     tangentWeight: 1
   P:
-  - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
-  - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
-  - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
-  - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+  - {x: -0.09981841, y: 0.044822097, z: -0.9939956}
+  - {x: -0.9994948, y: -0.030113656, z: -0.010163185}
+  - {x: -0.3181212, y: 0.02249442, z: 0.9477832}
+  - {x: -0.991171, y: 0.13258865, z: 0.00052420783}
   reachCones:
   - tetrahedron:
     - {x: 0, y: 0, z: 0}
     - {x: -1, y: 0, z: 0}
-    - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
-    - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
-    volume: 0.00091370504
-    S: {x: 0, y: -1, z: 0.0001852746}
-    B: {x: -0.05545121, y: 0.5873634, z: 0.80742145}
+    - {x: -0.09981841, y: 0.044822097, z: -0.9939956}
+    - {x: -0.9994948, y: -0.030113656, z: -0.010163185}
+    volume: 0.0050647296
+    S: {x: -0, y: -0.9989849, z: -0.04504708}
+    B: {x: -0.030568913, y: 0.9983752, z: 0.048089355}
   - tetrahedron:
     - {x: 0, y: 0, z: 0}
     - {x: -1, y: 0, z: 0}
-    - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
-    - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
-    volume: 0.0009362429
-    S: {x: 0, y: -0.12688386, z: 0.9919176}
-    B: {x: -0.052764967, y: 0.7425951, z: -0.66765887}
+    - {x: -0.9994948, y: -0.030113656, z: -0.010163185}
+    - {x: -0.3181212, y: 0.02249442, z: 0.9477832}
+    volume: 0.004718767
+    S: {x: 0, y: -0.31977373, z: 0.947494}
+    B: {x: -0.029755775, y: 0.998989, z: -0.03369718}
   - tetrahedron:
     - {x: 0, y: 0, z: 0}
     - {x: -1, y: 0, z: 0}
-    - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
-    - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
-    volume: 0.00060930994
-    S: {x: 0, y: 0.99201524, z: 0.1261182}
-    B: {x: -0.03965158, y: -0.7437905, z: -0.6672356}
+    - {x: -0.3181212, y: 0.02249442, z: 0.9477832}
+    - {x: -0.991171, y: 0.13258865, z: 0.00052420783}
+    volume: 0.02094225
+    S: {x: 0, y: 0.9997185, z: -0.023727039}
+    B: {x: -0.1325704, y: -0.99095154, z: -0.020977976}
   - tetrahedron:
     - {x: 0, y: 0, z: 0}
     - {x: -1, y: 0, z: 0}
-    - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
-    - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
-    volume: 0.00060374796
-    S: {x: 0, y: 0.007532894, z: -0.9999716}
-    B: {x: -0.041740023, y: -0.79283714, z: 0.6080026}
+    - {x: -0.991171, y: 0.13258865, z: 0.00052420783}
+    - {x: -0.09981841, y: 0.044822097, z: -0.9939956}
+    volume: 0.021969339
+    S: {x: 0, y: 0.003953609, z: -0.99999213}
+    B: {x: -0.13253973, y: -0.99068135, z: -0.031362824}
 --- !u!1 &3578877114208161224 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5876590077909866386, guid: cab25baca316cb548893214bb1805233, type: 3}
@@ -1377,7 +1378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 1, z: 0}
-  defaultLocalRotation: {x: 0.000032893382, y: -0.03464691, z: 0.0009491589, w: 0.99939924}
+  defaultLocalRotation: {x: 0.00010235795, y: -0.10772725, z: 0.00094417075, w: 0.9941801}
   useLimits: 1
   min: -100.32861
   max: 12.58471
@@ -1405,56 +1406,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: -1, y: 0, z: 0}
-  defaultLocalRotation: {x: -0.0030424912, y: -0.015223634, z: -0.19595116, w: 0.9804908}
-  twistLimit: 180
+  defaultLocalRotation: {x: -0.0033707123, y: -0.015154233, z: -0.17472076, w: 0.98449564}
+  twistLimit: 10
   smoothIterations: 0
   points:
-  - point: {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+  - point: {x: -0.04736332, y: 0.05344486, z: -0.99744695}
     tangentWeight: 1
-  - point: {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+  - point: {x: -0.9960229, y: -0.08850487, z: -0.010260816}
     tangentWeight: 1
-  - point: {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+  - point: {x: -0.33169886, y: 0.09899147, z: 0.9381773}
     tangentWeight: 1
-  - point: {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+  - point: {x: -0.9972258, y: 0.07443447, z: 0.00045434097}
     tangentWeight: 1
   P:
-  - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
-  - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
-  - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
-  - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+  - {x: -0.04736332, y: 0.05344486, z: -0.99744695}
+  - {x: -0.9960229, y: -0.08850487, z: -0.010260816}
+  - {x: -0.33169886, y: 0.09899147, z: 0.9381773}
+  - {x: -0.9972258, y: 0.07443447, z: 0.00045434097}
   reachCones:
   - tetrahedron:
     - {x: 0, y: 0, z: 0}
     - {x: -1, y: 0, z: 0}
-    - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
-    - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
-    volume: 0.00091370504
-    S: {x: 0, y: -1, z: 0.0001852746}
-    B: {x: -0.05545121, y: 0.5873634, z: 0.80742145}
+    - {x: -0.04736332, y: 0.05344486, z: -0.99744695}
+    - {x: -0.9960229, y: -0.08850487, z: -0.010260816}
+    volume: 0.01480455
+    S: {x: -0, y: -0.9985676, z: -0.053504903}
+    B: {x: -0.08895081, y: 0.9943747, z: 0.05750403}
   - tetrahedron:
     - {x: 0, y: 0, z: 0}
     - {x: -1, y: 0, z: 0}
-    - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
-    - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
-    volume: 0.0009362429
-    S: {x: 0, y: -0.12688386, z: 0.9919176}
-    B: {x: -0.052764967, y: 0.7425951, z: -0.66765887}
+    - {x: -0.9960229, y: -0.08850487, z: -0.010260816}
+    - {x: -0.33169886, y: 0.09899147, z: 0.9381773}
+    volume: 0.013669588
+    S: {x: 0, y: -0.11516367, z: 0.9933466}
+    B: {x: -0.08632654, y: 0.98712194, z: -0.13467719}
   - tetrahedron:
     - {x: 0, y: 0, z: 0}
     - {x: -1, y: 0, z: 0}
-    - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
-    - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
-    volume: 0.00060930994
-    S: {x: 0, y: 0.99201524, z: 0.1261182}
-    B: {x: -0.03965158, y: -0.7437905, z: -0.6672356}
+    - {x: -0.33169886, y: 0.09899147, z: 0.9381773}
+    - {x: -0.9972258, y: 0.07443447, z: 0.00045434097}
+    volume: 0.011631291
+    S: {x: 0, y: 0.99447936, z: -0.10493217}
+    B: {x: -0.07416811, y: -0.9941376, z: 0.07867347}
   - tetrahedron:
     - {x: 0, y: 0, z: 0}
     - {x: -1, y: 0, z: 0}
-    - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
-    - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
-    volume: 0.00060374796
-    S: {x: 0, y: 0.007532894, z: -0.9999716}
-    B: {x: -0.041740023, y: -0.79283714, z: 0.6080026}
+    - {x: -0.9972258, y: 0.07443447, z: 0.00045434097}
+    - {x: -0.04736332, y: 0.05344486, z: -0.99744695}
+    volume: 0.012378119
+    S: {x: 0, y: 0.006103792, z: -0.9999814}
+    B: {x: -0.07436456, y: -0.9959851, z: -0.04983536}
 --- !u!1 &3904899719826113388 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6203589565240973622, guid: cab25baca316cb548893214bb1805233, type: 3}
@@ -1529,7 +1530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 1, z: 0}
-  defaultLocalRotation: {x: -0.0000000043364703, y: -0.04353946, z: 0.00000002499291, w: 0.99905175}
+  defaultLocalRotation: {x: -0.000000076135585, y: -0.051960036, z: 0.000000061085274, w: 0.99864924}
   useLimits: 1
   min: -38.2
   max: 54.5
@@ -1552,7 +1553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 1, z: 0}
-  defaultLocalRotation: {x: -0.00000007865672, y: -0.031303592, z: -0.0000000018610531, w: 0.99951}
+  defaultLocalRotation: {x: -0.00000013400856, y: -0.010425215, z: 0.000000068954236, w: 0.9999457}
   useLimits: 1
   min: -38.2
   max: 54.5
@@ -1669,7 +1670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 1, z: 0}
-  defaultLocalRotation: {x: 0.000055533354, y: -0.026646007, z: 0.0020835462, w: 0.99964285}
+  defaultLocalRotation: {x: 0.00022495232, y: -0.10794062, z: 0.0020721306, w: 0.99415517}
   useLimits: 1
   min: -100.32861
   max: 12.58471
@@ -1697,7 +1698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 1, z: 0}
-  defaultLocalRotation: {x: -0.000000051077205, y: -0.044680282, z: -0.00000003408967, w: 0.9990013}
+  defaultLocalRotation: {x: -0.000000108004286, y: -0.10000728, z: -0.000000047271886, w: 0.9949868}
   useLimits: 1
   min: -38.2
   max: 54.5
@@ -1784,56 +1785,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: -1, y: 0, z: 0}
-  defaultLocalRotation: {x: 0.0039390465, y: -0.0067555313, z: 0.5036925, w: 0.8638476}
-  twistLimit: 180
+  defaultLocalRotation: {x: -0.011921779, y: 0.025550827, z: 0.29504088, w: 0.9550686}
+  twistLimit: 10
   smoothIterations: 0
   points:
-  - point: {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+  - point: {x: -0.0033935406, y: -0.020917596, z: -0.99977547}
     tangentWeight: 1
-  - point: {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+  - point: {x: -0.99957883, y: -0.027127774, z: -0.010306882}
     tangentWeight: 1
-  - point: {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+  - point: {x: -0.40995786, y: -0.032845262, z: 0.9115129}
     tangentWeight: 1
-  - point: {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+  - point: {x: -0.98166865, y: 0.19054998, z: 0.004176921}
     tangentWeight: 1
   P:
-  - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
-  - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
-  - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
-  - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+  - {x: -0.0033935406, y: -0.020917596, z: -0.99977547}
+  - {x: -0.99957883, y: -0.027127774, z: -0.010306882}
+  - {x: -0.40995786, y: -0.032845262, z: 0.9115129}
+  - {x: -0.98166865, y: 0.19054998, z: 0.004176921}
   reachCones:
   - tetrahedron:
     - {x: 0, y: 0, z: 0}
     - {x: -1, y: 0, z: 0}
-    - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
-    - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
-    volume: 0.00091370504
-    S: {x: 0, y: -1, z: 0.0001852746}
-    B: {x: -0.05545121, y: 0.5873634, z: 0.80742145}
+    - {x: -0.0033935406, y: -0.020917596, z: -0.99977547}
+    - {x: -0.99957883, y: -0.027127774, z: -0.010306882}
+    volume: 0.004484348
+    S: {x: 0, y: -0.9997812, z: 0.020917716}
+    B: {x: -0.026908824, y: 0.99942106, z: -0.020818844}
   - tetrahedron:
     - {x: 0, y: 0, z: 0}
     - {x: -1, y: 0, z: 0}
-    - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
-    - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
-    volume: 0.0009362429
-    S: {x: 0, y: -0.12688386, z: 0.9919176}
-    B: {x: -0.052764967, y: 0.7425951, z: -0.66765887}
+    - {x: -0.99957883, y: -0.027127774, z: -0.010306882}
+    - {x: -0.40995786, y: -0.032845262, z: 0.9115129}
+    volume: 0.0041776416
+    S: {x: 0, y: -0.3551674, z: 0.9348027}
+    B: {x: -0.027365813, y: 0.99934447, z: 0.023702245}
   - tetrahedron:
     - {x: 0, y: 0, z: 0}
     - {x: -1, y: 0, z: 0}
-    - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
-    - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
-    volume: 0.00060930994
-    S: {x: 0, y: 0.99201524, z: 0.1261182}
-    B: {x: -0.03965158, y: -0.7437905, z: -0.6672356}
+    - {x: -0.40995786, y: -0.032845262, z: 0.9115129}
+    - {x: -0.98166865, y: 0.19054998, z: 0.004176921}
+    volume: 0.028970994
+    S: {x: 0, y: 0.99935144, z: 0.036010418}
+    B: {x: -0.1896589, y: -0.9744384, z: -0.12041282}
   - tetrahedron:
     - {x: 0, y: 0, z: 0}
     - {x: -1, y: 0, z: 0}
-    - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
-    - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
-    volume: 0.00060374796
-    S: {x: 0, y: 0.007532894, z: -0.9999716}
-    B: {x: -0.041740023, y: -0.79283714, z: 0.6080026}
+    - {x: -0.98166865, y: 0.19054998, z: 0.004176921}
+    - {x: -0.0033935406, y: -0.020917596, z: -0.99977547}
+    volume: 0.03173664
+    S: {x: 0, y: 0.02191508, z: -0.99975985}
+    B: {x: -0.19042203, y: -0.98147374, z: 0.021181032}
 --- !u!4 &9113942767039502902 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2187716861383229552, guid: cab25baca316cb548893214bb1805233, type: 3}
