@@ -28,8 +28,6 @@ public class VRHandController : MonoBehaviour
     [Min(0), SerializeField, Tooltip("Maximum depth inside colliders which finger targets can penetrate")]          private float maxProjectionDepth;
     [SerializeField, Tooltip("Physics layers which fingers on hand are able to collide with")]                      private LayerMask obstructionLayers;
     [Min(1), SerializeField, Tooltip("Maximum number of obstructions hand and fingers can collide with per frame")] private int maxObstacleCollisions = 1;
-    public AnimationCurve speedCurve;
-    //[SerializeField, Tooltip("Enables player to lift hands out of bodies when fingers are trapped underneath them (0-90)")] private float minRaiseReleaseAngle;
 
     //Runtime Variables:
     /// <summary>
@@ -113,6 +111,10 @@ public class VRHandController : MonoBehaviour
 
             //Modify position
             Vector3 newPosition = Vector3.Lerp(transform.position, offsetTargetPos, linearFollowSpeed * Time.deltaTime);
+            if (Vector3.Distance(transform.position, newPosition) > maxSpeed * Time.deltaTime)
+            {
+                newPosition = Vector3.MoveTowards(transform.position, newPosition, maxSpeed * Time.deltaTime);
+            }
 
             //Obstruct movement:
             Vector3 unobstructedPosition = newPosition;                           //Save position before obstruction
