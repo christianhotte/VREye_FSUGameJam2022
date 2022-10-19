@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using GlobalEnums;
+using UnityEngine.XR.Interaction.Toolkit.Inputs;
+using Unity.XR.CoreUtils;
 
 public class VRPlayerController : MonoBehaviour
 {
@@ -16,12 +18,14 @@ public class VRPlayerController : MonoBehaviour
     public static VRPlayerController main;
 
     //Objects & Components:
-    private Transform leftController;   //Position and orientation of left controller in scene
-    private Transform rightController;  //Position and orientation of right controller in scene
-    private Transform head;             //Position and orientation of head in scene
-    private VRHandController leftHand;  //Controller for left hand object
-    private VRHandController rightHand; //Controller for right hand object
-    private AudioSource audioSource;    //Audiosource for VR player head
+    private Transform leftController;        //Position and orientation of left controller in scene
+    private Transform rightController;       //Position and orientation of right controller in scene
+    private Transform head;                  //Position and orientation of head in scene
+    internal Transform origin;               //Transform to use when moving VR player around
+    private VRHandController leftHand;       //Controller for left hand object
+    private VRHandController rightHand;      //Controller for right hand object
+    private AudioSource audioSource;         //Audiosource for VR player head
+    private InputActionManager inputManager; //Input management asset
 
     //Settings:
     [Header("References & Prefabs:")]
@@ -37,7 +41,7 @@ public class VRPlayerController : MonoBehaviour
     [SerializeField] private AudioClip deathSound;
 
     //Runtime Vars:
-    private int health;        //Amount of health player currently has
+    internal int health;       //Amount of health player currently has
     private bool dead = false; //Whether or not VR player is currently dead
 
     //EVENTS & COROUTINES:
@@ -59,10 +63,6 @@ public class VRPlayerController : MonoBehaviour
         //Cleanup:
         yield return null; //End sequence
     }
-    private void Start()
-    {
-        audioSource.PlayOneShot(spawnSound);
-    }
 
     //RUNTIME METHODS:
     private void Awake()
@@ -73,7 +73,9 @@ public class VRPlayerController : MonoBehaviour
 
         //Get objects & components:
         head = GetComponentInChildren<Camera>().transform; if (head == null) { Debug.LogError("VR player could not find head!"); } //Get head transform
-        audioSource = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();                                                                                 //Get audio source component
+        inputManager = GetComponentInChildren<InputActionManager>();                                                               //Get input manager component
+        origin = GetComponentInChildren<XROrigin>().transform;                                                                     //Get transform of player origin point
 
         //Hand setup:
         ActionBasedController[] handControllers = GetComponentsInChildren<ActionBasedController>();                                                                          //Get hand controllers
@@ -81,6 +83,10 @@ public class VRPlayerController : MonoBehaviour
         if (handControllers[0].gameObject.name.Contains("Left")) { leftController = handControllers[0].transform; } else { rightController = handControllers[0].transform; } //Assign first hand
         if (rightController == null) { rightController = handControllers[1].transform; } else { leftController = handControllers[1].transform; }                             //Assign second hand
         InstantiateHand(HandType.Left); InstantiateHand(HandType.Right);                                                                                                     //Instantiate and set up objects for both hands
+    }
+    private void Start()
+    {
+        audioSource.PlayOneShot(spawnSound);
     }
 
     //FUNCTIONALITY METHODS:
@@ -146,6 +152,7 @@ public class VRPlayerController : MonoBehaviour
 
         //Universal initialization:
         VRHandController newHand = Instantiate(handPrefab).GetComponent<VRHandController>(); //Instantiate a new hand prefab
+        VRHandController otherHand = null;                                                   //Initialize container to check for and modify other hand
         newHand.transform.parent = transform;                                                //Child hand to player object
         newHand.transform.localScale = Vector3.one;                                          //Keep hands scaled to player object
         newHand.transform.position = head.position;                                          //Move hand to position of head
@@ -157,17 +164,30 @@ public class VRPlayerController : MonoBehaviour
             //Symmetrical setup:
             if (leftHand != null) Destroy(leftHand.gameObject); //Destroy left hand object if it already exists
             newHand.controllerTarget = leftController;          //Set controller target
+            newHand.SetupInput(inputManager.actionAssets[0].FindActionMap("XRI LeftHand Control")); //Assign hand action map
             leftHand = newHand;                                //Store reference to new left hand
+            otherHand = rightHand;                             //Get other hand
         }
         else //Right hand setup
         {
             //Symmetrical setup:
             if (rightHand != null) Destroy(rightHand.gameObject); //Destroy right hand object if it already exists
             newHand.controllerTarget = rightController;           //Set controller target
+            newHand.SetupInput(inputManager.actionAssets[0].FindActionMap("XRI RightHand Control")); //Assign hand action map
             rightHand = newHand;                                  //Store reference to new right hand
+            otherHand = leftHand;                                 //Get other hand
 
             //Side-specific setup:
-            //newHand.transform.localScale -= Vector3.right * 2f; //Flip hand
+            Vector3 newScale = newHand.transform.localScale; //Get scale
+            newScale.x *= -1;                                //Flip scale along X axis
+            //newHand.transform.localScale = newScale;       //Apply new scale to hand
+        }
+
+        //Try to get other hand:
+        if (otherHand != null) //Other hand is present
+        {
+            newHand.otherHand = otherHand; //Give new hand a reference to its counterpart
+            otherHand.otherHand = newHand; //Give other hand a reference to new hand
         }
     }
     private void SendHapticImpulse(UnityEngine.XR.InputDeviceRole deviceRole, float amp, float dur)
