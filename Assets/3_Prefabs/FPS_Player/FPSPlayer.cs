@@ -14,6 +14,9 @@ public class FPSPlayer : MonoBehaviour
     Quaternion torsoStartRotation;
     [SerializeField] Animator legs;
 
+    [SerializeField] TrailRenderer shadowTrail;
+    float shadowTrailITime;
+
     [SerializeField] Camera cam;
     [SerializeField] Transform armsHolder;
     [SerializeField] float mouseSpeedX;
@@ -152,6 +155,7 @@ public class FPSPlayer : MonoBehaviour
         weaponOrigin = Vector3.Lerp(weaponOrigin, iWeaponOrigin, Time.deltaTime * 8.0f);
         armsHolder.localPosition = Vector3.Lerp(armsHolder.localPosition, weaponOrigin, Time.deltaTime * weaponReturn);
         armsHolder.localRotation = Quaternion.Lerp(armsHolder.localRotation, Quaternion.identity, Time.deltaTime * weaponReturn);
+        shadowTrail.time = Mathf.MoveTowards(shadowTrail.time, shadowTrailITime, Time.deltaTime);
     }
 
     public void MouseLook(InputAction.CallbackContext ctx)
@@ -185,6 +189,10 @@ public class FPSPlayer : MonoBehaviour
         xzMovement.z = movement.y;
         legs.SetBool(isWalking_hash, xzMovement.magnitude > 0.05f);
         xzMovement = xzMovement.normalized;
+        if (moveState == MoveStates.Crouching)
+            shadowTrailITime = xzMovement.magnitude * 5.0f;
+        else
+            shadowTrailITime = xzMovement.magnitude * 1.0f;
     }
     public void Jump(InputAction.CallbackContext ctx)
     {
