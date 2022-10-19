@@ -407,8 +407,8 @@ MonoBehaviour:
   sprintLerpRate: 10
   crouchSpeed: 3
   crouchLerpRate: 30
-  jumpHeight: 7
-  crouchDistance: 0.7
+  jumpHeight: 10
+  crouchDistance: 0.5
   deathDistance: 0.9
   looseWeaponSway: 0
   weaponSwayX: 0.1

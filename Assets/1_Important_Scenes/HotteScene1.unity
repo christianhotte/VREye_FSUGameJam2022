@@ -128,15 +128,15 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1528592829}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 0a7fc980fb0a68248af8ea1a51608b87, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0a7fc980fb0a68248af8ea1a51608b87, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.0069063995
+      value: 0.0069064
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0a7fc980fb0a68248af8ea1a51608b87, type: 3}
       propertyPath: m_LocalScale.y
@@ -144,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0a7fc980fb0a68248af8ea1a51608b87, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.0069063995
+      value: 0.0069064
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0a7fc980fb0a68248af8ea1a51608b87, type: 3}
       propertyPath: m_LocalPosition.x
@@ -186,6 +186,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 0a7fc980fb0a68248af8ea1a51608b87, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
     - target: {fileID: 919132149155446097, guid: 0a7fc980fb0a68248af8ea1a51608b87, type: 3}
       propertyPath: m_Name
       value: BrokenHouse
@@ -259,6 +263,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f81c6ed9feee4464d89c5e1d62fdc890, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
     - target: {fileID: 919132149155446097, guid: f81c6ed9feee4464d89c5e1d62fdc890, type: 3}
       propertyPath: m_Name
       value: House (1)
@@ -403,6 +411,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
     - target: {fileID: 919132149155446097, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
       propertyPath: m_Name
       value: Shack (3)
@@ -800,7 +820,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8997140970232992398, guid: 776fe48f39f90d84eb6df706c5687f13, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8997140970232992398, guid: 776fe48f39f90d84eb6df706c5687f13, type: 3}
       propertyPath: m_LocalPosition.x
@@ -939,6 +959,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
     - target: {fileID: 919132149155446097, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
       propertyPath: m_Name
       value: Shack (2)
@@ -1017,6 +1049,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f81c6ed9feee4464d89c5e1d62fdc890, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
     - target: {fileID: 919132149155446097, guid: f81c6ed9feee4464d89c5e1d62fdc890, type: 3}
       propertyPath: m_Name
       value: House (2)
@@ -1072,6 +1108,7 @@ Transform:
   - {fileID: 1678291794}
   - {fileID: 984317813}
   - {fileID: 1601202844}
+  - {fileID: 1854616805}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1438,6 +1475,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1018126357, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1658674684814655493, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1486,8 +1527,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FPSPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 2001183763015565158, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
+--- !u!4 &1854616805 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0a7fc980fb0a68248af8ea1a51608b87, type: 3}
+  m_PrefabInstance: {fileID: 24579183}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1879074676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1633,6 +1683,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
     - target: {fileID: 919132149155446097, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
       propertyPath: m_Name
       value: Shack (1)
@@ -1736,6 +1798,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ef06233a719a0341887bdd46facd0ba, type: 2}
     - target: {fileID: 919132149155446097, guid: 9997287d890e9314f9ed49496206e5d8, type: 3}
       propertyPath: m_Name
       value: Shack
