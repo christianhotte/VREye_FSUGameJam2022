@@ -170,17 +170,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerTarget: {fileID: 0}
-  maxSpeed: 1
-  linearFollowSpeed: 8
+  followOffset: {x: 0, y: 0, z: -0.07}
+  maxSpeed: 100
+  linearFollowSpeed: 3.3
   angularFollowSpeed: 12
-  maxFingerMoveSpeed: 0.5
-  palmCollisionRadius: 0.03
+  maxFingerMoveSpeed: 0.3
+  palmCollisionRadius: 0.034
   fingerTipRadius: 0.01
-  palmColliderOffset: {x: 0, y: 0, z: -0.0845}
+  maxProjectionDepth: 2
   obstructionLayers:
     serializedVersion: 2
     m_Bits: 1
   maxObstacleCollisions: 4
+  speedCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &2294744210894480806
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -214,7 +221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.068399996
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cab25baca316cb548893214bb1805233, type: 3}
       propertyPath: m_LocalRotation.w
@@ -711,7 +718,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: -0.013912782, y: -0.02730975, z: -0.45371962, w: 0.89061725}
   useLimits: 1
   min: -90
-  max: 20
+  max: 73.05405
   zeroAxisDisplayOffset: 0
 --- !u!1 &2518181750922822018 stripped
 GameObject:
@@ -808,7 +815,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0.0046136044, y: -0.019208271, z: 0.23349941, w: 0.9721563}
   useLimits: 1
   min: -90
-  max: 20
+  max: 73.46926
   zeroAxisDisplayOffset: 0
 --- !u!1 &3578877114208161224 stripped
 GameObject:
@@ -859,7 +866,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: -0.0030424912, y: -0.015223634, z: -0.19595116, w: 0.9804908}
   useLimits: 1
   min: -90
-  max: 20
+  max: 70.102264
   zeroAxisDisplayOffset: 0
 --- !u!1 &3904899719826113388 stripped
 GameObject:
@@ -1188,7 +1195,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0.0039390465, y: -0.0067555313, z: 0.5036925, w: 0.8638476}
   useLimits: 1
   min: -90
-  max: 20
+  max: 79.216095
   zeroAxisDisplayOffset: 0
 --- !u!4 &9113942767039502902 stripped
 Transform:
