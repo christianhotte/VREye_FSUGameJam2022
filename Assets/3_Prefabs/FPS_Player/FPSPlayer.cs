@@ -10,6 +10,7 @@ public class FPSPlayer : MonoBehaviour
     Rigidbody rb;
 
     [SerializeField] Animator torso;
+    Quaternion torsoStartRotation;
     [SerializeField] Animator legs;
 
     [SerializeField] Camera cam;
@@ -71,6 +72,7 @@ public class FPSPlayer : MonoBehaviour
         camStartPos = cam.transform.localPosition;
         camIPos = cam.transform.localPosition;
         inst = this;
+        torsoStartRotation = torso.transform.localRotation;
     }
 
     bool grounded = false;
@@ -158,7 +160,7 @@ public class FPSPlayer : MonoBehaviour
         cameraPitch -= camera_turn.y * mouseSpeedY;
         cameraPitch = Mathf.Clamp(cameraPitch, -80.0f, 80.0f);
         cam.transform.localEulerAngles = Vector3.right * cameraPitch;
-        torso.transform.localEulerAngles = -Vector3.right * (cameraPitch - 90);
+        torso.transform.localRotation = torsoStartRotation * Quaternion.AngleAxis(-cameraPitch, Vector3.right); //-Vector3.right * (cameraPitch - 90);
         if (looseWeaponSway)
         {
             armsHolder.Translate(armsHolder.right * camera_turn.x * Time.deltaTime * weaponSwayX);
