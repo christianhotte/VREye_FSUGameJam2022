@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GlobalEnums;
 using RootMotion.FinalIK;
+using UnityEngine.InputSystem;
 
 public class VRHandController : MonoBehaviour
 {
@@ -32,12 +33,16 @@ public class VRHandController : MonoBehaviour
     [Min(0), SerializeField, Tooltip("Maximum depth inside colliders which finger targets can penetrate")]          private float maxProjectionDepth;
     [SerializeField, Tooltip("Physics layers which fingers on hand are able to collide with")]                      private LayerMask obstructionLayers;
     [Min(1), SerializeField, Tooltip("Maximum number of obstructions hand and fingers can collide with per frame")] private int maxObstacleCollisions = 1;
+    [Header("Effects:")]
+    [Min(0), SerializeField, Tooltip("Ease by which fingers are affected by changes in velocity")]         private float fingerVelocityDragFactor;
+    [Min(0), SerializeField, Tooltip("Maximum distance by which fingers can be dragged back by velocity")] private float maxFingerVelocityDrag;
 
     //Runtime Variables:
     /// <summary>
     /// Which side this hand is on.
     /// </summary>
     internal HandType side = HandType.None; //Initialize at "None" to indicate hand has not yet been associated with player controller
+    private float gripValue; //How closed this hand currently is
 
     //RUNTIME METHODS:
     private void Awake()
@@ -143,11 +148,12 @@ public class VRHandController : MonoBehaviour
             }
 
             //Obstruct movement:
-            Vector3 unobstructedPosition = newPosition;                           //Save position before obstruction
-            float scaledRadius = palmCollisionRadius * scaleMultiplier;
+            Vector3 unobstructedPosition = newPosition;                                         //Save position before obstruction
+            float scaledRadius = palmCollisionRadius * scaleMultiplier;                         //Get radius of palm scaled to player size
             newPosition = GetObstructedPosition(transform.position, newPosition, scaledRadius); //Obstruct position
 
             //Commit hand movement:
+            Vector3 currentVelocity = (newPosition - transform.position) / Time.deltaTime; //Get velocity this frame (in units per second)
             transform.position = newPosition; //Set new position
 
             //Project & obstruct fingers:
@@ -157,13 +163,25 @@ public class VRHandController : MonoBehaviour
             scaledRadius = fingerTipRadius * scaleMultiplier;                                                            //Update scaled radius so it is useable for fingertips
             for (int i = 0; i < fingerTargets.Length; i++) //Iterate through fingerTargets array
             {
-                Vector3 fingerIdealPos = fingerRoots[i].position;                                                                                             //Get ideal target relative to finger root
-                if (unobstructedPosition != newPosition) fingerIdealPos += projectionDepth;                                                                   //Project fingers away from roots if hand is obstructed
+                //Generate target for finger:
+                Vector3 fingerIdealPos = fingerRoots[i].position;                                                                               //Get ideal target relative to finger root
+                if (unobstructedPosition != newPosition) fingerIdealPos += projectionDepth;                                                     //Project fingers away from roots if hand is obstructed
+
+                //Vector3 fingerVelocity = (fingerRoots[i].position - prevFingerPositions[i]) / Time.deltaTime;                                  //Get velocity at fingerTip
+                fingerIdealPos += Vector3.ClampMagnitude(-currentVelocity * fingerVelocityDragFactor, maxFingerVelocityDrag * scaleMultiplier); //Add velocity drag effect to finger
+
                 Vector3 newFingerPos = Vector3.MoveTowards(fingerTargets[i].position, fingerIdealPos, maxFingerMoveSpeed * scaleMultiplier * Time.deltaTime); //Move fingers towards target relative to root
                 newFingerPos = GetObstructedPosition(fingerTargets[i].localPosition + prevPosition, newFingerPos, scaledRadius);                              //Keep each finger individually obstructed (scrubbing out velocity movement)
                 fingerTargets[i].position = newFingerPos;                                                                                                     //Set new finger position
             }
         }
+    }
+
+    //INPUT METHODS:
+    public void OnGripInput(InputAction.CallbackContext context)
+    {
+        gripValue = context.ReadValue<float>();
+        if (gripValue > 0.1f) print(gripValue);
     }
 
     //FUNCTIONALITY METHODS:

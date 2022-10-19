@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 35531731300440069}
   - component: {fileID: 38067617751563727}
   - component: {fileID: 1095096139822876725}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Backhand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -634,6 +634,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   maxObstacleCollisions: 4
+  fingerVelocityDragFactor: 0.2
+  maxFingerVelocityDrag: 0.05
 --- !u!1001 &2294744210894480806
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1152,7 +1154,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -8877487191104086526, guid: cab25baca316cb548893214bb1805233, type: 3}
   m_PrefabInstance: {fileID: 2294744210894480806}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3145660620397291686
+--- !u!114 &5855388118865968645
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1161,15 +1163,60 @@ MonoBehaviour:
   m_GameObject: {fileID: 1951261353521380260}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 484718f2c4ab849829491782b508958a, type: 3}
+  m_Script: {fileID: 11500000, guid: dae00b1bdc58d499396776ce508a5078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 1, z: 0}
+  axis: {x: -1, y: 0, z: 0}
   defaultLocalRotation: {x: -0.013912782, y: -0.02730975, z: -0.45371962, w: 0.89061725}
-  useLimits: 1
-  min: -90
-  max: 73.05405
-  zeroAxisDisplayOffset: 0
+  twistLimit: 180
+  smoothIterations: 0
+  points:
+  - point: {x: -0.11328426, y: 0.018999785, z: -0.99338096}
+    tangentWeight: 1
+  - point: {x: -0.96496624, y: -0.26215023, z: -0.010834373}
+    tangentWeight: 1
+  - point: {x: -0.26791283, y: 0.022048766, z: 0.96319085}
+    tangentWeight: 1
+  - point: {x: -0.99812394, y: 0.06122434, z: 0.00043400167}
+    tangentWeight: 1
+  P:
+  - {x: -0.11328426, y: 0.018999785, z: -0.99338096}
+  - {x: -0.96496624, y: -0.26215023, z: -0.010834373}
+  - {x: -0.26791283, y: 0.022048766, z: 0.96319085}
+  - {x: -0.99812394, y: 0.06122434, z: 0.00043400167}
+  reachCones:
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.11328426, y: 0.018999785, z: -0.99338096}
+    - {x: -0.96496624, y: -0.26215023, z: -0.010834373}
+    volume: 0.043436814
+    S: {x: -0, y: -0.99981713, z: -0.019122886}
+    B: {x: -0.2623645, y: 0.9637566, z: 0.048352987}
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.96496624, y: -0.26215023, z: -0.010834373}
+    - {x: -0.26791283, y: 0.022048766, z: 0.96319085}
+    volume: 0.042043637
+    S: {x: 0, y: -0.041293617, z: 0.99914706}
+    B: {x: -0.2600105, y: 0.96098816, z: -0.09432061}
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.26791283, y: 0.022048766, z: 0.96319085}
+    - {x: -0.99812394, y: 0.06122434, z: 0.00043400167}
+    volume: 0.009826859
+    S: {x: 0, y: 0.9997381, z: -0.022885382}
+    B: {x: -0.06122079, y: -0.9981073, z: 0.005819406}
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.99812394, y: 0.06122434, z: 0.00043400167}
+    - {x: -0.11328426, y: 0.018999785, z: -0.99338096}
+    volume: 0.01013789
+    S: {x: 0, y: 0.007088533, z: -0.99997485}
+    B: {x: -0.061225105, y: -0.9980506, z: -0.012107042}
 --- !u!1 &2518181750922822018 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4407600469411603492, guid: cab25baca316cb548893214bb1805233, type: 3}
@@ -1249,24 +1296,69 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -5703256761805019595, guid: cab25baca316cb548893214bb1805233, type: 3}
   m_PrefabInstance: {fileID: 2294744210894480806}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8535998518123134777
+--- !u!114 &4531044091803687780
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3387102205444850579}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 484718f2c4ab849829491782b508958a, type: 3}
+  m_Script: {fileID: 11500000, guid: dae00b1bdc58d499396776ce508a5078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 1, z: 0}
+  axis: {x: -1, y: 0, z: 0}
   defaultLocalRotation: {x: 0.0046136044, y: -0.019208271, z: 0.23349941, w: 0.9721563}
-  useLimits: 1
-  min: -90
-  max: 73.46926
-  zeroAxisDisplayOffset: 0
+  twistLimit: 180
+  smoothIterations: 0
+  points:
+  - point: {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+    tangentWeight: 1
+  - point: {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+    tangentWeight: 1
+  - point: {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+    tangentWeight: 1
+  - point: {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+    tangentWeight: 1
+  P:
+  - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+  - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+  - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+  - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+  reachCones:
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+    - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+    volume: 0.00091370504
+    S: {x: 0, y: -1, z: 0.0001852746}
+    B: {x: -0.05545121, y: 0.5873634, z: 0.80742145}
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+    - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+    volume: 0.0009362429
+    S: {x: 0, y: -0.12688386, z: 0.9919176}
+    B: {x: -0.052764967, y: 0.7425951, z: -0.66765887}
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+    - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+    volume: 0.00060930994
+    S: {x: 0, y: 0.99201524, z: 0.1261182}
+    B: {x: -0.03965158, y: -0.7437905, z: -0.6672356}
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+    - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+    volume: 0.00060374796
+    S: {x: 0, y: 0.007532894, z: -0.9999716}
+    B: {x: -0.041740023, y: -0.79283714, z: 0.6080026}
 --- !u!1 &3578877114208161224 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5876590077909866386, guid: cab25baca316cb548893214bb1805233, type: 3}
@@ -1300,24 +1392,69 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -5956446085742456490, guid: cab25baca316cb548893214bb1805233, type: 3}
   m_PrefabInstance: {fileID: 2294744210894480806}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1816704039719309885
+--- !u!114 &3139257089614794646
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3643098069109699824}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 484718f2c4ab849829491782b508958a, type: 3}
+  m_Script: {fileID: 11500000, guid: dae00b1bdc58d499396776ce508a5078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 1, z: 0}
+  axis: {x: -1, y: 0, z: 0}
   defaultLocalRotation: {x: -0.0030424912, y: -0.015223634, z: -0.19595116, w: 0.9804908}
-  useLimits: 1
-  min: -90
-  max: 70.102264
-  zeroAxisDisplayOffset: 0
+  twistLimit: 180
+  smoothIterations: 0
+  points:
+  - point: {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+    tangentWeight: 1
+  - point: {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+    tangentWeight: 1
+  - point: {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+    tangentWeight: 1
+  - point: {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+    tangentWeight: 1
+  P:
+  - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+  - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+  - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+  - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+  reachCones:
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+    - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+    volume: 0.00091370504
+    S: {x: 0, y: -1, z: 0.0001852746}
+    B: {x: -0.05545121, y: 0.5873634, z: 0.80742145}
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+    - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+    volume: 0.0009362429
+    S: {x: 0, y: -0.12688386, z: 0.9919176}
+    B: {x: -0.052764967, y: 0.7425951, z: -0.66765887}
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+    - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+    volume: 0.00060930994
+    S: {x: 0, y: 0.99201524, z: 0.1261182}
+    B: {x: -0.03965158, y: -0.7437905, z: -0.6672356}
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+    - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+    volume: 0.00060374796
+    S: {x: 0, y: 0.007532894, z: -0.9999716}
+    B: {x: -0.041740023, y: -0.79283714, z: 0.6080026}
 --- !u!1 &3904899719826113388 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6203589565240973622, guid: cab25baca316cb548893214bb1805233, type: 3}
@@ -1634,24 +1771,69 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -1705418836757863725, guid: cab25baca316cb548893214bb1805233, type: 3}
   m_PrefabInstance: {fileID: 2294744210894480806}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3856924710523815194
+--- !u!114 &2637769125775345288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8614738651667384181}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 484718f2c4ab849829491782b508958a, type: 3}
+  m_Script: {fileID: 11500000, guid: dae00b1bdc58d499396776ce508a5078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 0, y: 1, z: 0}
+  axis: {x: -1, y: 0, z: 0}
   defaultLocalRotation: {x: 0.0039390465, y: -0.0067555313, z: 0.5036925, w: 0.8638476}
-  useLimits: 1
-  min: -90
-  max: 79.216095
-  zeroAxisDisplayOffset: 0
+  twistLimit: 180
+  smoothIterations: 0
+  points:
+  - point: {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+    tangentWeight: 1
+  - point: {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+    tangentWeight: 1
+  - point: {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+    tangentWeight: 1
+  - point: {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+    tangentWeight: 1
+  P:
+  - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+  - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+  - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+  - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+  reachCones:
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+    - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+    volume: 0.00091370504
+    S: {x: 0, y: -1, z: 0.0001852746}
+    B: {x: -0.05545121, y: 0.5873634, z: 0.80742145}
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.9967401, y: -0.08002706, z: -0.010236881}
+    - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+    volume: 0.0009362429
+    S: {x: 0, y: -0.12688386, z: 0.9919176}
+    B: {x: -0.052764967, y: 0.7425951, z: -0.66765887}
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.9975731, y: -0.008781251, z: 0.069071196}
+    - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+    volume: 0.00060930994
+    S: {x: 0, y: 0.99201524, z: 0.1261182}
+    B: {x: -0.03965158, y: -0.7437905, z: -0.6672356}
+  - tetrahedron:
+    - {x: 0, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: -0.9986009, y: 0.05287822, z: 0.00039833735}
+    - {x: -0.9976507, y: -0.000012692483, z: -0.06850633}
+    volume: 0.00060374796
+    S: {x: 0, y: 0.007532894, z: -0.9999716}
+    B: {x: -0.041740023, y: -0.79283714, z: 0.6080026}
 --- !u!4 &9113942767039502902 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2187716861383229552, guid: cab25baca316cb548893214bb1805233, type: 3}
