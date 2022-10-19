@@ -7,6 +7,7 @@ public class FPSRocket : MonoBehaviour
     [SerializeField] float moveSpeed;
     [SerializeField] float turnDownSpeed;
     [SerializeField] LayerMask canHit;
+    [SerializeField] LayerMask destroyOnHit;
 
     private void Start()
     {
@@ -25,14 +26,25 @@ public class FPSRocket : MonoBehaviour
             transform.position = hit.point;
             //transform.localScale = oldScale;
             //transform.rotation = oldRotation;
+
             IShootable shot = hit.collider.GetComponent<IShootable>();
+            GetComponent<AudioSource>().Play();
             if (shot != null)
             {
                 shot.Shot();
                 Destroy(gameObject); //Make sure projectile just goes away when hitting a weak point
             }
-            Destroy(this);
-            GetComponent<AudioSource>().Play();
+            else
+            {
+                if (destroyOnHit == (destroyOnHit | (1 << hit.collider.gameObject.layer)))
+                {
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    Destroy(this);
+                }
+            }
         }
         else
         {

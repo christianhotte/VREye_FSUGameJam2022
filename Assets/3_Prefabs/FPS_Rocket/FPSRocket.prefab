@@ -131,10 +131,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 65
-  turnDownSpeed: 25
+  turnDownSpeed: 18
   canHit:
     serializedVersion: 2
     m_Bits: 2433
+  destroyOnHit:
+    serializedVersion: 2
+    m_Bits: 2432
 --- !u!82 &2985067079527060188
 AudioSource:
   m_ObjectHideFlags: 0

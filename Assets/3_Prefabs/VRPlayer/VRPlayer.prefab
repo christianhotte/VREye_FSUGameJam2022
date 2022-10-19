@@ -1534,6 +1534,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   sound: {fileID: 8300000, guid: 14cdc182e30da4e4494301a45eb1da03, type: 3}
+--- !u!1 &6667054487985668474 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4819223349682164798, guid: 71d8377f49a0bb7489e91eb23cc929bb, type: 3}
+  m_PrefabInstance: {fileID: 7032528452605602488}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &5092434373462403295
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6667054487985668474}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8545447256379345787, guid: 71d8377f49a0bb7489e91eb23cc929bb, type: 3}
 --- !u!4 &7355000666959318355 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 71d8377f49a0bb7489e91eb23cc929bb, type: 3}
