@@ -134,7 +134,7 @@ MonoBehaviour:
   turnDownSpeed: 5
   canHit:
     serializedVersion: 2
-    m_Bits: 385
+    m_Bits: 2433
 --- !u!82 &2985067079527060188
 AudioSource:
   m_ObjectHideFlags: 0
