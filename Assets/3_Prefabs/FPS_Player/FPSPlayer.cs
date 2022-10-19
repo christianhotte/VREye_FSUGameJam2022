@@ -25,6 +25,7 @@ public class FPSPlayer : MonoBehaviour
 
     [SerializeField] Camera cam;
     [SerializeField] Transform armsHolder;
+    [SerializeField] Transform projectileSpawnPoint;
     [SerializeField] float mouseSpeedX;
     [SerializeField] float mouseSpeedY;
     [SerializeField] float walkSpeed;
@@ -252,7 +253,7 @@ public class FPSPlayer : MonoBehaviour
         if (!bowLoaded) return;
         bowLoaded = false;
         Transform newRocket = Instantiate(rocketPrefab);
-        newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.3f - cam.transform.up*0.3f;
+        newRocket.position = projectileSpawnPoint.position;
         newRocket.rotation = cam.transform.rotation;
         weaponOrigin -= Vector3.forward * 0.6f;
         aud.Play();
