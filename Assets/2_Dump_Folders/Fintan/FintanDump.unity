@@ -417,11 +417,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!108 &1501517294 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 8130770513139168248, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
-  m_PrefabInstance: {fileID: 1658674683591634334}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1552676100
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,18 +830,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
-      propertyPath: Fric
-      value: 
-      objectReference: {fileID: 13400000, guid: 56202e75d8ef17841a1060fd2492cb52, type: 2}
-    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
-      propertyPath: NoFric
-      value: 
-      objectReference: {fileID: 13400000, guid: e02cc60ff86b50d4c80e6b6f6d376806, type: 2}
-    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
-      propertyPath: faceLight
-      value: 
-      objectReference: {fileID: 1501517294}
     - target: {fileID: 1658674684814655493, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: m_RootOrder
       value: 1
