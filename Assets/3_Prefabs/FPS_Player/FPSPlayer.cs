@@ -46,6 +46,8 @@ public class FPSPlayer : MonoBehaviour
     int jumps;
     bool inControl;
 
+    int isWalking_hash = Animator.StringToHash("isWalking");
+
 
     enum MoveStates
     {
@@ -156,6 +158,7 @@ public class FPSPlayer : MonoBehaviour
         cameraPitch -= camera_turn.y * mouseSpeedY;
         cameraPitch = Mathf.Clamp(cameraPitch, -80.0f, 80.0f);
         cam.transform.localEulerAngles = Vector3.right * cameraPitch;
+        torso.transform.localEulerAngles = -Vector3.right * (cameraPitch - 90);
         if (looseWeaponSway)
         {
             armsHolder.Translate(armsHolder.right * camera_turn.x * Time.deltaTime * weaponSwayX);
@@ -176,6 +179,7 @@ public class FPSPlayer : MonoBehaviour
         Vector2 movement = ctx.ReadValue<Vector2>();
         xzMovement.x = movement.x;
         xzMovement.z = movement.y;
+        legs.SetBool(isWalking_hash, xzMovement.magnitude > 0.05f);
         xzMovement = xzMovement.normalized;
     }
     public void Jump(InputAction.CallbackContext ctx)
@@ -210,7 +214,6 @@ public class FPSPlayer : MonoBehaviour
     {
         if (dead) return;
         if (!ctx.performed) return;
-        if (moveState == MoveStates.Sprinting && grounded) return;
         Transform newRocket = Instantiate(rocketPrefab);
         newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.3f - cam.transform.up*0.3f;
         newRocket.rotation = cam.transform.rotation;
