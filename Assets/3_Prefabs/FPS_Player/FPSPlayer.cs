@@ -8,6 +8,7 @@ public class FPSPlayer : MonoBehaviour
     static FPSPlayer inst;
 
     Rigidbody rb;
+    AudioSource aud;
 
     [SerializeField] Animator torso;
     Quaternion torsoStartRotation;
@@ -69,6 +70,7 @@ public class FPSPlayer : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
+        aud = GetComponent<AudioSource>();
         camStartPos = cam.transform.localPosition;
         camIPos = cam.transform.localPosition;
         inst = this;
@@ -220,6 +222,7 @@ public class FPSPlayer : MonoBehaviour
         newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.3f - cam.transform.up*0.3f;
         newRocket.rotation = cam.transform.rotation;
         weaponOrigin -= Vector3.forward * 0.6f;
+        aud.Play();
     }
 
     public void Sprint(InputAction.CallbackContext ctx)

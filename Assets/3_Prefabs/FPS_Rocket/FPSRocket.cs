@@ -31,6 +31,7 @@ public class FPSRocket : MonoBehaviour
                 shot.Shot();
             }
             Destroy(this);
+            GetComponent<AudioSource>().Play();
         }
         else
         {
