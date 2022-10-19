@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 65
-  turnDownSpeed: 5
+  turnDownSpeed: 25
   canHit:
     serializedVersion: 2
     m_Bits: 2433

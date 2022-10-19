@@ -29,6 +29,7 @@ public class FPSRocket : MonoBehaviour
             if (shot != null)
             {
                 shot.Shot();
+                Destroy(gameObject); //Make sure projectile just goes away when hitting a weak point
             }
             Destroy(this);
             GetComponent<AudioSource>().Play();
@@ -36,6 +37,7 @@ public class FPSRocket : MonoBehaviour
         else
         {
             transform.Translate(Vector3.forward * distanceToMove);
+            transform.RotateAround(transform.position, transform.right, turnDownSpeed * Time.deltaTime);
         }
     }
 }
