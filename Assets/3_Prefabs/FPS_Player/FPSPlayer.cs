@@ -190,7 +190,7 @@ public class FPSPlayer : MonoBehaviour
         legs.SetBool(isWalking_hash, xzMovement.magnitude > 0.05f);
         xzMovement = xzMovement.normalized;
         if (moveState == MoveStates.Crouching)
-            shadowTrailITime = xzMovement.magnitude * 5.0f;
+            shadowTrailITime = xzMovement.magnitude * 3.0f;
         else
             shadowTrailITime = xzMovement.magnitude * 1.0f;
     }
