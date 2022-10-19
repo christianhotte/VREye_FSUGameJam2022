@@ -293,7 +293,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 511
+    m_Bits: 2559
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -399,6 +399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   torso: {fileID: 3030487561478727225}
   legs: {fileID: 5933303435738288049}
+  shadowTrail: {fileID: 0}
   cam: {fileID: 1658674683545223284}
   armsHolder: {fileID: 1171928264}
   mouseSpeedX: 0.1
