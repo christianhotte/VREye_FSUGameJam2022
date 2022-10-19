@@ -13,6 +13,7 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] Animator torso;
     Quaternion torsoStartRotation;
     [SerializeField] Animator legs;
+    [SerializeField] Animator fpsCrossbow;
 
     [SerializeField] Camera cam;
     [SerializeField] Transform armsHolder;
@@ -49,7 +50,7 @@ public class FPSPlayer : MonoBehaviour
     bool inControl;
 
     int isWalking_hash = Animator.StringToHash("isWalking");
-
+    int isShooting_hash = Animator.StringToHash("FiringGun");
 
     enum MoveStates
     {
@@ -223,6 +224,7 @@ public class FPSPlayer : MonoBehaviour
         newRocket.rotation = cam.transform.rotation;
         weaponOrigin -= Vector3.forward * 0.6f;
         aud.Play();
+        fpsCrossbow.Play(isShooting_hash,-1,0);
     }
 
     public void Sprint(InputAction.CallbackContext ctx)
