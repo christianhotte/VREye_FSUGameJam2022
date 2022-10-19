@@ -16,6 +16,7 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] Animator legs;
     [SerializeField] Animator fpsCrossbow;
     [SerializeField] Animator fpsCanvas;
+    [SerializeField] Animator cloneCanvas;
 
     [SerializeField] TrailRenderer shadowTrail;
     float shadowTrailITime;
@@ -69,6 +70,8 @@ public class FPSPlayer : MonoBehaviour
 
     bool grounded = false;
     bool bowLoaded = true;
+
+    float cloneCooldown = 0;
 
     enum MoveStates
     {
@@ -183,6 +186,14 @@ public class FPSPlayer : MonoBehaviour
         armsHolder.localRotation = Quaternion.Lerp(armsHolder.localRotation, Quaternion.identity, Time.deltaTime * weaponReturn);
         shadowTrail.time = Mathf.MoveTowards(shadowTrail.time, shadowTrailITime, Time.deltaTime);
         faceLight.intensity = Mathf.Lerp(faceLight.intensity, faceLightILight, Time.deltaTime*3.0f);
+        if (cloneCooldown > 0)
+        {
+            cloneCooldown -= Time.deltaTime;
+            if (cloneCooldown <= 0)
+            {
+                cloneCanvas.Play("Clone_Canvas_Regen");
+            }
+        }
     }
 
     public void MouseLook(InputAction.CallbackContext ctx)
@@ -205,6 +216,10 @@ public class FPSPlayer : MonoBehaviour
             armsHolder.localEulerAngles += Vector3.up * camera_turn.x * Time.deltaTime * weaponSwayX * 20.0f;
             armsHolder.localPosition += Vector3.up * camera_turn.y * Time.deltaTime * weaponSwayY;
             armsHolder.localEulerAngles += Vector3.right * camera_turn.y * Time.deltaTime * weaponSwayY * 20.0f;
+        }
+        if (FPS_Clone.inst != null)
+        {
+            FPS_Clone.inst.transform.Rotate(-camera_turn.x * Vector3.up * mouseSpeedX);
         }
     }
 
@@ -295,6 +310,7 @@ public class FPSPlayer : MonoBehaviour
     public void Clone(InputAction.CallbackContext ctx)
     {
         if (dead) return;
+        if (cloneCooldown > 0) return;
         if (!grounded || !ctx.performed) return;
         FPS_Clone newclone = Instantiate(clonePrefab);
         newclone.transform.position = transform.position;
@@ -302,6 +318,8 @@ public class FPSPlayer : MonoBehaviour
         newclone.walkLerpRate = sprintLerpRate;
         newclone.walkSpeed = sprintSpeed;
         newclone.xzMovement = Vector3.forward;
+        cloneCooldown = 10.0f;
+        cloneCanvas.Play("Clone_Canvas_Use");
     }
 
     public void SendOutOfControl(Vector2 _xz, float _bounce)

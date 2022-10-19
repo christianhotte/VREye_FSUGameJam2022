@@ -53,7 +53,7 @@ public class FPS_Clone : MonoBehaviour
     private void Start()
     {
         legs.SetBool(isWalking_hash, true);
-        Destroy(gameObject, 10.0f);
+        Destroy(gameObject, 6.0f);
     }
 
     private bool GroundCheck()
