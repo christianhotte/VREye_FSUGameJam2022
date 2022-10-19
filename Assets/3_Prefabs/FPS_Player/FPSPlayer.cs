@@ -63,6 +63,9 @@ public class FPSPlayer : MonoBehaviour
     int isWalking_hash = Animator.StringToHash("isWalking");
     int isShooting_hash = Animator.StringToHash("FiringGun");
 
+    bool grounded = false;
+    bool bowLoaded = true;
+
     enum MoveStates
     {
         Walking,
@@ -92,7 +95,6 @@ public class FPSPlayer : MonoBehaviour
         faceLightILight = faceLightStartLight;
     }
 
-    bool grounded = false;
     private bool GroundCheck()
     {
         RaycastHit hit;
@@ -238,11 +240,17 @@ public class FPSPlayer : MonoBehaviour
         }
     }
 
+    public void ReloadBow()
+    {
+        bowLoaded = true;
+    }
 
     public void Shoot(InputAction.CallbackContext ctx)
     {
         if (dead) return;
         if (!ctx.performed) return;
+        if (!bowLoaded) return;
+        bowLoaded = false;
         Transform newRocket = Instantiate(rocketPrefab);
         newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.3f - cam.transform.up*0.3f;
         newRocket.rotation = cam.transform.rotation;
