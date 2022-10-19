@@ -540,6 +540,7 @@ MonoBehaviour:
   torso: {fileID: 3030487561478727225}
   legs: {fileID: 5933303435738288049}
   fpsCrossbow: {fileID: 7857814505131758114}
+  fpsCanvas: {fileID: 0}
   shadowTrail: {fileID: 1486957863}
   faceLight: {fileID: 8130770513139168248}
   cam: {fileID: 1658674683545223284}
@@ -561,6 +562,7 @@ MonoBehaviour:
   weaponSwayY: 0.1
   weaponReturn: 5
   rocketPrefab: {fileID: 767697876143057398, guid: 1aac0db7bbc03234ba22a1aac4638a31, type: 3}
+  clonePrefab: {fileID: 5035506155464919225, guid: 1032a46a7bf75b74691bd34d6942ec91, type: 3}
   groundLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -703,6 +705,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2e1e3468-a62a-4628-b971-89f104af1872
     m_ActionName: Map/Die[/Keyboard/k]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1658674684814655491}
+        m_TargetAssemblyTypeName: FPSPlayer, Assembly-CSharp
+        m_MethodName: Clone
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4c8dfdd6-3e91-499b-9eb2-e0a3931ad300
+    m_ActionName: Map/Clone[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Map

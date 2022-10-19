@@ -15,6 +15,7 @@ public class FPSPlayer : MonoBehaviour
     Quaternion torsoStartRotation;
     [SerializeField] Animator legs;
     [SerializeField] Animator fpsCrossbow;
+    [SerializeField] Animator fpsCanvas;
 
     [SerializeField] TrailRenderer shadowTrail;
     float shadowTrailITime;
@@ -44,6 +45,7 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] float weaponReturn;
 
     [SerializeField] Transform rocketPrefab;
+    [SerializeField] FPS_Clone clonePrefab;
     [SerializeField] LayerMask groundLayers;
 
     [SerializeField] PhysicMaterial NoFric;
@@ -63,6 +65,7 @@ public class FPSPlayer : MonoBehaviour
 
     int isWalking_hash = Animator.StringToHash("isWalking");
     int isShooting_hash = Animator.StringToHash("FiringGun");
+    int canvasReload_hash = Animator.StringToHash("FPS_Canvas_Reload");
 
     bool grounded = false;
     bool bowLoaded = true;
@@ -243,6 +246,7 @@ public class FPSPlayer : MonoBehaviour
 
     public void ReloadBow()
     {
+        fpsCanvas.Play(canvasReload_hash, -1, 0.0f);
         bowLoaded = true;
     }
 
@@ -258,6 +262,7 @@ public class FPSPlayer : MonoBehaviour
         weaponOrigin -= Vector3.forward * 0.6f;
         aud.Play();
         fpsCrossbow.Play(isShooting_hash,-1,0);
+        fpsCanvas.Play(isShooting_hash, -1, 0.0f);
     }
 
     public void Sprint(InputAction.CallbackContext ctx)
@@ -285,6 +290,18 @@ public class FPSPlayer : MonoBehaviour
             camIPos = camStartPos;
             faceLightILight = faceLightStartLight;
         }
+    }
+
+    public void Clone(InputAction.CallbackContext ctx)
+    {
+        if (dead) return;
+        if (!grounded || !ctx.performed) return;
+        FPS_Clone newclone = Instantiate(clonePrefab);
+        newclone.transform.position = transform.position;
+        newclone.transform.rotation = transform.rotation;
+        newclone.walkLerpRate = sprintLerpRate;
+        newclone.walkSpeed = sprintSpeed;
+        newclone.xzMovement = Vector3.forward;
     }
 
     public void SendOutOfControl(Vector2 _xz, float _bounce)
