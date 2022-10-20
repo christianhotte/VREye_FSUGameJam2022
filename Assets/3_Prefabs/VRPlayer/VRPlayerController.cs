@@ -36,10 +36,9 @@ public class VRPlayerController : MonoBehaviour
     //[SerializeField] private 
     [Header("General Settings:")]
     [SerializeField(), Tooltip("Health the player starts at")] private int maxHealth;
-    [MinMaxSlider(-50, 50), SerializeField, Tooltip("Vertical elevations at which player head will begin to get pushed away")] private Vector2 softVerticalBounds;
-    [MinMaxSlider(-50, 50), SerializeField, Tooltip("Vertical limits which player head may not move outside of")]              private Vector2 hardVerticalBounds;
-    [Min(0), SerializeField, Tooltip("")]                                                                                      private float headRadius;
-    [SerializeField, Tooltip("Physics layers which head is able to collide with")]                                             private LayerMask obstructionLayers;
+    [MinMaxSlider(-50, 50), SerializeField, Tooltip("Vertical limits which player head may not move outside of")] private Vector2 hardVerticalBounds;
+    [Min(0), SerializeField, Tooltip("")]                                                                         private float headRadius;
+    [SerializeField, Tooltip("Physics layers which head is able to collide with")]                                private LayerMask obstructionLayers;
     [Header("Death Sequencing:")]
     [Min(0.01f), SerializeField(), Tooltip("Time (in seconds) taken for eye to fade after VR player dies")] private float death_EyeFadeTime;
     [Min(0.01f), SerializeField(), Tooltip("Curve describing fade out effect of eye light upon death")]     private AnimationCurve death_EyeFadeCurve;
@@ -178,6 +177,31 @@ public class VRPlayerController : MonoBehaviour
             case HandType.Both:
                 main.SendHapticImpulse(UnityEngine.XR.InputDeviceRole.LeftHanded, amplitude, duration);
                 main.SendHapticImpulse(UnityEngine.XR.InputDeviceRole.RightHanded, amplitude, duration);
+                return;
+        }
+    }
+    /// <summary>
+    /// Sends a haptic impulse to VR player's hand(s).
+    /// </summary>
+    /// <param name="targetHand">Which hand(s) to send the impulse to.</param>
+    /// <param name="amplitude">Strenth (0-1) of impulse.</param>
+    /// <param name="duration">Length (in seconds) of impulse.</param>
+    public static void SendHapticImpulse(HandType targetHand, Vector2 haptics)
+    {
+        if (main == null) return;
+        switch (targetHand)
+        {
+            case HandType.None:
+                return;
+            case HandType.Left:
+                main.SendHapticImpulse(UnityEngine.XR.InputDeviceRole.LeftHanded, haptics.x, haptics.y);
+                return;
+            case HandType.Right:
+                main.SendHapticImpulse(UnityEngine.XR.InputDeviceRole.RightHanded, haptics.x, haptics.y);
+                return;
+            case HandType.Both:
+                main.SendHapticImpulse(UnityEngine.XR.InputDeviceRole.LeftHanded, haptics.x, haptics.y);
+                main.SendHapticImpulse(UnityEngine.XR.InputDeviceRole.RightHanded, haptics.x, haptics.y);
                 return;
         }
     }
