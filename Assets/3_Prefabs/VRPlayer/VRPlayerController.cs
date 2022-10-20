@@ -181,6 +181,31 @@ public class VRPlayerController : MonoBehaviour
                 return;
         }
     }
+    /// <summary>
+    /// Sends a haptic impulse to VR player's hand(s).
+    /// </summary>
+    /// <param name="targetHand">Which hand(s) to send the impulse to.</param>
+    /// <param name="amplitude">Strenth (0-1) of impulse.</param>
+    /// <param name="duration">Length (in seconds) of impulse.</param>
+    public static void SendHapticImpulse(HandType targetHand, Vector2 haptics)
+    {
+        if (main == null) return;
+        switch (targetHand)
+        {
+            case HandType.None:
+                return;
+            case HandType.Left:
+                main.SendHapticImpulse(UnityEngine.XR.InputDeviceRole.LeftHanded, haptics.x, haptics.y);
+                return;
+            case HandType.Right:
+                main.SendHapticImpulse(UnityEngine.XR.InputDeviceRole.RightHanded, haptics.x, haptics.y);
+                return;
+            case HandType.Both:
+                main.SendHapticImpulse(UnityEngine.XR.InputDeviceRole.LeftHanded, haptics.x, haptics.y);
+                main.SendHapticImpulse(UnityEngine.XR.InputDeviceRole.RightHanded, haptics.x, haptics.y);
+                return;
+        }
+    }
 
     //UTILITY METHODS:
     private void InstantiateHand(HandType handType)
