@@ -647,9 +647,9 @@ MonoBehaviour:
   raiseSpeedMultiplier: 0.5
   dropMultiplierAngle: 30
   raiseMultiplierAngle: 50
-  neutralOriginPushFactor: 0.3
-  gripMoveLerpRate: 1.3
-  maxGripMoveSpeed: 10
+  neutralOriginPushFactor: 0.05
+  gripMoveLerpRate: 1.25
+  maxGripMoveSpeed: 9
   smoothGripStopRate: 2
   outerBoundRadius: 120
   palmCollisionRadius: 0.03

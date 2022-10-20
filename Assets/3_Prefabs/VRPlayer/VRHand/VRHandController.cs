@@ -84,6 +84,7 @@ public class VRHandController : MonoBehaviour
     private float gripValue;                    //How closed this hand currently is
     internal GripType gripType = GripType.Open; //What grip form the hand is currently in
     private Vector3 surfaceGripTarget;          //Target which moves to position gripped by hand
+    private Vector3 prevControllerTarget;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -128,6 +129,7 @@ public class VRHandController : MonoBehaviour
         if (controllerTarget != null)
         {
             obstructedTarget.position = controllerTarget.position; //Set target reference position if possible
+            prevControllerTarget = controllerTarget.position;
         }
             
         if (side == HandType.Right)
@@ -145,20 +147,17 @@ public class VRHandController : MonoBehaviour
         if (controllerTarget != null && obstructedTarget != null) //Both targeting references need to be present for system to function
         {
             //Initialize:
-            float scaleMultiplier = 1; if (VRPlayerController.main != null) scaleMultiplier = VRPlayerController.main.transform.localScale.x; //Get multiplier for maintaining properties despite changes in scaling
-            Vector3 prevPosition = transform.position;                                                                                        //Get position before all checks
-            Vector3 offsetTargetPos = controllerTarget.position + controllerTarget.TransformVector(followOffset);                             //Get actual target position to seek (ALWAYS home toward this, not controllerTarget)
-            float sideMult = 1; if (side == HandType.Right) sideMult = -1;                                                                    //Initialize a multiplier for flipping direction depending on hand side
+            float scaleMultiplier = 1; if (VRPlayerController.main != null) scaleMultiplier = VRPlayerController.main.transform.localScale.x;  //Get multiplier for maintaining properties despite changes in scaling
+            Vector3 prevPosition = transform.position;                                                                                         //Get position before all checks
+            Vector3 offsetTargetPos = controllerTarget.position + controllerTarget.TransformVector(followOffset);                              //Get actual target position to seek (ALWAYS home toward this, not controllerTarget)
+            float sideMult = 1; if (side == HandType.Right) sideMult = -1;                                                                     //Initialize a multiplier for flipping direction depending on hand side
+            bool pullingBuilding = false; if (grabbedBuilding != null && otherHand.grabbedBuilding == grabbedBuilding) pullingBuilding = true; //Indicate whether or not player is pulling on a building
 
             //Special grip behaviors:
             switch (gripType)
             {
                 case GripType.GrabLocked: //Player is grabbing something and is locked into the world
-                    if (grabbedBuilding != null && otherHand.grabbedBuilding == grabbedBuilding) //Both hands are grabbing the same building
-                    {
-
-                    }
-                    else
+                    if (!pullingBuilding) //Player can only move when not pulling on a building
                     {
                         //Move player origin:
                         Vector3 currentOriginPos = VRPlayerController.main.origin.position; //Get quick reference for current position of origin
@@ -316,7 +315,7 @@ public class VRHandController : MonoBehaviour
                 fingerTargets[i].position = targetFingerPos; //Set absolute finger position
             }
 
-            //Move origin again:
+            //Force effects:
             if (projectionDepth.y < 0 && gripType == GripType.Open)
             {
                 Vector3 currentOriginPos = VRPlayerController.main.origin.position; //Get quick reference for current position of origin
@@ -339,8 +338,12 @@ public class VRHandController : MonoBehaviour
                 }
 
                 //Cleanup
-                lastOriginVelocity = targetOriginPos - currentOriginPos;   //Record velocity
+                lastOriginVelocity += targetOriginPos - currentOriginPos;  //Record velocity
                 VRPlayerController.main.origin.position = targetOriginPos; //Apply positional change
+            }
+            if (gripType == GripType.GrabLocked && pullingBuilding) //Both hands are grabbing the same building
+            {
+                grabbedBuilding.Pull((controllerTarget.position - prevControllerTarget) * Time.deltaTime);
             }
 
             //Commit hand movement:
@@ -354,7 +357,7 @@ public class VRHandController : MonoBehaviour
                     float strikeForce = prevVelocity.magnitude;
                     VRPlayerController.SendHapticImpulse(side, maxSlamHaptics);
                     audioSource.PlayOneShot(stompSound);
-                    print(strikeForce);
+                    //print(strikeForce);
                 }
 
                 //Cleanup:
@@ -367,6 +370,7 @@ public class VRHandController : MonoBehaviour
                 prevObstructed = false;
             }
             prevVelocity = currentVelocity; //Save current velocity
+            prevControllerTarget = controllerTarget.position;
         }
     }
 

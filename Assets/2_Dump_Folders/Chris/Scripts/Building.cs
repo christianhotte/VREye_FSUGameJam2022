@@ -10,12 +10,12 @@ public class Building : MonoBehaviour
 
     //Settings:
     [Header("Shake Settings:")]
-    [SerializeField, Tooltip("Maximum speed at which house can shake")]                                                             private float maxShakeFreq;
-    [SerializeField, Tooltip("Maximum distance by which house shakes")]                                                             private float maxShakeDist;
-    [SerializeField, Tooltip("Modifies shake perpendicularly to cross-axis position in order to make it appear a bit more random")] private float shakeAxisOffset;
-    [SerializeField, Tooltip("Curve describing intensity of shake based on net pull force")]                                        private AnimationCurve shakeIntensityCurve;
+    [SerializeField, Tooltip("Maximum speed at which house can shake")]                      private float maxShakeFreq;
+    [SerializeField, Tooltip("Maximum distance by which house shakes")]                      private float maxShakeDist;
+    [SerializeField, Tooltip("Curve describing intensity of shake based on net pull force")] private AnimationCurve shakeIntensityCurve;
     [Header("Pull Settings:")]
     [SerializeField, Tooltip("Net pull force at which building will come loose from the ground")] private float tearForce;
+    [Range(0, 1), SerializeField]                                                                 private float strainForceValue;
     [Header("Sounds:")]
     [SerializeField] private AudioClip strainSound;
     [SerializeField] private AudioClip pullFreeSound;
@@ -25,8 +25,8 @@ public class Building : MonoBehaviour
 
     internal bool uprooted = false; //Turns true when building is torn out of the ground
     private float netPullForce;     //Total amount of force dedicated to pulling on this building
-    private float currentShakeFrequency;
-    private float currentShakeMagnitude;
+    private bool strainTriggered;
+    private Vector3 startingPos;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -34,12 +34,23 @@ public class Building : MonoBehaviour
         //Get objects & components:
         model = GetComponentInChildren<MeshFilter>().transform; //Get model transform
         audioSource = GetComponent<AudioSource>();              //Get audiosource
+        startingPos = model.localPosition;
     }
     private void Update()
     {
-        if (!uprooted) //Building is not currently uprooted
+        if (!uprooted && grabbingHands.Count > 1) //Building is not currently uprooted but is grabbed with both hands
         {
-            
+            if (netPullForce > tearForce * strainForceValue)
+            {
+                float speedValue = maxShakeFreq;
+                float amountValue = maxShakeDist * shakeIntensityCurve.Evaluate(netPullForce / tearForce);
+
+                Vector3 newPosition = model.localPosition;
+                newPosition.x = startingPos.x + Mathf.Sin(Time.time * speedValue) * amountValue;
+                newPosition.z = startingPos.z + Mathf.Sin(Time.time * speedValue) * amountValue;
+
+                model.localPosition = newPosition;
+            }
         }
     }
 
@@ -53,7 +64,7 @@ public class Building : MonoBehaviour
         if (!grabbingHands.Contains(hand)) grabbingHands.Add(hand);
         if (grabbingHands.Count > 1) //Building is being grabbed with both hands
         {
-            audioSource.PlayOneShot(strainSound);
+            model.GetComponent<MeshCollider>().enabled = false;
         }
     }
     /// <summary>
@@ -61,11 +72,29 @@ public class Building : MonoBehaviour
     /// </summary>
     public void Pull(Vector3 force)
     {
-        netPullForce = Mathf.Max(0, netPullForce + force.y); //Add force to net pull force (do not go below zero)
-        if (netPullForce >= tearForce)
+        if (!uprooted)
         {
-            //Tear up building:
-            uprooted = true; //Indicate that building is uprooted
+            print("TotalForce: " + netPullForce);
+            netPullForce = Mathf.Max(0, netPullForce + force.y);        //Add force to net pull force (do not go below zero)
+            float forceValue = Mathf.Clamp01(netPullForce / tearForce); //Get value representing how pulled building is
+
+            if (!strainTriggered && forceValue > strainForceValue)
+            {
+                strainTriggered = true;
+                audioSource.PlayOneShot(strainSound);
+            }
+            if (netPullForce >= tearForce)
+            {
+                //Tear up building:
+                uprooted = true; //Indicate that building is uprooted
+                model.localPosition = startingPos; //Return model to normal position
+                audioSource.PlayOneShot(pullFreeSound); //Play pull sound
+            }
+            if (netPullForce <= 0)
+            {
+                strainTriggered = false;
+                model.localPosition = startingPos; //Return model to normal position
+            }
         }
     }
     /// <summary>
@@ -76,5 +105,8 @@ public class Building : MonoBehaviour
         //Cleanup:
         if (grabbingHands.Contains(hand)) grabbingHands.Remove(hand);
         netPullForce = 0;
+        strainTriggered = false;
+        model.localPosition = startingPos; //Return model to normal position
+        model.GetComponent<MeshCollider>().enabled = true;
     }
 }
