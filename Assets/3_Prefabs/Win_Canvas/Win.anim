@@ -141,8 +141,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 5.0333333
-        value: 1
+        time: 9
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -187,8 +187,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 5.0333333
-        value: 1
+        time: 9
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -233,8 +233,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 5.0333333
-        value: 1
+        time: 9
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -336,7 +336,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 5.0333333
+    m_StopTime: 9
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -476,8 +476,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 5.0333333
-        value: 1
+        time: 9
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -522,8 +522,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 5.0333333
-        value: 1
+        time: 9
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -568,8 +568,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 5.0333333
-        value: 1
+        time: 9
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -660,4 +660,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 8.95
+    functionName: SceneRestart
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
