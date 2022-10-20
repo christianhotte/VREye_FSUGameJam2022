@@ -515,7 +515,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  spawnSound: {fileID: 8300000, guid: 2e5bb480826ef8d429981133e392ad6c, type: 3}
+  spawnSound: {fileID: 8300000, guid: 14cdc182e30da4e4494301a45eb1da03, type: 3}
   deathSound: {fileID: 8300000, guid: 2e5bb480826ef8d429981133e392ad6c, type: 3}
 --- !u!82 &875417578051529296
 AudioSource:
