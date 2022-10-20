@@ -541,6 +541,7 @@ MonoBehaviour:
   legs: {fileID: 5933303435738288049}
   bodyMesh: {fileID: 6476973786337909524}
   gunMesh: {fileID: 4418376880121839104}
+  boltMesh: {fileID: 7633423590442080076}
   fpsCrossbow: {fileID: 7857814505131758114}
   fpsCanvas: {fileID: 0}
   cloneCanvas: {fileID: 0}
@@ -750,6 +751,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 780daa67-6220-4006-9152-29f2f3e54490
     m_ActionName: Map/Invis[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 32f37444-ccb3-46ce-aca6-cc4e44935ee8
+    m_ActionName: Map/Escape[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Map
@@ -1124,6 +1129,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1658674684814655491}
+--- !u!23 &7633423590442080076 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7666698274259546594, guid: 2470d789504948c4a9f07439b761bf8c, type: 3}
+  m_PrefabInstance: {fileID: 255239779895223982}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &7857814505131758114 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7964153677105493132, guid: 2470d789504948c4a9f07439b761bf8c, type: 3}

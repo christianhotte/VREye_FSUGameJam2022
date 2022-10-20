@@ -1281,10 +1281,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
-      propertyPath: boltMesh
-      value: 
-      objectReference: {fileID: 244903257}
-    - target: {fileID: 1658674684814655491, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
       propertyPath: fpsCanvas
       value: 
       objectReference: {fileID: 1742436800}
@@ -1362,11 +1358,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
---- !u!23 &244903257 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 7633423590442080076, guid: 90770c7feddc13441b3e874735e1c2cb, type: 3}
-  m_PrefabInstance: {fileID: 244903256}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &251989397
 PrefabInstance:
   m_ObjectHideFlags: 0
