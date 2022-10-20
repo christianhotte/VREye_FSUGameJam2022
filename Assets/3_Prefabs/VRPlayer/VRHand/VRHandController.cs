@@ -124,6 +124,7 @@ public class VRHandController : MonoBehaviour
             float scaleMultiplier = 1; if (VRPlayerController.main != null) scaleMultiplier = VRPlayerController.main.transform.localScale.x; //Get multiplier for maintaining properties despite changes in scaling
             Vector3 prevPosition = transform.position;                                                                                        //Get position before all checks
             Vector3 offsetTargetPos = controllerTarget.position + controllerTarget.TransformVector(followOffset);                             //Get actual target position to seek (ALWAYS home toward this, not controllerTarget)
+            float sideMult = 1; if (side == HandType.Right) sideMult = -1;                                                                    //Initialize a multiplier for flipping direction depending on hand side
 
             //Special grip behaviors:
             switch (gripType)
@@ -140,12 +141,16 @@ public class VRHandController : MonoBehaviour
                     {
                         targetOriginPos = Vector3.MoveTowards(currentOriginPos, targetOriginPos, adjMaxSpeed); //Move origin at max speed toward target
                     }
+
+                    //Clamp bounds:
                     Vector2 flatOriginPosition = new Vector2(targetOriginPos.x, targetOriginPos.z); //Player is trying to move outside boundary
                     if (Vector2.Distance(flatOriginPosition, Vector2.zero) > outerBoundRadius) //Player is trying to move out of bounds
                     {
                         flatOriginPosition = flatOriginPosition.normalized * outerBoundRadius;                        //Move player to edge of boundary
                         targetOriginPos = new Vector3(flatOriginPosition.x, targetOriginPos.y, flatOriginPosition.y); //Commit movement
                     }
+
+                    //Cleanup
                     lastOriginVelocity = targetOriginPos - currentOriginPos;   //Record velocity
                     VRPlayerController.main.origin.position = targetOriginPos; //Apply positional change
                     break;
@@ -155,7 +160,7 @@ public class VRHandController : MonoBehaviour
                     break;
                 case GripType.Open: //Player's hand is open
                     //Palm state check:
-                    if (Physics.CheckSphere(transform.position + (palmSurfaceCheckDistance * scaleMultiplier * transform.right), palmSurfaceCheckRadius * scaleMultiplier, obstructionLayers)) //Palm is touching surface
+                    if (Physics.CheckSphere(transform.position + (palmSurfaceCheckDistance * scaleMultiplier * transform.right * sideMult), palmSurfaceCheckRadius * scaleMultiplier, obstructionLayers)) //Palm is touching surface
                     {
                         palmOnSurface = true; //Indicate that palm is now on surface
                     }
@@ -169,6 +174,13 @@ public class VRHandController : MonoBehaviour
             {
                 //Find rotation target:
                 Quaternion rotTarget = controllerTarget.rotation; //Get default rotation target from controller
+                if (side == HandType.Right) //Flip rotation for right hand
+                {
+                    rotTarget = Quaternion.AngleAxis(180, Vector3.right) * rotTarget;
+                    Vector3 rotEuler = rotTarget.eulerAngles;
+                    rotEuler.y *= -1; rotEuler.z *= -1;
+                    rotTarget = Quaternion.Euler(rotEuler);
+                }
 
                 //Rotate system:
                 Quaternion newRotation = Quaternion.Slerp(transform.rotation, rotTarget, angularFollowSpeed * Time.deltaTime); //Get new rotation which homes toward rotation target
@@ -190,13 +202,23 @@ public class VRHandController : MonoBehaviour
                 if (lastOriginVelocity != Vector3.zero) //Origin has some velocity remaining from movement
                 {
                     lastOriginVelocity = Vector3.Lerp(lastOriginVelocity, Vector3.zero, smoothGripStopRate * Time.deltaTime);
-                    VRPlayerController.main.origin.position += lastOriginVelocity;
+                    
+                    Vector3 targetOriginPos = VRPlayerController.main.origin.position + lastOriginVelocity;
+                    Vector2 flatOriginPosition = new Vector2(targetOriginPos.x, targetOriginPos.z); //Player is trying to move outside boundary
+                    if (Vector2.Distance(flatOriginPosition, Vector2.zero) > outerBoundRadius) //Player is trying to move out of bounds
+                    {
+                        flatOriginPosition = flatOriginPosition.normalized * outerBoundRadius;                        //Move player to edge of boundary
+                        targetOriginPos = new Vector3(flatOriginPosition.x, targetOriginPos.y, flatOriginPosition.y); //Commit movement
+                    }
+
+                    //Cleanup:
+                    VRPlayerController.main.origin.position = targetOriginPos;
                     if (Vector3.Distance(lastOriginVelocity, Vector3.zero) < 0.001f) lastOriginVelocity = Vector3.zero;
                 }
             }
-            else
+            else //Player is grabMoving
             {
-                offsetTargetPos = surfaceGripTarget;
+                offsetTargetPos = surfaceGripTarget; //Freeze hands while grabmoving
             }
 
             //Modify position:

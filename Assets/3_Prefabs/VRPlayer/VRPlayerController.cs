@@ -5,6 +5,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 using GlobalEnums;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
 using Unity.XR.CoreUtils;
+using RootMotion.FinalIK;
+using UnityEngine.Events;
 
 public class VRPlayerController : MonoBehaviour
 {
@@ -31,8 +33,13 @@ public class VRPlayerController : MonoBehaviour
     [Header("References & Prefabs:")]
     [SerializeField()] private GameObject handPrefab;
     [SerializeField()] private Transform headModel;
+    //[SerializeField] private 
     [Header("General Settings:")]
     [SerializeField(), Tooltip("Health the player starts at")] private int maxHealth;
+    [MinMaxSlider(-50, 50), SerializeField, Tooltip("Vertical elevations at which player head will begin to get pushed away")] private Vector2 softVerticalBounds;
+    [MinMaxSlider(-50, 50), SerializeField, Tooltip("Vertical limits which player head may not move outside of")]              private Vector2 hardVerticalBounds;
+    [Min(0), SerializeField, Tooltip("")]                                                                                      private float headRadius;
+    [SerializeField, Tooltip("Physics layers which head is able to collide with")]                                             private LayerMask obstructionLayers;
     [Header("Death Sequencing:")]
     [Min(0.01f), SerializeField(), Tooltip("Time (in seconds) taken for eye to fade after VR player dies")] private float death_EyeFadeTime;
     [Min(0.01f), SerializeField(), Tooltip("Curve describing fade out effect of eye light upon death")]     private AnimationCurve death_EyeFadeCurve;
@@ -43,8 +50,14 @@ public class VRPlayerController : MonoBehaviour
     //Runtime Vars:
     internal int health;       //Amount of health player currently has
     private bool dead = false; //Whether or not VR player is currently dead
+    private Vector3 prevHeadPos;
 
     //EVENTS & COROUTINES:
+    /// <summary>
+    /// Event called whenever boss takes damage.
+    /// </summary>
+    public static UnityAction isHurtEvent;
+
     IEnumerator DeathSequence()
     {
         //Eye fade:
@@ -83,10 +96,36 @@ public class VRPlayerController : MonoBehaviour
         if (handControllers[0].gameObject.name.Contains("Left")) { leftController = handControllers[0].transform; } else { rightController = handControllers[0].transform; } //Assign first hand
         if (rightController == null) { rightController = handControllers[1].transform; } else { leftController = handControllers[1].transform; }                             //Assign second hand
         InstantiateHand(HandType.Left); InstantiateHand(HandType.Right);                                                                                                     //Instantiate and set up objects for both hands
+
+        //Event subscriptions:
+        isHurtEvent += OnHurtDebug; //Base event subscription
+    }
+    private void OnDisable()
+    {
+        isHurtEvent -= OnHurtDebug;
     }
     private void Start()
     {
-        audioSource.PlayOneShot(spawnSound);
+        //Initialize:
+        audioSource.PlayOneShot(spawnSound); //Play spawn sound
+        prevHeadPos = head.position;         //Get starting position of head
+    }
+    private void Update()
+    {
+        //Keep head within bounds:
+        Vector3 newHeadPos = head.transform.position;
+        if (newHeadPos.y < hardVerticalBounds.x) origin.Translate(0, hardVerticalBounds.x - newHeadPos.y, 0);      //Immediately move origin vertically if player's head is outside bounds
+        else if (newHeadPos.y > hardVerticalBounds.y) origin.Translate(0, hardVerticalBounds.y - newHeadPos.y, 0); //Immediately move origin vertically if player's head is outside bounds
+
+        //Check head obstruction:
+        Vector3 headMovement = head.transform.position - prevHeadPos; //Get head movement since last update
+        if (Physics.SphereCast(prevHeadPos, headRadius, headMovement.normalized, out RaycastHit hit, headMovement.magnitude, obstructionLayers))
+        {
+            float displacementLength = (headMovement.magnitude - hit.distance) + 0.001f; //Get distance by which to displace origin based on head obstruction
+            Vector3 offsetAmount = -headMovement.normalized * displacementLength;        //Get amount to offset origin by
+            origin.position += offsetAmount;                                             //Apply offset to origin
+        }
+        prevHeadPos = head.transform.position; //Record head position
     }
 
     //FUNCTIONALITY METHODS:
@@ -115,6 +154,7 @@ public class VRPlayerController : MonoBehaviour
         //Damage procedure:
         main.health -= damage;            //Deal designated amount of damage to VR player
         if (main.health <= 0) main.Die(); //Kill VR player if health drops below zero
+        isHurtEvent();                    //Trigger hurt event
     }
     /// <summary>
     /// Sends a haptic impulse to VR player's hand(s).
@@ -177,10 +217,8 @@ public class VRPlayerController : MonoBehaviour
             rightHand = newHand;                                  //Store reference to new right hand
             otherHand = leftHand;                                 //Get other hand
 
-            //Side-specific setup:
-            Vector3 newScale = newHand.transform.localScale; //Get scale
-            newScale.x *= -1;                                //Flip scale along X axis
-            //newHand.transform.localScale = newScale;       //Apply new scale to hand
+            //Flip hand:
+            newHand.transform.localScale = Vector3.one * -1; //Flip hand along all axes
         }
 
         //Try to get other hand:
@@ -205,4 +243,5 @@ public class VRPlayerController : MonoBehaviour
             }
         }
     }
+    private void OnHurtDebug() { }
 }
