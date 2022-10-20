@@ -53,6 +53,7 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] Transform rocketPrefab;
     [SerializeField] FPS_Clone clonePrefab;
     [SerializeField] GameObject deathCanvasPrefab;
+    [SerializeField] GameObject winCanvasPrefab;
     [SerializeField] LayerMask groundLayers;
 
     [SerializeField] PhysicMaterial NoFric;
@@ -397,10 +398,25 @@ public class FPSPlayer : MonoBehaviour
         }
     }
 
+    public void Win()
+    {
+        xzMovement = Vector3.zero;
+        dead = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        fpsCanvas.gameObject.SetActive(false);
+        Instantiate(winCanvasPrefab);
+    }
+
+    public static void StaticWin()
+    {
+        if (inst != null) inst.Win();
+    }
+
     public void ForceDie(InputAction.CallbackContext ctx)
     {
         if (!ctx.performed) return;
-        TakeDamage();
+        StaticWin();
     }
 
     public static void FPSShake(float intensity, int times, float curve, float lag)
