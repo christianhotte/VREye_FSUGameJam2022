@@ -15,6 +15,7 @@ public class FPS_Clone : MonoBehaviour
     [SerializeField] Animator legs;
 
     [SerializeField] TrailRenderer shadowTrail;
+    [SerializeField] CloneTrailFade cloneTrailFade;
     float shadowTrailITime;
     [SerializeField] Light faceLight;
     float faceLightStartLight;
@@ -90,6 +91,11 @@ public class FPS_Clone : MonoBehaviour
     private void LateUpdate()
     {
         faceLight.intensity = Mathf.Lerp(faceLight.intensity, faceLightILight, Time.deltaTime * 3.0f);
+    }
+
+    private void OnDestroy()
+    {
+        cloneTrailFade.BreakOff();
     }
 
 }
