@@ -433,7 +433,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2559
+    m_Bits: 6655
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -541,6 +541,7 @@ MonoBehaviour:
   legs: {fileID: 5933303435738288049}
   fpsCrossbow: {fileID: 7857814505131758114}
   fpsCanvas: {fileID: 0}
+  cloneCanvas: {fileID: 0}
   shadowTrail: {fileID: 1486957863}
   faceLight: {fileID: 8130770513139168248}
   cam: {fileID: 1658674683545223284}
@@ -563,6 +564,7 @@ MonoBehaviour:
   weaponReturn: 5
   rocketPrefab: {fileID: 767697876143057398, guid: 1aac0db7bbc03234ba22a1aac4638a31, type: 3}
   clonePrefab: {fileID: 5035506155464919225, guid: 1032a46a7bf75b74691bd34d6942ec91, type: 3}
+  deathCanvasPrefab: {fileID: 5597117968871627655, guid: 5779039ede5f22f4daaa24b68e64ebad, type: 3}
   groundLayers:
     serializedVersion: 2
     m_Bits: 0

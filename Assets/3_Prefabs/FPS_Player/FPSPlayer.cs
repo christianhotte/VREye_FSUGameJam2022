@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class FPSPlayer : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] Animator fpsCrossbow;
     [SerializeField] Animator fpsCanvas;
     [SerializeField] Animator cloneCanvas;
+    [SerializeField] Animation canvasBackColor;
+    [SerializeField] List<Animator> canvasHearts; 
 
     [SerializeField] TrailRenderer shadowTrail;
     float shadowTrailITime;
@@ -47,6 +50,7 @@ public class FPSPlayer : MonoBehaviour
 
     [SerializeField] Transform rocketPrefab;
     [SerializeField] FPS_Clone clonePrefab;
+    [SerializeField] GameObject deathCanvasPrefab;
     [SerializeField] LayerMask groundLayers;
 
     [SerializeField] PhysicMaterial NoFric;
@@ -72,6 +76,8 @@ public class FPSPlayer : MonoBehaviour
     bool bowLoaded = true;
 
     float cloneCooldown = 0;
+
+    int hp = 3;
 
     enum MoveStates
     {
@@ -194,6 +200,7 @@ public class FPSPlayer : MonoBehaviour
                 cloneCanvas.Play("Clone_Canvas_Regen");
             }
         }
+        fpsCrossbow.transform.localScale = Vector3.Lerp(fpsCrossbow.transform.localScale, Vector3.one, Time.deltaTime * 2.0f);
     }
 
     public void MouseLook(InputAction.CallbackContext ctx)
@@ -219,7 +226,10 @@ public class FPSPlayer : MonoBehaviour
         }
         if (FPS_Clone.inst != null)
         {
-            FPS_Clone.inst.transform.Rotate(-camera_turn.x * Vector3.up * mouseSpeedX);
+            if (xzMovement.magnitude > 0.1f)
+                FPS_Clone.inst.transform.Rotate(-camera_turn.x * Vector3.up * mouseSpeedX);
+            else
+                FPS_Clone.inst.transform.Rotate(-camera_turn.x * Vector3.up * mouseSpeedX * 4.0f);
         }
     }
 
@@ -332,21 +342,53 @@ public class FPSPlayer : MonoBehaviour
         inControl = false;
     }
 
-    public void Die()
+    private void DeathEssentials()
     {
-        camIPos = camStartPos - Vector3.up * deathDistance;
+        xzMovement = Vector3.zero;
         dead = true;
         inControl = false;
-        iWeaponOrigin = -Vector3.up*2.0f;
+        iWeaponOrigin = -Vector3.up * 2.0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        legs.gameObject.SetActive(false);
+        fpsCanvas.gameObject.SetActive(false);
+        Instantiate(deathCanvasPrefab);
+        rb.velocity = Vector3.zero;
+    }
+
+    public void Die()
+    {
+        DeathEssentials();
+        camIPos = camStartPos - Vector3.up * deathDistance;
+    }
+
+    public void Squish()
+    {
+        DeathEssentials();
+        camIPos = camStartPos - Vector3.up * 1.2f;
+    }
+
+    public void TakeDamage()
+    {
+        hp -= 1;
+        if (hp > 0)
+        {
+            fpsCrossbow.transform.localScale += (Vector3.up + Vector3.right) * 0.5f;
+            canvasBackColor.Stop();
+            canvasBackColor.Play("BackColor_Flash", PlayMode.StopAll);
+            canvasHearts[canvasHearts.Count - 1].Play("FPS_Heart_Fade", -1, 0.0f);
+            canvasHearts.Remove(canvasHearts[canvasHearts.Count - 1]);
+        }
+        else
+        {
+            Die();
+        }
     }
 
     public void ForceDie(InputAction.CallbackContext ctx)
     {
         if (!ctx.performed) return;
-        Die();
-        // SendOutOfControl(Vector3.right * 5.0f, 4.0f);
+        TakeDamage();
     }
 
     public static void FPSShake(float intensity, int times, float curve, float lag)
