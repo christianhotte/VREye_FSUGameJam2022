@@ -17,6 +17,7 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] Animator legs;
     [SerializeField] SkinnedMeshRenderer bodyMesh;
     [SerializeField] SkinnedMeshRenderer gunMesh;
+    [SerializeField] MeshRenderer boltMesh;
     [SerializeField] Animator fpsCrossbow;
     [SerializeField] Animator fpsCanvas;
     [SerializeField] Animator cloneCanvas;
@@ -78,6 +79,7 @@ public class FPSPlayer : MonoBehaviour
     int canvasReload_hash = Animator.StringToHash("FPS_Canvas_Reload");
 
     bool grounded = false;
+    bool hithead = false;
     bool bowLoaded = true;
 
     float cloneCooldown = 0;
@@ -125,6 +127,16 @@ public class FPSPlayer : MonoBehaviour
         return false;
     }
 
+    private bool HitHeadCheck()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.up, out hit, 1.3f))
+        {
+            return true;
+        }
+        return false;
+    }
+
     private void FixedUpdate()
     {
         if (controlTimeRemaining != 0)
@@ -134,7 +146,14 @@ public class FPSPlayer : MonoBehaviour
 
         Vector3 tempVel = rb.velocity;
         bool groundedLastFrame = grounded;
+        bool hitheadLastFrame = hithead;
         grounded = GroundCheck();
+        hithead = HitHeadCheck();
+        if (hithead && !hitheadLastFrame)
+        {
+            if (customFall > 0)
+                customFall = -customFall * 0.1f;
+        }
         if (grounded && !groundedLastFrame) weaponOrigin -= Vector3.up * 0.25f;
         if (controlTimeRemaining == 0)
         {
@@ -300,6 +319,7 @@ public class FPSPlayer : MonoBehaviour
         if (dead) return;
         if (!ctx.performed) return;
         if (!bowLoaded) return;
+        if (!boltMesh.enabled) return;
         bowLoaded = false;
         Transform newRocket = Instantiate(rocketPrefab);
         newRocket.position = projectileSpawnPoint.position;
@@ -484,6 +504,7 @@ public class FPSPlayer : MonoBehaviour
         bodyMesh.enabled = !bodyMesh.enabled;
         shadowTrail.enabled = !shadowTrail.enabled;
         faceLight.enabled = !faceLight.enabled;
+        boltMesh.enabled = !faceLight.enabled;
     }
     void HideSetAll(bool _set)
     {
@@ -491,6 +512,7 @@ public class FPSPlayer : MonoBehaviour
         bodyMesh.enabled = _set;
         shadowTrail.enabled = _set;
         faceLight.enabled = _set;
+        boltMesh.enabled = _set;
     }
     public void DoInvis(InputAction.CallbackContext ctx)
     {
