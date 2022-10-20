@@ -138,7 +138,7 @@ MonoBehaviour:
     m_Bits: 2433
   destroyOnHit:
     serializedVersion: 2
-    m_Bits: 2432
+    m_Bits: 0
   monsterHeadLayer: 7
   monsterHandLayer: 8
   ps: {fileID: 7978375999736749664}

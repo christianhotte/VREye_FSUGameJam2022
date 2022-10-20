@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BossHpBar : MonoBehaviour
 {
+    public static BossHpBar inst;
+
     [SerializeField] Transform barFront;
     [SerializeField] Transform barBack;
 
@@ -18,6 +20,17 @@ public class BossHpBar : MonoBehaviour
         if (fill < 0) fill = 0;
         barFront.localScale = new Vector3(fill, 1, 1);
         backBarTimer = 0.8f;
+    }
+
+    private void Awake()
+    {
+        inst = this;
+        gameObject.SetActive(false);
+    }
+
+    public static void DisplayBossHealth()
+    {
+        if (inst != null) inst.gameObject.SetActive(true);
     }
 
     private void Update()
