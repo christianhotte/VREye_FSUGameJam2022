@@ -298,14 +298,34 @@ public class FPSPlayer : MonoBehaviour
         fpsCanvas.Play(isShooting_hash, -1, 0.0f);
     }
 
+    private void MovementStateUpdate()
+    {
+        switch (moveState)
+        {
+            case MoveStates.Crouching:
+                camIPos = camStartPos - Vector3.up * crouchDistance;
+                faceLightILight = 0.0f;
+                break;
+            default:
+                camIPos = camStartPos;
+                faceLightILight = faceLightStartLight;
+                break;
+        }
+    }    
+
     public void Sprint(InputAction.CallbackContext ctx)
     {
         if (dead) return;
         if (grounded && ctx.performed)
         {
             moveState = MoveStates.Sprinting;
+            MovementStateUpdate();
         }
-        else if (ctx.canceled) moveState = MoveStates.Walking;
+        else if (ctx.canceled)
+        {
+            moveState = MoveStates.Walking;
+            MovementStateUpdate();
+        }
     }
 
     public void Crouch(InputAction.CallbackContext ctx)
@@ -314,14 +334,12 @@ public class FPSPlayer : MonoBehaviour
         if (grounded && ctx.performed)
         {
             moveState = MoveStates.Crouching;
-            camIPos = camStartPos - Vector3.up * crouchDistance;
-            faceLightILight = 0.0f;
+            MovementStateUpdate();
         }
         else if (ctx.canceled)
         {
             moveState = MoveStates.Walking;
-            camIPos = camStartPos;
-            faceLightILight = faceLightStartLight;
+            MovementStateUpdate();
         }
     }
 
@@ -367,12 +385,14 @@ public class FPSPlayer : MonoBehaviour
 
     public void Die()
     {
+        if (dead) return;
         DeathEssentials();
         camIPos = camStartPos - Vector3.up * deathDistance;
     }
 
     public void Squish()
     {
+        if (dead) return;
         DeathEssentials();
         camIPos = camStartPos - Vector3.up * 1.2f;
         Vector3 newPos = legs.transform.parent.position;
@@ -400,6 +420,7 @@ public class FPSPlayer : MonoBehaviour
 
     public void Win()
     {
+        if (dead) return;
         xzMovement = Vector3.zero;
         dead = true;
         Cursor.visible = true;
