@@ -544,6 +544,7 @@ MonoBehaviour:
   fpsCrossbow: {fileID: 7857814505131758114}
   fpsCanvas: {fileID: 0}
   cloneCanvas: {fileID: 0}
+  invisCanvas: {fileID: 0}
   canvasBackColor: {fileID: 0}
   canvasHearts:
   - {fileID: 0}
@@ -733,6 +734,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4c8dfdd6-3e91-499b-9eb2-e0a3931ad300
     m_ActionName: Map/Clone[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1658674684814655491}
+        m_TargetAssemblyTypeName: FPSPlayer, Assembly-CSharp
+        m_MethodName: DoInvis
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 780daa67-6220-4006-9152-29f2f3e54490
+    m_ActionName: Map/Invis[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Map
