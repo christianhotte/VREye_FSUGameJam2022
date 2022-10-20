@@ -63,7 +63,7 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] PhysicMaterial NoFric;
     [SerializeField] PhysicMaterial Fric;
 
-    bool dead = false;
+    bool dead = true;
 
     float cameraPitch = 0;
     float startFOV = 0;
@@ -110,8 +110,6 @@ public class FPSPlayer : MonoBehaviour
 
     private void Awake()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
         aud = GetComponent<AudioSource>();
@@ -123,6 +121,23 @@ public class FPSPlayer : MonoBehaviour
         faceLightILight = faceLightStartLight;
         startFOV = cam.fieldOfView;
         iFOV = startFOV;
+        fpsCanvas.gameObject.SetActive(false);
+        iWeaponOrigin = -Vector3.up * 2.0f;
+        weaponOrigin = iWeaponOrigin;
+    }
+
+    public static void StartGame()
+    {
+        if (inst == null) return;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        inst.InstStartGame();
+    }
+    public void InstStartGame()
+    {
+        dead = false;
+        fpsCanvas.gameObject.SetActive(true);
+        iWeaponOrigin = Vector3.zero;
     }
 
     private bool GroundCheck()
