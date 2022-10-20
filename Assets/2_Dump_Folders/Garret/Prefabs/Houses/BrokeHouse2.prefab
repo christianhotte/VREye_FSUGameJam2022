@@ -9,9 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1642220786616540049}
-  - component: {fileID: 2406484123905791028}
-  - component: {fileID: 468791928319992062}
-  - component: {fileID: 1743062063795737152}
   m_Layer: 0
   m_Name: BrokeHouse2
   m_TagString: Untagged
@@ -30,25 +27,60 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 80}
   m_LocalScale: {x: 0.0075, y: 0.0075, z: 0.0075}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 3233242916936877664}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2406484123905791028
+--- !u!1 &2140942352210558438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3233242916936877664}
+  - component: {fileID: 6644335729074560009}
+  - component: {fileID: 3000214943042852298}
+  - component: {fileID: 4485660677131324363}
+  m_Layer: 0
+  m_Name: BrokeHouse2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3233242916936877664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2140942352210558438}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1642220786616540049}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &6644335729074560009
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2126129716455457067}
+  m_GameObject: {fileID: 2140942352210558438}
   m_Mesh: {fileID: 4776489496243015062, guid: 961c0a06fab97624590637cdf0ab7518, type: 3}
---- !u!23 &468791928319992062
+--- !u!23 &3000214943042852298
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2126129716455457067}
+  m_GameObject: {fileID: 2140942352210558438}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -84,13 +116,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1743062063795737152
+--- !u!64 &4485660677131324363
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2126129716455457067}
+  m_GameObject: {fileID: 2140942352210558438}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
