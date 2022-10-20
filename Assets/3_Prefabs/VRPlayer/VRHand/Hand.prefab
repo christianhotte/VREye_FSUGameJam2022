@@ -59,7 +59,7 @@ Transform:
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -1.2501725, y: -1.2082975, z: 0.41843903}
   m_LocalScale: {x: 17.14914, y: 17.149141, z: 17.149141}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6727546043399785674}
   m_RootOrder: 0
@@ -89,6 +89,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474793f7b6dec60409837442e5ca5e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instaKill: 1
+  shoveForce: 0
+  shoveBounce: 0
+  doSquish: 1
 --- !u!1 &1078636555229997301
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +122,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6367790209780401902}
   m_RootOrder: 1
@@ -304,6 +308,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474793f7b6dec60409837442e5ca5e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instaKill: 0
+  shoveForce: 100
+  shoveBounce: 20
+  doSquish: 0
 --- !u!1 &2836584667731629660
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +401,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474793f7b6dec60409837442e5ca5e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instaKill: 0
+  shoveForce: 100
+  shoveBounce: 20
+  doSquish: 0
 --- !u!1 &3095618022295986527
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,6 +494,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474793f7b6dec60409837442e5ca5e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instaKill: 0
+  shoveForce: 100
+  shoveBounce: 20
+  doSquish: 0
 --- !u!1 &5433312844095925538
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,6 +587,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474793f7b6dec60409837442e5ca5e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instaKill: 0
+  shoveForce: 100
+  shoveBounce: 20
+  doSquish: 0
 --- !u!1 &8621787170990023273
 GameObject:
   m_ObjectHideFlags: 0

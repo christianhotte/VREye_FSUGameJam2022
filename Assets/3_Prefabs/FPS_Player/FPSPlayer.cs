@@ -42,6 +42,8 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] float jumpHeight;
     [SerializeField] float crouchDistance;
     [SerializeField] float deathDistance;
+    [SerializeField] float loseControlTime = 0.5f;
+    [SerializeField] float squishScale = 0.07f;
 
     [SerializeField] bool looseWeaponSway;
     [SerializeField] float weaponSwayX;
@@ -66,7 +68,6 @@ public class FPSPlayer : MonoBehaviour
 
     float customFall = -13.0f;
     int jumps;
-    bool inControl;
 
     int isWalking_hash = Animator.StringToHash("isWalking");
     int isShooting_hash = Animator.StringToHash("FiringGun");
@@ -78,6 +79,7 @@ public class FPSPlayer : MonoBehaviour
     float cloneCooldown = 0;
 
     int hp = 3;
+    float controlTimeRemaining = 0;
 
     enum MoveStates
     {
@@ -120,11 +122,16 @@ public class FPSPlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (controlTimeRemaining != 0)
+        {
+            controlTimeRemaining = Mathf.Max(0, controlTimeRemaining - Time.fixedDeltaTime);
+        }
+
         Vector3 tempVel = rb.velocity;
         bool groundedLastFrame = grounded;
         grounded = GroundCheck();
         if (grounded && !groundedLastFrame) weaponOrigin -= Vector3.up * 0.25f;
-        if (inControl)
+        if (controlTimeRemaining == 0)
         {
             float cspeed = 0, clerprate = 0;
             switch (moveState)
@@ -161,7 +168,7 @@ public class FPSPlayer : MonoBehaviour
                 iWeaponOrigin.y = 0.4f;
             if (GroundCheck())
             {
-                inControl = true;
+                controlTimeRemaining = 0;
             }
         }
         if (grounded)
@@ -339,14 +346,15 @@ public class FPSPlayer : MonoBehaviour
         tempVel.z = _xz.y;
         tempVel.y = _bounce;
         rb.velocity = tempVel;
-        inControl = false;
+        toMove = tempVel;
+        controlTimeRemaining = loseControlTime;
     }
 
     private void DeathEssentials()
     {
         xzMovement = Vector3.zero;
         dead = true;
-        inControl = false;
+        controlTimeRemaining = 0;
         iWeaponOrigin = -Vector3.up * 2.0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -366,6 +374,10 @@ public class FPSPlayer : MonoBehaviour
     {
         DeathEssentials();
         camIPos = camStartPos - Vector3.up * 1.2f;
+        Vector3 newPos = legs.transform.parent.position;
+        newPos.y -= squishScale;
+        legs.transform.parent.position = newPos;
+        transform.localScale = new Vector3(1, squishScale, 1);
     }
 
     public void TakeDamage()

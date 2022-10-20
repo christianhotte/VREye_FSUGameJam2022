@@ -219,6 +219,10 @@ public class VRPlayerController : MonoBehaviour
 
             //Flip hand:
             newHand.transform.localScale = Vector3.one * -1; //Flip hand along all axes
+            foreach (BoxCollider box in newHand.GetComponentsInChildren<BoxCollider>()) //Iterate through box colliders in hand
+            {
+                box.transform.localScale = Vector3.one * -1;
+            }
         }
 
         //Try to get other hand:
