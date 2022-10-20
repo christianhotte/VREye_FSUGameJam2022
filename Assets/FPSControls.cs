@@ -107,6 +107,15 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""32f37444-ccb3-46ce-aca6-cc4e44935ee8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -252,6 +261,17 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""action"": ""Invis"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6e369138-e7be-45f5-ba12-d24c3da69eb5"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -269,6 +289,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         m_Map_Die = m_Map.FindAction("Die", throwIfNotFound: true);
         m_Map_Clone = m_Map.FindAction("Clone", throwIfNotFound: true);
         m_Map_Invis = m_Map.FindAction("Invis", throwIfNotFound: true);
+        m_Map_Escape = m_Map.FindAction("Escape", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -337,6 +358,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Map_Die;
     private readonly InputAction m_Map_Clone;
     private readonly InputAction m_Map_Invis;
+    private readonly InputAction m_Map_Escape;
     public struct MapActions
     {
         private @FPSControls m_Wrapper;
@@ -350,6 +372,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         public InputAction @Die => m_Wrapper.m_Map_Die;
         public InputAction @Clone => m_Wrapper.m_Map_Clone;
         public InputAction @Invis => m_Wrapper.m_Map_Invis;
+        public InputAction @Escape => m_Wrapper.m_Map_Escape;
         public InputActionMap Get() { return m_Wrapper.m_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -386,6 +409,9 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Invis.started -= m_Wrapper.m_MapActionsCallbackInterface.OnInvis;
                 @Invis.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnInvis;
                 @Invis.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnInvis;
+                @Escape.started -= m_Wrapper.m_MapActionsCallbackInterface.OnEscape;
+                @Escape.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnEscape;
+                @Escape.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnEscape;
             }
             m_Wrapper.m_MapActionsCallbackInterface = instance;
             if (instance != null)
@@ -417,6 +443,9 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Invis.started += instance.OnInvis;
                 @Invis.performed += instance.OnInvis;
                 @Invis.canceled += instance.OnInvis;
+                @Escape.started += instance.OnEscape;
+                @Escape.performed += instance.OnEscape;
+                @Escape.canceled += instance.OnEscape;
             }
         }
     }
@@ -432,5 +461,6 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         void OnDie(InputAction.CallbackContext context);
         void OnClone(InputAction.CallbackContext context);
         void OnInvis(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
 }

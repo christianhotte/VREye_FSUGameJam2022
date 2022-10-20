@@ -516,6 +516,12 @@ public class FPSPlayer : MonoBehaviour
             HideToggleAll();
         }
         HideSetAll(true);
+    } 
+
+    public void Escape(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.performed) return;
+        Application.Quit();
     }
 
 }
