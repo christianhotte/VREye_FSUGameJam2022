@@ -639,25 +639,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerTarget: {fileID: 0}
   followOffset: {x: 0, y: 0, z: -0.07}
-  maxSpeed: 1.2
-  linearFollowSpeed: 2.4
+  maxSpeed: 1.5
+  linearFollowSpeed: 2.7
   angularFollowSpeed: 8
   maxFingerMoveSpeed: 0.3
-  dropSpeedMultiplier: 2.7
+  dropSpeedMultiplier: 2.5
   raiseSpeedMultiplier: 0.5
   dropMultiplierAngle: 30
   raiseMultiplierAngle: 50
   gripMoveLerpRate: 1.3
   maxGripMoveSpeed: 10
   smoothGripStopRate: 2
-  outerBoundRadius: 60
+  outerBoundRadius: 100
   palmCollisionRadius: 0.03
   fingerTipRadius: 0.01
   maxProjectionDepth: 3.5
   obstructionLayers:
     serializedVersion: 2
-    m_Bits: 1
-  maxObstacleCollisions: 4
+    m_Bits: 8193
+  maxObstacleCollisions: 6
   fistGripThreshold: 0.6
   surfaceGripThreshold: 0.5
   palmSurfaceCheckDistance: 0.045
