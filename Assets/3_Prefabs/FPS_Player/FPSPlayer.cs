@@ -66,6 +66,8 @@ public class FPSPlayer : MonoBehaviour
     bool dead = false;
 
     float cameraPitch = 0;
+    float startFOV = 0;
+    float iFOV = 0;
 
     Vector3 xzMovement;
     Vector3 toMove;
@@ -81,6 +83,10 @@ public class FPSPlayer : MonoBehaviour
     bool grounded = false;
     bool hithead = false;
     bool bowLoaded = true;
+    bool ads = false;
+    float swayScalar = 1.0f;
+    float moveSpeedScalar = 1.0f;
+    float lookSpeedScalar = 1.0f;
 
     float cloneCooldown = 0;
     float invisCooldown = 0;
@@ -115,6 +121,8 @@ public class FPSPlayer : MonoBehaviour
         torsoStartRotation = torso.transform.localRotation;
         faceLightStartLight = faceLight.intensity;
         faceLightILight = faceLightStartLight;
+        startFOV = cam.fieldOfView;
+        iFOV = startFOV;
     }
 
     private bool GroundCheck()
@@ -173,12 +181,12 @@ public class FPSPlayer : MonoBehaviour
                     clerprate = crouchLerpRate;
                     break;
             }
-            itoMove = Quaternion.Euler(0, transform.eulerAngles.y, 0) * xzMovement * cspeed;
+            itoMove = Quaternion.Euler(0, transform.eulerAngles.y, 0) * xzMovement * cspeed * moveSpeedScalar;
             toMove = Vector3.Lerp(toMove, itoMove, Time.fixedDeltaTime * clerprate);
             tempVel.x = toMove.x;
             tempVel.z = toMove.z;
             rb.velocity = tempVel;
-            if (!dead)
+            if (!dead && !ads)
             {
                 if (grounded)
                     iWeaponOrigin.y = -(new Vector2(rb.velocity.x, rb.velocity.z).magnitude) * 0.01f;
@@ -188,7 +196,7 @@ public class FPSPlayer : MonoBehaviour
         }
         else
         {
-            if (!dead)
+            if (!dead && !ads)
                 iWeaponOrigin.y = 0.4f;
             if (GroundCheck())
             {
@@ -218,8 +226,16 @@ public class FPSPlayer : MonoBehaviour
     private void LateUpdate()
     {
         cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, camIPos, Time.deltaTime * 5.0f);
-        weaponOrigin = Vector3.Lerp(weaponOrigin, iWeaponOrigin, Time.deltaTime * 8.0f);
-        armsHolder.localPosition = Vector3.Lerp(armsHolder.localPosition, weaponOrigin, Time.deltaTime * weaponReturn);
+        if (!ads)
+        {
+            weaponOrigin = Vector3.Lerp(weaponOrigin, iWeaponOrigin, Time.deltaTime * 8.0f);
+            armsHolder.localPosition = Vector3.Lerp(armsHolder.localPosition, weaponOrigin, Time.deltaTime * weaponReturn);
+        }
+        else
+        {
+            weaponOrigin = Vector3.Lerp(weaponOrigin, iWeaponOrigin, Time.deltaTime * 12.0f);
+            armsHolder.localPosition = Vector3.Lerp(armsHolder.localPosition, weaponOrigin, Time.deltaTime * weaponReturn * 3.0f);
+        }
         armsHolder.localRotation = Quaternion.Lerp(armsHolder.localRotation, Quaternion.identity, Time.deltaTime * weaponReturn);
         shadowTrail.time = Mathf.MoveTowards(shadowTrail.time, shadowTrailITime, Time.deltaTime);
         faceLight.intensity = Mathf.Lerp(faceLight.intensity, faceLightILight, Time.deltaTime*3.0f);
@@ -240,14 +256,15 @@ public class FPSPlayer : MonoBehaviour
             }
         }
         fpsCrossbow.transform.localScale = Vector3.Lerp(fpsCrossbow.transform.localScale, Vector3.one, Time.deltaTime * 2.0f);
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, iFOV, Time.deltaTime * 5.0f);
     }
 
     public void MouseLook(InputAction.CallbackContext ctx)
     {
         if (dead) return;
         Vector2 camera_turn = ctx.ReadValue<Vector2>();
-        transform.Rotate(camera_turn.x * Vector3.up * mouseSpeedX);
-        cameraPitch -= camera_turn.y * mouseSpeedY;
+        transform.Rotate(camera_turn.x * Vector3.up * mouseSpeedX * lookSpeedScalar);
+        cameraPitch -= camera_turn.y * mouseSpeedY * lookSpeedScalar;
         cameraPitch = Mathf.Clamp(cameraPitch, -80.0f, 80.0f);
         cam.transform.localEulerAngles = Vector3.right * cameraPitch;
         torso.transform.localRotation = torsoStartRotation * Quaternion.AngleAxis(-cameraPitch, Vector3.right); //-Vector3.right * (cameraPitch - 90);
@@ -258,6 +275,8 @@ public class FPSPlayer : MonoBehaviour
         }
         else
         {
+            float tempSwayX = weaponSwayX * swayScalar;
+            float tempSwayY = weaponSwayY * swayScalar;
             armsHolder.localPosition += Vector3.right * camera_turn.x * Time.deltaTime * weaponSwayX;
             armsHolder.localEulerAngles += Vector3.up * camera_turn.x * Time.deltaTime * weaponSwayX * 20.0f;
             armsHolder.localPosition += Vector3.up * camera_turn.y * Time.deltaTime * weaponSwayY;
@@ -290,13 +309,13 @@ public class FPSPlayer : MonoBehaviour
             {
                 customFall = jumpHeight;
                 jumps = 1;
-                weaponOrigin += Vector3.up * 0.2f;
+                if (!ads) weaponOrigin += Vector3.up * 0.2f;
             }
             else if (jumps > 0)
             {
                 jumps -= 1;
                 customFall = jumpHeight-1.0f;
-                weaponOrigin += Vector3.up * 0.25f;
+                if (!ads) weaponOrigin += Vector3.up * 0.25f;
             }
 
         }
@@ -328,6 +347,29 @@ public class FPSPlayer : MonoBehaviour
         aud.Play();
         fpsCrossbow.Play(isShooting_hash,-1,0);
         fpsCanvas.Play(isShooting_hash, -1, 0.0f);
+    }
+
+    public void ADS(InputAction.CallbackContext ctx)
+    {
+        if (dead) return;
+        if (ctx.performed)
+        {
+            ads = true;
+            iWeaponOrigin = (-Vector3.right * 0.408f) + Vector3.up * 0.1f;
+            iFOV = 60.0f;
+            moveSpeedScalar = 0.8f;
+            lookSpeedScalar = 0.7f;
+            swayScalar = 0.3f;
+        }
+        else if (ctx.canceled)
+        {
+            ads = false;
+            iWeaponOrigin = Vector3.zero;
+            iFOV = startFOV;
+            moveSpeedScalar = 1.0f;
+            lookSpeedScalar = 1.0f;
+            swayScalar = 1.0f;
+        }
     }
 
     private void MovementStateUpdate()
@@ -544,6 +586,21 @@ public class FPSPlayer : MonoBehaviour
     {
         if (!ctx.performed) return;
         Application.Quit();
+    }
+
+    private void CheckWin()
+    {
+        if (VRPlayerController.main.health < 1) Win();
+    }
+
+    private void OnEnable()
+    {
+        VRPlayerController.isHurtEvent += CheckWin;
+    }
+
+    private void OnDisable()
+    {
+        VRPlayerController.isHurtEvent -= CheckWin;
     }
 
 }

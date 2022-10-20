@@ -116,6 +116,15 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ADS"",
+                    ""type"": ""Button"",
+                    ""id"": ""f9914a19-8300-4f56-943e-de97d23dea1a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -272,6 +281,17 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""443ec7f5-f729-4ec6-8305-e84a135cb7ab"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ADS"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -290,6 +310,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         m_Map_Clone = m_Map.FindAction("Clone", throwIfNotFound: true);
         m_Map_Invis = m_Map.FindAction("Invis", throwIfNotFound: true);
         m_Map_Escape = m_Map.FindAction("Escape", throwIfNotFound: true);
+        m_Map_ADS = m_Map.FindAction("ADS", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -359,6 +380,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Map_Clone;
     private readonly InputAction m_Map_Invis;
     private readonly InputAction m_Map_Escape;
+    private readonly InputAction m_Map_ADS;
     public struct MapActions
     {
         private @FPSControls m_Wrapper;
@@ -373,6 +395,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         public InputAction @Clone => m_Wrapper.m_Map_Clone;
         public InputAction @Invis => m_Wrapper.m_Map_Invis;
         public InputAction @Escape => m_Wrapper.m_Map_Escape;
+        public InputAction @ADS => m_Wrapper.m_Map_ADS;
         public InputActionMap Get() { return m_Wrapper.m_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -412,6 +435,9 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Escape.started -= m_Wrapper.m_MapActionsCallbackInterface.OnEscape;
                 @Escape.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnEscape;
                 @Escape.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnEscape;
+                @ADS.started -= m_Wrapper.m_MapActionsCallbackInterface.OnADS;
+                @ADS.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnADS;
+                @ADS.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnADS;
             }
             m_Wrapper.m_MapActionsCallbackInterface = instance;
             if (instance != null)
@@ -446,6 +472,9 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Escape.started += instance.OnEscape;
                 @Escape.performed += instance.OnEscape;
                 @Escape.canceled += instance.OnEscape;
+                @ADS.started += instance.OnADS;
+                @ADS.performed += instance.OnADS;
+                @ADS.canceled += instance.OnADS;
             }
         }
     }
@@ -462,5 +491,6 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         void OnClone(InputAction.CallbackContext context);
         void OnInvis(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
+        void OnADS(InputAction.CallbackContext context);
     }
 }
