@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/3_Prefabs/Buildings/BrokenHouse.prefab.meta
+guid: c3bf4eb8f69da2146852b8384d9e6843
+PrefabImporter:
+========
 guid: 87c884b965070764e9efab5af2eee203
 folderAsset: yes
 DefaultImporter:
+>>>>>>>> origin/Level-Implementation:Assets/2_Dump_Folders/Garret/Models.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

@@ -7,6 +7,11 @@ public class FPSRocket : MonoBehaviour
     [SerializeField] float moveSpeed;
     [SerializeField] float turnDownSpeed;
     [SerializeField] LayerMask canHit;
+    [SerializeField] LayerMask destroyOnHit;
+    [SerializeField] int monsterHeadLayer;
+    [SerializeField] int monsterHandLayer;
+    [SerializeField] ParticleSystem ps;
+    [SerializeField] GameObject boltModel;
 
     private void Start()
     {
@@ -19,22 +24,36 @@ public class FPSRocket : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, distanceToMove, canHit))
         {
-            //Quaternion oldRotation = transform.rotation;
-            //Vector3 oldScale = transform.localScale;
-            //transform.parent = hit.collider.transform;
             transform.position = hit.point;
-            //transform.localScale = oldScale;
-            //transform.rotation = oldRotation;
+
             IShootable shot = hit.collider.GetComponent<IShootable>();
+            GetComponent<AudioSource>().Play();
+            if (hit.collider.gameObject.layer == monsterHeadLayer || hit.collider.gameObject.layer == monsterHandLayer)
+            {
+                Destroy(boltModel);
+                transform.parent = hit.collider.transform;
+            }
             if (shot != null)
             {
                 shot.Shot();
+                Destroy(gameObject); //Make sure projectile just goes away when hitting a weak point
             }
-            Destroy(this);
+            else
+            {
+                if (destroyOnHit == (destroyOnHit | (1 << hit.collider.gameObject.layer)))
+                {
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    Destroy(this);
+                }
+            }
         }
         else
         {
             transform.Translate(Vector3.forward * distanceToMove);
+            transform.RotateAround(transform.position, transform.right, turnDownSpeed * Time.deltaTime);
         }
     }
 }

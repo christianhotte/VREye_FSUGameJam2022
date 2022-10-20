@@ -363,19 +363,19 @@
             "actions": [
                 {
                     "name": "Grip",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "d2b4bfb6-5739-4a33-801a-cd818d10dcbc",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "a69f30ce-8022-4e33-8606-0e6aecad15c2",
-                    "path": "",
+                    "path": "<OculusTouchController>{LeftHand}/grip",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
@@ -391,19 +391,19 @@
             "actions": [
                 {
                     "name": "Grip",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "5c057ab0-6150-4f38-8237-35b137b8faf2",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "89593e91-690b-4412-923e-537bbe8ac003",
-                    "path": "",
+                    "path": "<OculusTouchController>{RightHand}/grip",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",

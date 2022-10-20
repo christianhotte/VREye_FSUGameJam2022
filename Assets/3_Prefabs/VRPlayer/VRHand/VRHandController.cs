@@ -17,27 +17,27 @@ public class VRHandController : MonoBehaviour
 
     //Settings:
     [Header("Gamefeel Settings:")]
-    [SerializeField, Tooltip("Moves where on controller hands stick to")]                                     private Vector3 followOffset;
-    [Min(0), SerializeField, Tooltip("Maximum speed at which hand can move")]                                 private float maxSpeed;
-    [Min(0), SerializeField, Tooltip("Rate at which hand seeks target position")]                             private float linearFollowSpeed;
-    [Min(0), SerializeField, Tooltip("Rate at which hand seeks target rotation")]                             private float angularFollowSpeed;
-    [Min(0), SerializeField, Tooltip("Maximum speed at which individual fingers can adjust their positions")] private float maxFingerMoveSpeed;
+    [SerializeField, Tooltip("Moves where on controller hands stick to")]                                             private Vector3 followOffset;
+    [Min(0), SerializeField, Tooltip("Maximum speed at which hand can move")]                                         private float maxSpeed;
+    [Min(0), SerializeField, Tooltip("Rate at which hand seeks target position")]                                     private float linearFollowSpeed;
+    [Min(0), SerializeField, Tooltip("Rate at which hand seeks target rotation")]                                     private float angularFollowSpeed;
+    [Min(0), SerializeField, Tooltip("Maximum speed at which individual fingers can adjust their positions")]         private float maxFingerMoveSpeed;
+    [SerializeField, Tooltip("Raise to make dropping the hand quicker")]                                              private float dropSpeedMultiplier;
+    [SerializeField, Tooltip("Lower to make lifting the hand slower")]                                                private float raiseSpeedMultiplier;
+    [Range(0, 90),SerializeField, Tooltip("Outer angle which determines where drop multiplier begins to factor in")]  private float dropMultiplierAngle;
+    [Range(0, 90),SerializeField, Tooltip("Outer angle which determines where raise multiplier begins to factor in")] private float raiseMultiplierAngle;
     [Header("Physics Settings:")]
     [Min(0), SerializeField, Tooltip("Size of main hand collider")]                                                 private float palmCollisionRadius;
     [Min(0), SerializeField, Tooltip("Radius of fingertip colliders")]                                              private float fingerTipRadius;
     [Min(0), SerializeField, Tooltip("Maximum depth inside colliders which finger targets can penetrate")]          private float maxProjectionDepth;
     [SerializeField, Tooltip("Physics layers which fingers on hand are able to collide with")]                      private LayerMask obstructionLayers;
     [Min(1), SerializeField, Tooltip("Maximum number of obstructions hand and fingers can collide with per frame")] private int maxObstacleCollisions = 1;
-    public AnimationCurve speedCurve;
-    //[SerializeField, Tooltip("Enables player to lift hands out of bodies when fingers are trapped underneath them (0-90)")] private float minRaiseReleaseAngle;
 
     //Runtime Variables:
     /// <summary>
     /// Which side this hand is on.
     /// </summary>
     internal HandType side = HandType.None; //Initialize at "None" to indicate hand has not yet been associated with player controller
-    private Vector3 velocity;               //Last recorded linear velocity of this seeker object
-    private Vector3 prevTargetPosition;     //Last recorded position of controller target
 
     //RUNTIME METHODS:
     private void Awake()
@@ -79,7 +79,6 @@ public class VRHandController : MonoBehaviour
         if (controllerTarget != null)
         {
             obstructedTarget.position = controllerTarget.position; //Set target reference position if possible
-            prevTargetPosition = controllerTarget.position;
         }
             
         if (side == HandType.Right)
@@ -111,8 +110,37 @@ public class VRHandController : MonoBehaviour
                 fingerTargets[i].position = newFingerPos;                                                                                           //Set new finger position
             }
 
-            //Modify position
-            Vector3 newPosition = Vector3.Lerp(transform.position, offsetTargetPos, linearFollowSpeed * Time.deltaTime);
+            //Modify position:
+            Vector3 newPosition = transform.position;
+            if (transform.position != offsetTargetPos)
+            {
+                //Get multiplier:
+                float multiplier = 1;
+                Vector3 moveDir = (offsetTargetPos - transform.position).normalized; //Get direction of movement
+                float multAngle = Vector3.Angle(moveDir, Vector3.down);
+                if (multAngle < dropMultiplierAngle) //Hand is moving at least slightly downward
+                {
+                    float angleValue = 1 - (multAngle / dropMultiplierAngle);
+                    multiplier = Mathf.Lerp(1, dropSpeedMultiplier, angleValue);
+                }
+                else
+                {
+                    multAngle = Vector3.Angle(moveDir, Vector3.up);
+                    if (multAngle < raiseMultiplierAngle)
+                    {
+                        float angleValue = 1 - (multAngle / raiseMultiplierAngle);
+                        multiplier = Mathf.Lerp(1, raiseSpeedMultiplier, angleValue);
+                    }
+                }
+
+                //Modify position:
+                newPosition = Vector3.Lerp(transform.position, offsetTargetPos, linearFollowSpeed * multiplier * Time.deltaTime);
+                float effectiveMaxSpeed = maxSpeed * scaleMultiplier * multiplier * Time.deltaTime;
+                if (Vector3.Distance(transform.position, newPosition) > effectiveMaxSpeed)
+                {
+                    newPosition = Vector3.MoveTowards(transform.position, newPosition, effectiveMaxSpeed);
+                }
+            }
 
             //Obstruct movement:
             Vector3 unobstructedPosition = newPosition;                           //Save position before obstruction

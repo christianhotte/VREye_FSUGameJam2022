@@ -8,13 +8,24 @@ public class FPSPlayer : MonoBehaviour
     static FPSPlayer inst;
 
     Rigidbody rb;
+    Collider col;
+    AudioSource aud;
 
     [SerializeField] Animator torso;
     Quaternion torsoStartRotation;
     [SerializeField] Animator legs;
+    [SerializeField] Animator fpsCrossbow;
+
+    [SerializeField] TrailRenderer shadowTrail;
+    float shadowTrailITime;
+    [SerializeField] Light faceLight;
+    float faceLightStartLight;
+    float faceLightILight;
+
 
     [SerializeField] Camera cam;
     [SerializeField] Transform armsHolder;
+    [SerializeField] Transform projectileSpawnPoint;
     [SerializeField] float mouseSpeedX;
     [SerializeField] float mouseSpeedY;
     [SerializeField] float walkSpeed;
@@ -35,6 +46,9 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] Transform rocketPrefab;
     [SerializeField] LayerMask groundLayers;
 
+    [SerializeField] PhysicMaterial NoFric;
+    [SerializeField] PhysicMaterial Fric;
+
     bool dead = false;
 
     float cameraPitch = 0;
@@ -48,7 +62,10 @@ public class FPSPlayer : MonoBehaviour
     bool inControl;
 
     int isWalking_hash = Animator.StringToHash("isWalking");
+    int isShooting_hash = Animator.StringToHash("FiringGun");
 
+    bool grounded = false;
+    bool bowLoaded = true;
 
     enum MoveStates
     {
@@ -69,17 +86,20 @@ public class FPSPlayer : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
+        col = GetComponent<Collider>();
+        aud = GetComponent<AudioSource>();
         camStartPos = cam.transform.localPosition;
         camIPos = cam.transform.localPosition;
         inst = this;
         torsoStartRotation = torso.transform.localRotation;
+        faceLightStartLight = faceLight.intensity;
+        faceLightILight = faceLightStartLight;
     }
 
-    bool grounded = false;
     private bool GroundCheck()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 1.1f))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 1.3f))
         {
             return true;
         }
@@ -142,6 +162,14 @@ public class FPSPlayer : MonoBehaviour
         }
         tempVel.y = customFall;
         rb.velocity = tempVel;
+        if (moveState == MoveStates.Crouching)
+            shadowTrailITime = rb.velocity.magnitude * 0.4f;
+        else
+            shadowTrailITime = rb.velocity.magnitude * 0.1f;
+        if (grounded && xzMovement.magnitude < 0.3f)
+            col.material = Fric;
+        else
+            col.material = NoFric;
     }
 
     private void LateUpdate()
@@ -150,6 +178,8 @@ public class FPSPlayer : MonoBehaviour
         weaponOrigin = Vector3.Lerp(weaponOrigin, iWeaponOrigin, Time.deltaTime * 8.0f);
         armsHolder.localPosition = Vector3.Lerp(armsHolder.localPosition, weaponOrigin, Time.deltaTime * weaponReturn);
         armsHolder.localRotation = Quaternion.Lerp(armsHolder.localRotation, Quaternion.identity, Time.deltaTime * weaponReturn);
+        shadowTrail.time = Mathf.MoveTowards(shadowTrail.time, shadowTrailITime, Time.deltaTime);
+        faceLight.intensity = Mathf.Lerp(faceLight.intensity, faceLightILight, Time.deltaTime*3.0f);
     }
 
     public void MouseLook(InputAction.CallbackContext ctx)
@@ -211,15 +241,23 @@ public class FPSPlayer : MonoBehaviour
         }
     }
 
+    public void ReloadBow()
+    {
+        bowLoaded = true;
+    }
 
     public void Shoot(InputAction.CallbackContext ctx)
     {
         if (dead) return;
         if (!ctx.performed) return;
+        if (!bowLoaded) return;
+        bowLoaded = false;
         Transform newRocket = Instantiate(rocketPrefab);
-        newRocket.position = cam.transform.position + cam.transform.forward + cam.transform.right*0.3f - cam.transform.up*0.3f;
+        newRocket.position = projectileSpawnPoint.position;
         newRocket.rotation = cam.transform.rotation;
         weaponOrigin -= Vector3.forward * 0.6f;
+        aud.Play();
+        fpsCrossbow.Play(isShooting_hash,-1,0);
     }
 
     public void Sprint(InputAction.CallbackContext ctx)
@@ -239,11 +277,13 @@ public class FPSPlayer : MonoBehaviour
         {
             moveState = MoveStates.Crouching;
             camIPos = camStartPos - Vector3.up * crouchDistance;
+            faceLightILight = 0.0f;
         }
         else if (ctx.canceled)
         {
             moveState = MoveStates.Walking;
             camIPos = camStartPos;
+            faceLightILight = faceLightStartLight;
         }
     }
 
