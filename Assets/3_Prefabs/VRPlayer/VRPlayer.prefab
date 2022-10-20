@@ -544,8 +544,7 @@ MonoBehaviour:
   handPrefab: {fileID: 8621787170990023273, guid: 5fd457f674320c84d93ef3f143b268dd, type: 3}
   headModel: {fileID: 3197343730811009893}
   maxHealth: 100
-  softVerticalBounds: {x: 5.8158336, y: 14.539585}
-  hardVerticalBounds: {x: 3, y: 30}
+  hardVerticalBounds: {x: 4, y: 33}
   headRadius: 0.4
   obstructionLayers:
     serializedVersion: 2

@@ -647,6 +647,7 @@ MonoBehaviour:
   raiseSpeedMultiplier: 0.5
   dropMultiplierAngle: 30
   raiseMultiplierAngle: 50
+  neutralOriginPushFactor: 0.3
   gripMoveLerpRate: 1.3
   maxGripMoveSpeed: 10
   smoothGripStopRate: 2
@@ -656,8 +657,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8193
   maxObstacleCollisions: 6
-  palmSurfaceCheckDistance: 0.045
-  palmSurfaceCheckRadius: 0.03
+  palmSurfaceCheckDistance: 0.03
+  palmSurfaceCheckRadius: 0.04
   fistGripThreshold: 0.6
   surfaceGripThreshold: 0.5
   fingerTipRadius: 0.01
@@ -666,12 +667,19 @@ MonoBehaviour:
   fingerVelocityDragFactor: 0.16
   maxFingerVelocityDrag: 0.13
   maxProjectionDepth: 3.5
-  minSlamHaptics: {x: 0, y: 0}
-  maxSlamHaptics: {x: 0, y: 0}
-  maxSlamSpeed: 0
-  grabHaptics: {x: 0, y: 0}
-  hurtHaptics: {x: 0, y: 0}
-  arrowCatchHaptics: {x: 0, y: 0}
+  baseGrabProjection: 4
+  baseNeutralProjection: 0.1
+  minSlamHaptics: {x: 1, y: 0.1}
+  maxSlamHaptics: {x: 1, y: 0.1}
+  grabHaptics: {x: 1, y: 0.1}
+  hurtHaptics: {x: 1, y: 0.1}
+  arrowCatchHaptics: {x: 1, y: 0.1}
+  deathHaptics: {x: 0, y: 0}
+  muffledStompSound: {fileID: 8300000, guid: 1327e1a482ee42249b7a2e12e96c4c4d, type: 3}
+  stompSound: {fileID: 8300000, guid: 29e6b703b358ee04aba54fac582105b1, type: 3}
+  grabSound: {fileID: 8300000, guid: bd3921195a64c394da828953795aac1a, type: 3}
+  buildingGrabSound: {fileID: 8300000, guid: 1b62145f70650a64683f7c3313cca3a4, type: 3}
+  stompEffectImpactRange: {x: 0, y: 10}
 --- !u!82 &3550603057714943871
 AudioSource:
   m_ObjectHideFlags: 0
@@ -683,7 +691,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

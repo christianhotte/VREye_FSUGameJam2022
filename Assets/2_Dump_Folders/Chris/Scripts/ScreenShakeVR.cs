@@ -55,8 +55,6 @@ public class ScreenShakeVR : MonoBehaviour
     }
     private void Update()
     {
-        Shake(1, 0.1f);
-
         shakeCumulation = 0;
         //iterate through all active shake events
         for (int i = activeShakes.Count - 1; i >= 0; i--)
@@ -82,18 +80,15 @@ public class ScreenShakeVR : MonoBehaviour
     }
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        if (source.vrUsage != VRTextureUsage.None) //Only shake for VR
+        if (Mathf.Approximately(shakeVal, 0) == false)
         {
-            if (Mathf.Approximately(shakeVal, 0) == false)
-            {
-                material.SetFloat("_ShakeFac", shakeVal);
-                Graphics.Blit(source, destination, material);
-            }
-            else
-            {
-                //no shaking currently
-                Graphics.Blit(source, destination);
-            }
+            material.SetFloat("_ShakeFac", shakeVal);
+            Graphics.Blit(source, destination, material);
+        }
+        else
+        {
+            //no shaking currently
+            Graphics.Blit(source, destination);
         }
     }
 

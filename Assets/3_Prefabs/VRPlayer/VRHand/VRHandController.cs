@@ -22,19 +22,20 @@ public class VRHandController : MonoBehaviour
 
     //Settings:
     [Header("Hand Control:")]
-    [SerializeField, Tooltip("Moves where on controller hands stick to")]                                             private Vector3 followOffset;
-    [Min(0), SerializeField, Tooltip("Maximum speed at which hand can move")]                                         private float maxSpeed;
-    [Min(0), SerializeField, Tooltip("Rate at which hand seeks target position")]                                     private float linearFollowSpeed;
-    [Min(0), SerializeField, Tooltip("Rate at which hand seeks target rotation")]                                     private float angularFollowSpeed;
-    [SerializeField, Tooltip("Raise to make dropping the hand quicker")]                                              private float dropSpeedMultiplier;
-    [SerializeField, Tooltip("Lower to make lifting the hand slower")]                                                private float raiseSpeedMultiplier;
-    [Range(0, 90),SerializeField, Tooltip("Outer angle which determines where drop multiplier begins to factor in")]  private float dropMultiplierAngle;
-    [Range(0, 90),SerializeField, Tooltip("Outer angle which determines where raise multiplier begins to factor in")] private float raiseMultiplierAngle;
+    [SerializeField, Tooltip("Moves where on controller hands stick to")]                                                                      private Vector3 followOffset;
+    [Min(0), SerializeField, Tooltip("Maximum speed at which hand can move")]                                                                  private float maxSpeed;
+    [Min(0), SerializeField, Tooltip("Rate at which hand seeks target position")]                                                              private float linearFollowSpeed;
+    [Min(0), SerializeField, Tooltip("Rate at which hand seeks target rotation")]                                                              private float angularFollowSpeed;
+    [SerializeField, Tooltip("Raise to make dropping the hand quicker")]                                                                       private float dropSpeedMultiplier;
+    [SerializeField, Tooltip("Lower to make lifting the hand slower")]                                                                         private float raiseSpeedMultiplier;
+    [Range(0, 90),SerializeField, Tooltip("Outer angle which determines where drop multiplier begins to factor in")]                           private float dropMultiplierAngle;
+    [Range(0, 90),SerializeField, Tooltip("Outer angle which determines where raise multiplier begins to factor in")]                          private float raiseMultiplierAngle;
+    [Min(0), SerializeField, Tooltip("Increasing this increases the amount by which hands can push player origin up, even when not grabbing")] private float neutralOriginPushFactor;
     [Header("Mobility Settings:")]
-    [Min(0), SerializeField, Tooltip("Smoothness of player grip movement")]                              private float gripMoveLerpRate;
-    [Min(0), SerializeField, Tooltip("Maximum speed at which player can gripMove themselves")]           private float maxGripMoveSpeed;
-    [Min(0), SerializeField, Tooltip("Rate at which player origin velocity slows after releasing grip")] private float smoothGripStopRate;
-    [Min(0), SerializeField, Tooltip("Maximum distance from center of world player can move")]           private float outerBoundRadius;
+    [Min(0), SerializeField, Tooltip("Smoothness of player grip movement")]                               private float gripMoveLerpRate;
+    [Min(0), SerializeField, Tooltip("Maximum speed at which player can gripMove themselves")]            private float maxGripMoveSpeed;
+    [Min(0), SerializeField, Tooltip("Rate at which player origin velocity slows after releasing grip")]  private float smoothGripStopRate;
+    [Min(0), SerializeField, Tooltip("Maximum distance from center of world player can move")]            private float outerBoundRadius;
     [Header("Physics Settings:")]
     [Min(0), SerializeField, Tooltip("Size of main hand collider")]                                                 private float palmCollisionRadius;
     [SerializeField, Tooltip("Physics layers which fingers on hand are able to collide with")]                      private LayerMask obstructionLayers;
@@ -51,17 +52,22 @@ public class VRHandController : MonoBehaviour
     [Min(0), SerializeField, Tooltip("Ease by which fingers are affected by changes in velocity")]                        private float fingerVelocityDragFactor;
     [Min(0), SerializeField, Tooltip("Maximum distance by which fingers can be dragged back by velocity")]                private float maxFingerVelocityDrag;
     [Min(0), SerializeField, Tooltip("Maximum depth inside colliders which finger targets can penetrate")]                private float maxProjectionDepth;
+    [Min(0), SerializeField, Tooltip("Base amount of projection added when grabbing")]                                    private float baseGrabProjection;
+    [Range(0, 1), SerializeField, Tooltip("Base amount of projection added when pushing flat hand against surface")]      private float baseNeutralProjection;
     [Header("Haptics:")]
     [SerializeField, Tooltip("")] private Vector2 minSlamHaptics;
     [SerializeField, Tooltip("")] private Vector2 maxSlamHaptics;
-    [SerializeField] private float maxSlamSpeed;
     [SerializeField, Tooltip("")] private Vector2 grabHaptics;
     [SerializeField, Tooltip("")] private Vector2 hurtHaptics;
     [SerializeField, Tooltip("")] private Vector2 arrowCatchHaptics;
+    [SerializeField, Tooltip("")] private Vector2 deathHaptics;
     [Header("Sounds:")]
+    [SerializeField, Tooltip("")] private AudioClip muffledStompSound;
     [SerializeField, Tooltip("")] private AudioClip stompSound;
     [SerializeField, Tooltip("")] private AudioClip grabSound;
     [SerializeField, Tooltip("")] private AudioClip buildingGrabSound;
+    [Header("Effect Controls:")]
+    [SerializeField, Tooltip("Min and max impact deceleration for stomp effect to register")] private Vector2 stompEffectImpactRange;
 
     //Runtime Variables:
     /// <summary>
@@ -72,6 +78,7 @@ public class VRHandController : MonoBehaviour
     internal Building grabbedBuilding;
     private Vector3 prevVelocity;
     private Vector3 lastOriginVelocity;
+    private bool prevObstructed;
 
     //Input Variables:
     private float gripValue;                    //How closed this hand currently is
@@ -147,29 +154,36 @@ public class VRHandController : MonoBehaviour
             switch (gripType)
             {
                 case GripType.GrabLocked: //Player is grabbing something and is locked into the world
-                    //Move player origin:
-                    Vector3 currentOriginPos = VRPlayerController.main.origin.position; //Get quick reference for current position of origin
-                    Vector3 targetOriginPos = currentOriginPos;                         //Initialize positional target value at position of player
-                    targetOriginPos += surfaceGripTarget - controllerTarget.position;   //Modify position based on hand movement
-
-                    targetOriginPos = Vector3.Lerp(currentOriginPos, targetOriginPos, gripMoveLerpRate * Time.deltaTime); //Lerp toward target position
-                    float adjMaxSpeed = maxGripMoveSpeed * scaleMultiplier * Time.deltaTime;                              //Get effective max speed
-                    if (Vector3.Distance(targetOriginPos, currentOriginPos) > adjMaxSpeed) //Player is moving too fast
+                    if (grabbedBuilding != null && otherHand.grabbedBuilding == grabbedBuilding) //Both hands are grabbing the same building
                     {
-                        targetOriginPos = Vector3.MoveTowards(currentOriginPos, targetOriginPos, adjMaxSpeed); //Move origin at max speed toward target
-                    }
 
-                    //Clamp bounds:
-                    Vector2 flatOriginPosition = new Vector2(targetOriginPos.x, targetOriginPos.z); //Player is trying to move outside boundary
-                    if (Vector2.Distance(flatOriginPosition, Vector2.zero) > outerBoundRadius) //Player is trying to move out of bounds
+                    }
+                    else
                     {
-                        flatOriginPosition = flatOriginPosition.normalized * outerBoundRadius;                        //Move player to edge of boundary
-                        targetOriginPos = new Vector3(flatOriginPosition.x, targetOriginPos.y, flatOriginPosition.y); //Commit movement
-                    }
+                        //Move player origin:
+                        Vector3 currentOriginPos = VRPlayerController.main.origin.position; //Get quick reference for current position of origin
+                        Vector3 targetOriginPos = currentOriginPos;                         //Initialize positional target value at position of player
+                        targetOriginPos += surfaceGripTarget - offsetTargetPos;             //Modify position based on hand movement
 
-                    //Cleanup
-                    lastOriginVelocity = targetOriginPos - currentOriginPos;   //Record velocity
-                    VRPlayerController.main.origin.position = targetOriginPos; //Apply positional change
+                        targetOriginPos = Vector3.Lerp(currentOriginPos, targetOriginPos, gripMoveLerpRate * Time.deltaTime); //Lerp toward target position
+                        float adjMaxSpeed = maxGripMoveSpeed * scaleMultiplier * Time.deltaTime;                              //Get effective max speed
+                        if (Vector3.Distance(targetOriginPos, currentOriginPos) > adjMaxSpeed) //Player is moving too fast
+                        {
+                            targetOriginPos = Vector3.MoveTowards(currentOriginPos, targetOriginPos, adjMaxSpeed); //Move origin at max speed toward target
+                        }
+
+                        //Clamp bounds:
+                        Vector2 flatOriginPosition = new Vector2(targetOriginPos.x, targetOriginPos.z); //Player is trying to move outside boundary
+                        if (Vector2.Distance(flatOriginPosition, Vector2.zero) > outerBoundRadius) //Player is trying to move out of bounds
+                        {
+                            flatOriginPosition = flatOriginPosition.normalized * outerBoundRadius;                        //Move player to edge of boundary
+                            targetOriginPos = new Vector3(flatOriginPosition.x, targetOriginPos.y, flatOriginPosition.y); //Commit movement
+                        }
+
+                        //Cleanup
+                        lastOriginVelocity = targetOriginPos - currentOriginPos;   //Record velocity
+                        VRPlayerController.main.origin.position = targetOriginPos; //Apply positional change
+                    }
                     break;
                 case GripType.Fist: //Player's hand is balled in a fist
                     break;
@@ -274,26 +288,26 @@ public class VRHandController : MonoBehaviour
             Vector3 unobstructedPosition = newPosition;                                         //Save position before obstruction
             float scaledRadius = palmCollisionRadius * scaleMultiplier;                         //Get radius of palm scaled to player size
             newPosition = GetObstructedPosition(transform.position, newPosition, scaledRadius); //Obstruct position
-
-            //Get velocity:
-            Vector3 currentVelocity = (newPosition - transform.position) / Time.deltaTime; //Get velocity this frame (in units per second)
-            Vector3 deltaV = currentVelocity - prevVelocity;                               //Get change in velocity
-            prevVelocity = currentVelocity;                                                //Save current velocity
+            Vector3 currentVelocity = (newPosition - transform.position) / Time.deltaTime;      //Get velocity this frame (in units per second)
+            
             
             //Project & obstruct fingers:
-            obstructedTarget.position = GetObstructedPosition(obstructedTarget.position, offsetTargetPos, scaledRadius); //Update position of obstructed target
-            Vector3 projectionDepth = offsetTargetPos - obstructedTarget.position;                                       //Get amount by which fingers should be projected out based on obstruction
-            projectionDepth = Vector3.ClampMagnitude(projectionDepth, maxProjectionDepth);                               //Clamp projectionDepth magnitude
-            Vector3 flatCurrentVelocity = Vector3.ProjectOnPlane(currentVelocity, transform.forward);                    //Get modified current velocity for finger drag
-            scaledRadius = fingerTipRadius * scaleMultiplier;                                                            //Update scaled radius so it is useable for fingertips
+            obstructedTarget.position = GetObstructedPosition(obstructedTarget.position, offsetTargetPos, scaledRadius);                                //Update position of obstructed target
+            Vector3 projectionDepth = offsetTargetPos - obstructedTarget.position;                                                                      //Get amount by which fingers should be projected out based on obstruction
+            Vector3 projectionDepthMod = Vector3.ClampMagnitude(projectionDepth, maxProjectionDepth);                                                   //Clamp projectionDepth magnitude (also make into separate variable
+            if (gripType == GripType.GrabLocked || gripType == GripType.GrabFree) projectionDepthMod = transform.right * baseGrabProjection * sideMult; //Use standard grab projection depth
+            else { projectionDepthMod *= Mathf.Clamp01(baseNeutralProjection + (gripValue / surfaceGripThreshold)); }                                   //Use projection depth based on grip amount
+
+            Vector3 flatCurrentVelocity = Vector3.ProjectOnPlane(currentVelocity, transform.forward); //Get modified current velocity for finger drag
+            scaledRadius = fingerTipRadius * scaleMultiplier;                                         //Update scaled radius so it is useable for fingertips
             for (int i = 0; i < fingerTargets.Length; i++) //Iterate through fingerTargets array
             {
                 //Initialization:
                 Vector3 fingerIdealPos = fingerRoots[i].position; //Get ideal target relative to finger root
 
                 //Modifiers:
-                if (unobstructedPosition != newPosition) fingerIdealPos += projectionDepth * gripValue;                                             //Add obstruction projection effect to finger
-                fingerIdealPos += Vector3.ClampMagnitude(-flatCurrentVelocity * fingerVelocityDragFactor, maxFingerVelocityDrag * scaleMultiplier); //Add velocity drag effect to finger
+                if (unobstructedPosition != newPosition || gripType == GripType.GrabLocked || gripType == GripType.GrabFree) fingerIdealPos += projectionDepthMod; //Add obstruction projection effect to finger
+                fingerIdealPos += Vector3.ClampMagnitude(-flatCurrentVelocity * fingerVelocityDragFactor, maxFingerVelocityDrag * scaleMultiplier);                //Add velocity drag effect to finger
 
                 Vector3 targetFingerPos = Vector3.MoveTowards(fingerTargets[i].position, fingerIdealPos, maxFingerMoveSpeed * scaleMultiplier * Time.deltaTime); //Move fingers toward target relative to root
                 targetFingerPos = GetObstructedPosition(fingerTargets[i].localPosition + prevPosition, targetFingerPos, scaledRadius);                           //Filter designated target position through obstructions
@@ -302,8 +316,57 @@ public class VRHandController : MonoBehaviour
                 fingerTargets[i].position = targetFingerPos; //Set absolute finger position
             }
 
+            //Move origin again:
+            if (projectionDepth.y < 0 && gripType == GripType.Open)
+            {
+                Vector3 currentOriginPos = VRPlayerController.main.origin.position; //Get quick reference for current position of origin
+                Vector3 targetOriginPos = currentOriginPos;                         //Initialize positional target value at position of player
+                targetOriginPos += projectionDepth.y * neutralOriginPushFactor * Vector3.down; //Modify position based on hand projection
+
+                targetOriginPos = Vector3.Lerp(currentOriginPos, targetOriginPos, gripMoveLerpRate * Time.deltaTime); //Lerp toward target position
+                float adjMaxSpeed = maxGripMoveSpeed * scaleMultiplier * Time.deltaTime;                              //Get effective max speed
+                if (Vector3.Distance(targetOriginPos, currentOriginPos) > adjMaxSpeed) //Player is moving too fast
+                {
+                    targetOriginPos = Vector3.MoveTowards(currentOriginPos, targetOriginPos, adjMaxSpeed); //Move origin at max speed toward target
+                }
+
+                //Clamp bounds:
+                Vector2 flatOriginPosition = new Vector2(targetOriginPos.x, targetOriginPos.z); //Player is trying to move outside boundary
+                if (Vector2.Distance(flatOriginPosition, Vector2.zero) > outerBoundRadius) //Player is trying to move out of bounds
+                {
+                    flatOriginPosition = flatOriginPosition.normalized * outerBoundRadius;                        //Move player to edge of boundary
+                    targetOriginPos = new Vector3(flatOriginPosition.x, targetOriginPos.y, flatOriginPosition.y); //Commit movement
+                }
+
+                //Cleanup
+                lastOriginVelocity = targetOriginPos - currentOriginPos;   //Record velocity
+                VRPlayerController.main.origin.position = targetOriginPos; //Apply positional change
+            }
+
             //Commit hand movement:
             transform.position = newPosition; //Set new position
+
+            //Effects:
+            if (unobstructedPosition != newPosition && gripType != GripType.GrabLocked && gripType != GripType.GrabFree) //Hand was obstructed this frame
+            {
+                if (!prevObstructed) //Hand has just become obstructed
+                {
+                    float strikeForce = prevVelocity.magnitude;
+                    VRPlayerController.SendHapticImpulse(side, maxSlamHaptics);
+                    audioSource.PlayOneShot(stompSound);
+                    print(strikeForce);
+                }
+
+                //Cleanup:
+                prevObstructed = true;
+            }
+            else //Hand was not obstructed this frame
+            {
+
+                //Cleanup:
+                prevObstructed = false;
+            }
+            prevVelocity = currentVelocity; //Save current velocity
         }
     }
 
@@ -346,8 +409,8 @@ public class VRHandController : MonoBehaviour
                 if (palmSurfaces.Count > 0 && prevGrip < surfaceGripThreshold && gripValue >= surfaceGripThreshold) //Player is grabbing a surface
                 {
                     //Initialize grip:
-                    gripType = GripType.GrabLocked;                //Indicate that player is gripping surface
-                    surfaceGripTarget = controllerTarget.position; //Set position of surface target
+                    gripType = GripType.GrabLocked;         //Indicate that player is gripping surface
+                    surfaceGripTarget = transform.position; //Set position of surface target
 
                     //Check for building:
                     foreach (Collider collider in palmSurfaces) //Iterate through each collider palm is touching
@@ -359,7 +422,7 @@ public class VRHandController : MonoBehaviour
                             break;                      //Ignore other colliders
                         }
                     }
-                    if (otherHand.grabbedBuilding == grabbedBuilding) //Both hands are grabbing the same building
+                    if (grabbedBuilding != null && otherHand.grabbedBuilding == grabbedBuilding) //Both hands are grabbing the same building
                     {
 
                     }
@@ -368,7 +431,7 @@ public class VRHandController : MonoBehaviour
                         otherHand.OpenHand();
                     }
 
-                    //Cleanup:
+                    //Effects:
                     VRPlayerController.SendHapticImpulse(side, grabHaptics);                 //Play grab haptics
                     if (grabbedBuilding != null) audioSource.PlayOneShot(buildingGrabSound); //Play building grab sound if a building was grabbed
                     else audioSource.PlayOneShot(grabSound);                                 //Play normal grab sound

@@ -13,9 +13,9 @@ public class Building : MonoBehaviour
     [SerializeField, Tooltip("Maximum speed at which house can shake")]                                                             private float maxShakeFreq;
     [SerializeField, Tooltip("Maximum distance by which house shakes")]                                                             private float maxShakeDist;
     [SerializeField, Tooltip("Modifies shake perpendicularly to cross-axis position in order to make it appear a bit more random")] private float shakeAxisOffset;
+    [SerializeField, Tooltip("Curve describing intensity of shake based on net pull force")]                                        private AnimationCurve shakeIntensityCurve;
     [Header("Pull Settings:")]
-    [SerializeField, Tooltip("Time building can go without being pulled before its pull status resets")] private float pullResetTime = 0.1f;
-    [Range(0, 1), SerializeField] private float testShake = 0;
+    [SerializeField, Tooltip("Net pull force at which building will come loose from the ground")] private float tearForce;
     [Header("Sounds:")]
     [SerializeField] private AudioClip strainSound;
     [SerializeField] private AudioClip pullFreeSound;
@@ -61,7 +61,12 @@ public class Building : MonoBehaviour
     /// </summary>
     public void Pull(Vector3 force)
     {
-        
+        netPullForce = Mathf.Max(0, netPullForce + force.y); //Add force to net pull force (do not go below zero)
+        if (netPullForce >= tearForce)
+        {
+            //Tear up building:
+            uprooted = true; //Indicate that building is uprooted
+        }
     }
     /// <summary>
     /// Indicates that this building has been released by given hand.
