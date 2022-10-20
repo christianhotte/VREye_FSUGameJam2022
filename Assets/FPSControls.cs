@@ -98,6 +98,15 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Invis"",
+                    ""type"": ""Button"",
+                    ""id"": ""780daa67-6220-4006-9152-29f2f3e54490"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +241,17 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""action"": ""Clone"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c8d30e2c-3554-4e42-893a-03213f653266"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Invis"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -248,6 +268,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         m_Map_Crouch = m_Map.FindAction("Crouch", throwIfNotFound: true);
         m_Map_Die = m_Map.FindAction("Die", throwIfNotFound: true);
         m_Map_Clone = m_Map.FindAction("Clone", throwIfNotFound: true);
+        m_Map_Invis = m_Map.FindAction("Invis", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -315,6 +336,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Map_Crouch;
     private readonly InputAction m_Map_Die;
     private readonly InputAction m_Map_Clone;
+    private readonly InputAction m_Map_Invis;
     public struct MapActions
     {
         private @FPSControls m_Wrapper;
@@ -327,6 +349,7 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         public InputAction @Crouch => m_Wrapper.m_Map_Crouch;
         public InputAction @Die => m_Wrapper.m_Map_Die;
         public InputAction @Clone => m_Wrapper.m_Map_Clone;
+        public InputAction @Invis => m_Wrapper.m_Map_Invis;
         public InputActionMap Get() { return m_Wrapper.m_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -360,6 +383,9 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Clone.started -= m_Wrapper.m_MapActionsCallbackInterface.OnClone;
                 @Clone.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnClone;
                 @Clone.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnClone;
+                @Invis.started -= m_Wrapper.m_MapActionsCallbackInterface.OnInvis;
+                @Invis.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnInvis;
+                @Invis.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnInvis;
             }
             m_Wrapper.m_MapActionsCallbackInterface = instance;
             if (instance != null)
@@ -388,6 +414,9 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Clone.started += instance.OnClone;
                 @Clone.performed += instance.OnClone;
                 @Clone.canceled += instance.OnClone;
+                @Invis.started += instance.OnInvis;
+                @Invis.performed += instance.OnInvis;
+                @Invis.canceled += instance.OnInvis;
             }
         }
     }
@@ -402,5 +431,6 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         void OnCrouch(InputAction.CallbackContext context);
         void OnDie(InputAction.CallbackContext context);
         void OnClone(InputAction.CallbackContext context);
+        void OnInvis(InputAction.CallbackContext context);
     }
 }

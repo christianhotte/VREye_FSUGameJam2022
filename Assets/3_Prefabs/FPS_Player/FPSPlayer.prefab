@@ -539,6 +539,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   torso: {fileID: 3030487561478727225}
   legs: {fileID: 5933303435738288049}
+  bodyMesh: {fileID: 6476973786337909524}
+  gunMesh: {fileID: 4418376880121839104}
   fpsCrossbow: {fileID: 7857814505131758114}
   fpsCanvas: {fileID: 0}
   cloneCanvas: {fileID: 0}
@@ -785,7 +787,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0.3
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -822,7 +824,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1082,6 +1084,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2906121153893139676, guid: 2470d789504948c4a9f07439b761bf8c, type: 3}
   m_PrefabInstance: {fileID: 255239779895223982}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &4418376880121839104 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4529479274301872302, guid: 2470d789504948c4a9f07439b761bf8c, type: 3}
+  m_PrefabInstance: {fileID: 255239779895223982}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4510023695073764702 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4403422701725893616, guid: 2470d789504948c4a9f07439b761bf8c, type: 3}
@@ -1327,6 +1334,11 @@ Animator:
 --- !u!95 &5933303435738288049 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 800081838179314107, guid: aaee3290d9aff7245b37cc4ec0c3d3e3, type: 3}
+  m_PrefabInstance: {fileID: 6434837069517973002}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &6476973786337909524 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 49530177810758942, guid: aaee3290d9aff7245b37cc4ec0c3d3e3, type: 3}
   m_PrefabInstance: {fileID: 6434837069517973002}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8851809467671863774 stripped

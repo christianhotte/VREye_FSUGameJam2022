@@ -15,9 +15,12 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] Animator torso;
     Quaternion torsoStartRotation;
     [SerializeField] Animator legs;
+    [SerializeField] SkinnedMeshRenderer bodyMesh;
+    [SerializeField] SkinnedMeshRenderer gunMesh;
     [SerializeField] Animator fpsCrossbow;
     [SerializeField] Animator fpsCanvas;
     [SerializeField] Animator cloneCanvas;
+    [SerializeField] Animator invisCanvas;
     [SerializeField] Animation canvasBackColor;
     [SerializeField] List<Animator> canvasHearts; 
 
@@ -78,6 +81,7 @@ public class FPSPlayer : MonoBehaviour
     bool bowLoaded = true;
 
     float cloneCooldown = 0;
+    float invisCooldown = 0;
 
     int hp = 3;
     float controlTimeRemaining = 0;
@@ -206,6 +210,14 @@ public class FPSPlayer : MonoBehaviour
             if (cloneCooldown <= 0)
             {
                 cloneCanvas.Play("Clone_Canvas_Regen");
+            }
+        }
+        if (invisCooldown > 0)
+        {
+            invisCooldown -= Time.deltaTime;
+            if (invisCooldown <= 0)
+            {
+                invisCanvas.Play("Invis_Canvas_Regen");
             }
         }
         fpsCrossbow.transform.localScale = Vector3.Lerp(fpsCrossbow.transform.localScale, Vector3.one, Time.deltaTime * 2.0f);
@@ -437,7 +449,7 @@ public class FPSPlayer : MonoBehaviour
     public void ForceDie(InputAction.CallbackContext ctx)
     {
         if (!ctx.performed) return;
-        StaticWin();
+        TakeDamage();
     }
 
     public static void FPSShake(float intensity, int times, float curve, float lag)
@@ -464,6 +476,46 @@ public class FPSPlayer : MonoBehaviour
             yield return new WaitForSeconds(lag);
             intensity *= curve;
         }
+    }
+
+    void HideToggleAll()
+    {
+        gunMesh.enabled = !gunMesh.enabled;
+        bodyMesh.enabled = !bodyMesh.enabled;
+        shadowTrail.enabled = !shadowTrail.enabled;
+        faceLight.enabled = !faceLight.enabled;
+    }
+    void HideSetAll(bool _set)
+    {
+        gunMesh.enabled = _set;
+        bodyMesh.enabled = _set;
+        shadowTrail.enabled = _set;
+        faceLight.enabled = _set;
+    }
+    public void DoInvis(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.performed) return;
+        if (invisCooldown > 0) return;
+        invisCooldown = 15.0f;
+        invisCanvas.Play("Invis_Canvas_Use");
+        StartCoroutine(Invis());
+    }
+    IEnumerator Invis()
+    {
+        HideSetAll(true);
+        for (float i = 2.0f; i < 10.0f; i++)
+        {
+            yield return new WaitForSeconds(0.2f/i);
+            HideToggleAll();
+        }
+        HideSetAll(false);
+        yield return new WaitForSeconds(4.0f);
+        for (float i = 2.0f; i < 10.0f; i++)
+        {
+            yield return new WaitForSeconds(0.2f/i);
+            HideToggleAll();
+        }
+        HideSetAll(true);
     }
 
 }
