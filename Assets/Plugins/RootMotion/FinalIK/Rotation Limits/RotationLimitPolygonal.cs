@@ -1,5 +1,8 @@
 using UnityEngine;
+using UnityEditor;
 using System.Collections;
+using System;
+using System.Reflection;
 
 namespace RootMotion.FinalIK {
 
@@ -327,6 +330,17 @@ namespace RootMotion.FinalIK {
 			
 			return -1;
 		}
+		public void FlipAllLimits()
+        {
+			for (int i = 0; i < 3; i++) //Iterate through each of the three axes
+            {
+				axis[i] = -axis[i];
+
+				foreach (LimitPoint limitPoint in points) limitPoint.point[i] = -limitPoint.point[i];
+				Array.Reverse(points);
+				BuildReachCones();
+            }
+        }
 		
 		#endregion Runtime calculations
 	}

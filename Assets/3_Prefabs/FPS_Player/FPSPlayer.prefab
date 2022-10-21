@@ -433,7 +433,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2559
+    m_Bits: 6655
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -539,7 +539,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   torso: {fileID: 3030487561478727225}
   legs: {fileID: 5933303435738288049}
+  bodyMesh: {fileID: 6476973786337909524}
+  gunMesh: {fileID: 4418376880121839104}
+  boltMesh: {fileID: 7633423590442080076}
   fpsCrossbow: {fileID: 7857814505131758114}
+  fpsCanvas: {fileID: 0}
+  cloneCanvas: {fileID: 0}
+  invisCanvas: {fileID: 0}
+  canvasBackColor: {fileID: 0}
+  canvasHearts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   shadowTrail: {fileID: 1486957863}
   faceLight: {fileID: 8130770513139168248}
   cam: {fileID: 1658674683545223284}
@@ -556,11 +567,16 @@ MonoBehaviour:
   jumpHeight: 10
   crouchDistance: 0.5
   deathDistance: 0.9
+  loseControlTime: 0.5
+  squishScale: 0.07
   looseWeaponSway: 0
   weaponSwayX: 0.1
   weaponSwayY: 0.1
   weaponReturn: 5
   rocketPrefab: {fileID: 767697876143057398, guid: 1aac0db7bbc03234ba22a1aac4638a31, type: 3}
+  clonePrefab: {fileID: 5035506155464919225, guid: 1032a46a7bf75b74691bd34d6942ec91, type: 3}
+  deathCanvasPrefab: {fileID: 5597117968871627655, guid: 5779039ede5f22f4daaa24b68e64ebad, type: 3}
+  winCanvasPrefab: {fileID: 1025333710998137901, guid: 7386705b477148e43a92bdf9084068e5, type: 3}
   groundLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -703,6 +719,70 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2e1e3468-a62a-4628-b971-89f104af1872
     m_ActionName: Map/Die[/Keyboard/k]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1658674684814655491}
+        m_TargetAssemblyTypeName: FPSPlayer, Assembly-CSharp
+        m_MethodName: Clone
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4c8dfdd6-3e91-499b-9eb2-e0a3931ad300
+    m_ActionName: Map/Clone[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1658674684814655491}
+        m_TargetAssemblyTypeName: FPSPlayer, Assembly-CSharp
+        m_MethodName: DoInvis
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 780daa67-6220-4006-9152-29f2f3e54490
+    m_ActionName: Map/Invis[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1658674684814655491}
+        m_TargetAssemblyTypeName: FPSPlayer, Assembly-CSharp
+        m_MethodName: Escape
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 32f37444-ccb3-46ce-aca6-cc4e44935ee8
+    m_ActionName: Map/Escape[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1658674684814655491}
+        m_TargetAssemblyTypeName: FPSPlayer, Assembly-CSharp
+        m_MethodName: ADS
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f9914a19-8300-4f56-943e-de97d23dea1a
+    m_ActionName: Map/ADS[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Map
@@ -757,7 +837,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0.3
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -794,7 +874,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -997,11 +1077,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2906121153893139676, guid: 2470d789504948c4a9f07439b761bf8c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.643
+      value: -0.425
       objectReference: {fileID: 0}
     - target: {fileID: 2906121153893139676, guid: 2470d789504948c4a9f07439b761bf8c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.14
+      value: -0.217
       objectReference: {fileID: 0}
     - target: {fileID: 2906121153893139676, guid: 2470d789504948c4a9f07439b761bf8c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1054,6 +1134,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2906121153893139676, guid: 2470d789504948c4a9f07439b761bf8c, type: 3}
   m_PrefabInstance: {fileID: 255239779895223982}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &4418376880121839104 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4529479274301872302, guid: 2470d789504948c4a9f07439b761bf8c, type: 3}
+  m_PrefabInstance: {fileID: 255239779895223982}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4510023695073764702 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4403422701725893616, guid: 2470d789504948c4a9f07439b761bf8c, type: 3}
@@ -1072,6 +1157,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1658674684814655491}
+--- !u!23 &7633423590442080076 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7666698274259546594, guid: 2470d789504948c4a9f07439b761bf8c, type: 3}
+  m_PrefabInstance: {fileID: 255239779895223982}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &7857814505131758114 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7964153677105493132, guid: 2470d789504948c4a9f07439b761bf8c, type: 3}
@@ -1299,6 +1389,11 @@ Animator:
 --- !u!95 &5933303435738288049 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 800081838179314107, guid: aaee3290d9aff7245b37cc4ec0c3d3e3, type: 3}
+  m_PrefabInstance: {fileID: 6434837069517973002}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &6476973786337909524 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 49530177810758942, guid: aaee3290d9aff7245b37cc4ec0c3d3e3, type: 3}
   m_PrefabInstance: {fileID: 6434837069517973002}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8851809467671863774 stripped

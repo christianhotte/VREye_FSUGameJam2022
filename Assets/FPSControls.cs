@@ -89,6 +89,42 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Clone"",
+                    ""type"": ""Button"",
+                    ""id"": ""4c8dfdd6-3e91-499b-9eb2-e0a3931ad300"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Invis"",
+                    ""type"": ""Button"",
+                    ""id"": ""780daa67-6220-4006-9152-29f2f3e54490"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""32f37444-ccb3-46ce-aca6-cc4e44935ee8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ADS"",
+                    ""type"": ""Button"",
+                    ""id"": ""f9914a19-8300-4f56-943e-de97d23dea1a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -212,6 +248,50 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                     ""action"": ""Die"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d36d009b-5530-4701-9b64-46e86d082b65"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Clone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c8d30e2c-3554-4e42-893a-03213f653266"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Invis"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6e369138-e7be-45f5-ba12-d24c3da69eb5"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""443ec7f5-f729-4ec6-8305-e84a135cb7ab"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ADS"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -227,6 +307,10 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         m_Map_Sprint = m_Map.FindAction("Sprint", throwIfNotFound: true);
         m_Map_Crouch = m_Map.FindAction("Crouch", throwIfNotFound: true);
         m_Map_Die = m_Map.FindAction("Die", throwIfNotFound: true);
+        m_Map_Clone = m_Map.FindAction("Clone", throwIfNotFound: true);
+        m_Map_Invis = m_Map.FindAction("Invis", throwIfNotFound: true);
+        m_Map_Escape = m_Map.FindAction("Escape", throwIfNotFound: true);
+        m_Map_ADS = m_Map.FindAction("ADS", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -293,6 +377,10 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Map_Sprint;
     private readonly InputAction m_Map_Crouch;
     private readonly InputAction m_Map_Die;
+    private readonly InputAction m_Map_Clone;
+    private readonly InputAction m_Map_Invis;
+    private readonly InputAction m_Map_Escape;
+    private readonly InputAction m_Map_ADS;
     public struct MapActions
     {
         private @FPSControls m_Wrapper;
@@ -304,6 +392,10 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Map_Sprint;
         public InputAction @Crouch => m_Wrapper.m_Map_Crouch;
         public InputAction @Die => m_Wrapper.m_Map_Die;
+        public InputAction @Clone => m_Wrapper.m_Map_Clone;
+        public InputAction @Invis => m_Wrapper.m_Map_Invis;
+        public InputAction @Escape => m_Wrapper.m_Map_Escape;
+        public InputAction @ADS => m_Wrapper.m_Map_ADS;
         public InputActionMap Get() { return m_Wrapper.m_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -334,6 +426,18 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Die.started -= m_Wrapper.m_MapActionsCallbackInterface.OnDie;
                 @Die.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnDie;
                 @Die.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnDie;
+                @Clone.started -= m_Wrapper.m_MapActionsCallbackInterface.OnClone;
+                @Clone.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnClone;
+                @Clone.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnClone;
+                @Invis.started -= m_Wrapper.m_MapActionsCallbackInterface.OnInvis;
+                @Invis.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnInvis;
+                @Invis.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnInvis;
+                @Escape.started -= m_Wrapper.m_MapActionsCallbackInterface.OnEscape;
+                @Escape.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnEscape;
+                @Escape.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnEscape;
+                @ADS.started -= m_Wrapper.m_MapActionsCallbackInterface.OnADS;
+                @ADS.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnADS;
+                @ADS.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnADS;
             }
             m_Wrapper.m_MapActionsCallbackInterface = instance;
             if (instance != null)
@@ -359,6 +463,18 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
                 @Die.started += instance.OnDie;
                 @Die.performed += instance.OnDie;
                 @Die.canceled += instance.OnDie;
+                @Clone.started += instance.OnClone;
+                @Clone.performed += instance.OnClone;
+                @Clone.canceled += instance.OnClone;
+                @Invis.started += instance.OnInvis;
+                @Invis.performed += instance.OnInvis;
+                @Invis.canceled += instance.OnInvis;
+                @Escape.started += instance.OnEscape;
+                @Escape.performed += instance.OnEscape;
+                @Escape.canceled += instance.OnEscape;
+                @ADS.started += instance.OnADS;
+                @ADS.performed += instance.OnADS;
+                @ADS.canceled += instance.OnADS;
             }
         }
     }
@@ -372,5 +488,9 @@ public partial class @FPSControls : IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnDie(InputAction.CallbackContext context);
+        void OnClone(InputAction.CallbackContext context);
+        void OnInvis(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
+        void OnADS(InputAction.CallbackContext context);
     }
 }

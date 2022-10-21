@@ -17,9 +17,9 @@ TagManager:
   - FPSArms
   - WorldModel
   - TriggerVolume
-  - 
-  - 
-  - 
+  - FPSClone
+  - HandObstruct
+  - KeepFPSOut
   - 
   - 
   - 

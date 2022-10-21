@@ -131,14 +131,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dff256ae1afd6754f8b453423b41fd99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 65
-  turnDownSpeed: 5
+  moveSpeed: 85
+  turnDownSpeed: 2
   canHit:
     serializedVersion: 2
     m_Bits: 2433
   destroyOnHit:
     serializedVersion: 2
-    m_Bits: 2432
+    m_Bits: 0
   monsterHeadLayer: 7
   monsterHandLayer: 8
   ps: {fileID: 7978375999736749664}

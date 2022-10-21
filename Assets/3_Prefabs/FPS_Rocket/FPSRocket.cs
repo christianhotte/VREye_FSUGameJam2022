@@ -36,7 +36,8 @@ public class FPSRocket : MonoBehaviour
             if (shot != null)
             {
                 shot.Shot();
-                Destroy(gameObject); //Make sure projectile just goes away when hitting a weak point
+                Destroy(boltModel);
+                transform.parent = hit.collider.transform;
             }
             else
             {
@@ -49,6 +50,7 @@ public class FPSRocket : MonoBehaviour
                     Destroy(this);
                 }
             }
+            Destroy(this);
         }
         else
         {
