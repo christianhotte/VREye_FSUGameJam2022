@@ -30,7 +30,11 @@ public class BossHpBar : MonoBehaviour
 
     public static void DisplayBossHealth()
     {
-        if (inst != null) inst.gameObject.SetActive(true);
+        if (inst != null)
+        {
+            inst.gameObject.SetActive(true);
+            inst.UpdateHealth();
+        }
     }
 
     private void Update()

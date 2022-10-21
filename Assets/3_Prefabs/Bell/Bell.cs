@@ -17,13 +17,13 @@ public class Bell : MonoBehaviour, IShootable
 
     public void Shot()
     {
-        mr.material = dontMat;
         if (shot) return;
+        mr.material = dontMat;
         GetComponent<AudioSource>().Play();
         shot = true;
         bellShotEvent.Invoke();
         FPSPlayer.FPSShake(0.1f, 10, 0.25f, 0.05f);
-        BossHpBar.DisplayBossHealth();
+        //BossHpBar.DisplayBossHealth();
         StartCoroutine(TextFade());
         bellMr.material.SetColor("_EmissionColor", Color.black);
         groundSource.Play();
