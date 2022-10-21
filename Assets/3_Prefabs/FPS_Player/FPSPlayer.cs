@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class FPSPlayer : MonoBehaviour
 {
-    static FPSPlayer inst;
+    public static FPSPlayer inst;
 
     Rigidbody rb;
     Collider col;
@@ -48,6 +48,7 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] float deathDistance;
     [SerializeField] float loseControlTime = 0.5f;
     [SerializeField] float squishScale = 0.07f;
+    [SerializeField] float winWaitTime = 10.0f;
 
     [SerializeField] bool looseWeaponSway;
     [SerializeField] float weaponSwayX;
@@ -605,7 +606,7 @@ public class FPSPlayer : MonoBehaviour
 
     IEnumerator WaitThenWin()
     {
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(winWaitTime);
         Win();
     }
 
