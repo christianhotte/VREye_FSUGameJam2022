@@ -40,7 +40,7 @@ public class VRPlayerController : MonoBehaviour
     [Min(0), SerializeField, Tooltip("")]                                                                         private float headRadius;
     [SerializeField, Tooltip("Physics layers which head is able to collide with")]                                private LayerMask obstructionLayers;
     [Header("Death Sequencing:")]
-    [Min(0.01f), SerializeField(), Tooltip("Time (in seconds) taken for eye to fade after VR player dies")] private float death_EyeFadeTime;
+    [SerializeField] private float[] deathSequenceTimes;
     [Min(0.01f), SerializeField(), Tooltip("Curve describing fade out effect of eye light upon death")]     private AnimationCurve death_EyeFadeCurve;
     [Header("Sounds:")]
     [SerializeField] private AudioClip spawnSound;
@@ -60,17 +60,23 @@ public class VRPlayerController : MonoBehaviour
     IEnumerator DeathSequence()
     {
         //Eye fade:
-        float fadeTimer = 0; //Initialize timer for checking point in sequence
+        float timer = 0; //Initialize timer for checking point in sequence
         Light[] lights = GetComponentsInChildren<Light>();
         List<float> initialLightValues = new List<float>();
         foreach (Light light in lights) initialLightValues.Add(light.intensity);
-        while (fadeTimer <= death_EyeFadeTime)
+        while (timer <= deathSequenceTimes[0])
         {
-            fadeTimer += Time.fixedDeltaTime;
-            float fadeValue = death_EyeFadeCurve.Evaluate(fadeTimer / death_EyeFadeTime);
+            timer += Time.fixedDeltaTime;
+            float fadeValue = death_EyeFadeCurve.Evaluate(timer / deathSequenceTimes[0]);
             for (int i = 0; i < lights.Length; i++) lights[i].intensity = initialLightValues[i] * fadeValue;
             yield return new WaitForFixedUpdate();
         }
+
+        //Hand gibs:
+        yield return new WaitForSeconds(deathSequenceTimes[1]);
+        leftHand.Gib();
+        yield return new WaitForSeconds(deathSequenceTimes[2]);
+        rightHand.Gib();
 
         //Cleanup:
         yield return null; //End sequence

@@ -639,6 +639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerTarget: {fileID: 0}
+  gibPrefab: {fileID: 5166668760552584036, guid: ff352d200741d8e4fbb526f6a32cefaf, type: 3}
   followOffset: {x: 0, y: 0, z: -0.07}
   maxSpeed: 1.5
   linearFollowSpeed: 2.7

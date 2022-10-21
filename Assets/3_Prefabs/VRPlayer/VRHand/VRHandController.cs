@@ -12,6 +12,7 @@ public class VRHandController : MonoBehaviour
     /// Controller transform which this hand is following.
     /// </summary>
     public Transform controllerTarget;
+    public GameObject gibPrefab;
     internal VRHandController otherHand; //Reference to controller script for opposite hand
     private Transform obstructedTarget;  //Target position which does not collide with objects in scene
     private Transform[] fingerTargets;   //Array of all targets used to position finger IK rigs
@@ -477,6 +478,15 @@ public class VRHandController : MonoBehaviour
         if (inputMap != null) inputMap.actionTriggered -= OnInput;
         inputMap = map;
         map.actionTriggered += OnInput;
+    }
+    public void Gib()
+    {
+        Transform gibs = Instantiate(gibPrefab).transform;
+        gibs.parent = transform.parent;
+        gibs.position = transform.position;
+        gibs.rotation = transform.rotation;
+        gibs.localScale = transform.localScale;
+        Destroy(gameObject);
     }
 
     //UTILITY METHODS:

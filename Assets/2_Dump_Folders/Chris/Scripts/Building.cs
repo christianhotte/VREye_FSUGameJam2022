@@ -74,7 +74,6 @@ public class Building : MonoBehaviour
     {
         if (!uprooted)
         {
-            print("TotalForce: " + netPullForce);
             netPullForce = Mathf.Max(0, netPullForce + force.y);        //Add force to net pull force (do not go below zero)
             float forceValue = Mathf.Clamp01(netPullForce / tearForce); //Get value representing how pulled building is
 
