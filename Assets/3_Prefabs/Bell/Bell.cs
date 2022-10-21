@@ -27,7 +27,7 @@ public class Bell : MonoBehaviour, IShootable
         StartCoroutine(TextFade());
         bellMr.material.SetColor("_EmissionColor", Color.black);
         groundSource.Play();
-        WaitThenPlayAnim();
+        StartCoroutine(WaitThenPlayAnim());
     }
 
     IEnumerator TextFade()
