@@ -670,17 +670,19 @@ MonoBehaviour:
   maxProjectionDepth: 3.5
   baseGrabProjection: 4
   baseNeutralProjection: 0.1
-  minSlamHaptics: {x: 1, y: 0.1}
+  minSlamHaptics: {x: 0.1, y: 0.1}
   maxSlamHaptics: {x: 1, y: 0.1}
-  grabHaptics: {x: 1, y: 0.1}
-  hurtHaptics: {x: 1, y: 0.1}
-  arrowCatchHaptics: {x: 1, y: 0.1}
-  deathHaptics: {x: 0, y: 0}
+  grabHaptics: {x: 0.8, y: 0.24}
+  hurtHaptics: {x: 1, y: 0.15}
+  arrowCatchHaptics: {x: 0.5, y: 0.15}
   muffledStompSound: {fileID: 8300000, guid: 1327e1a482ee42249b7a2e12e96c4c4d, type: 3}
   stompSound: {fileID: 8300000, guid: 29e6b703b358ee04aba54fac582105b1, type: 3}
   grabSound: {fileID: 8300000, guid: bd3921195a64c394da828953795aac1a, type: 3}
   buildingGrabSound: {fileID: 8300000, guid: 1b62145f70650a64683f7c3313cca3a4, type: 3}
-  stompEffectImpactRange: {x: 0, y: 10}
+  stompEffectImpactRange: {x: 3, y: 35}
+  earthQuakeRadius: {x: 15, y: 80}
+  earthQuakeTimeRange: {x: 0.01, y: 0.04}
+  earthQuakeIntensityRange: {x: 0.01, y: 0.08}
 --- !u!82 &3550603057714943871
 AudioSource:
   m_ObjectHideFlags: 0

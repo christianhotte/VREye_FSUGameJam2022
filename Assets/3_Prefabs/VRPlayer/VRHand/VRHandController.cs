@@ -61,7 +61,6 @@ public class VRHandController : MonoBehaviour
     [SerializeField, Tooltip("")] private Vector2 grabHaptics;
     [SerializeField, Tooltip("")] private Vector2 hurtHaptics;
     [SerializeField, Tooltip("")] private Vector2 arrowCatchHaptics;
-    [SerializeField, Tooltip("")] private Vector2 deathHaptics;
     [Header("Sounds:")]
     [SerializeField, Tooltip("")] private AudioClip muffledStompSound;
     [SerializeField, Tooltip("")] private AudioClip stompSound;
@@ -69,6 +68,8 @@ public class VRHandController : MonoBehaviour
     [SerializeField, Tooltip("")] private AudioClip buildingGrabSound;
     [Header("Effect Controls:")]
     [SerializeField, Tooltip("Min and max impact deceleration for stomp effect to register")] private Vector2 stompEffectImpactRange;
+    [SerializeField, Tooltip("Min and max impact deceleration for stomp effect to register")] private Vector2 earthQuakeRadius;
+    [SerializeField, Tooltip("Min and max impact deceleration for stomp effect to register")] private Vector2 earthQuakeIntensityRange;
 
     //Runtime Variables:
     /// <summary>
@@ -80,6 +81,7 @@ public class VRHandController : MonoBehaviour
     private Vector3 prevVelocity;
     private Vector3 lastOriginVelocity;
     private bool prevObstructed;
+    private float shookPlayerTime;
 
     //Input Variables:
     private float gripValue;                    //How closed this hand currently is
@@ -144,6 +146,8 @@ public class VRHandController : MonoBehaviour
     }
     private void Update()
     {
+        if (shookPlayerTime > 0) shookPlayerTime = Mathf.Max(0, shookPlayerTime - Time.deltaTime);
+
         //Perform positional update:
         if (controllerTarget != null && obstructedTarget != null) //Both targeting references need to be present for system to function
         {
@@ -356,9 +360,14 @@ public class VRHandController : MonoBehaviour
                 if (!prevObstructed) //Hand has just become obstructed
                 {
                     float strikeForce = prevVelocity.magnitude;
-                    VRPlayerController.SendHapticImpulse(side, maxSlamHaptics);
-                    audioSource.PlayOneShot(stompSound);
-                    print(strikeForce);
+                    strikeForce = Mathf.InverseLerp(stompEffectImpactRange.x, stompEffectImpactRange.y, strikeForce);
+                    VRPlayerController.SendHapticImpulse(side, Vector2.Lerp(minSlamHaptics, maxSlamHaptics, strikeForce));
+                    audioSource.PlayOneShot(stompSound, strikeForce);
+
+                    //float playerDistance = Vector3.Distance(transform.position, FPSPlayer.inst.transform.position);
+                    //playerDistance = Mathf.InverseLerp(earthQuakeRadius.x, earthQuakeRadius.y, playerDistance);
+                    //FPSPlayer.FPSShake(Mathf.Lerp(earthQuakeIntensityRange.x, earthQuakeIntensityRange.y, playerDistance), 10, 0.15f, Mathf.Lerp(earthQuakeTimeRange.x, earthQuakeTimeRange.y, playerDistance));
+                    //if (shookPlayerTime == 0 && FPSPlayer.inst.grounded) { FPSPlayer.FPSShake(0.03f, 10, 0.5f, 0.05f); shookPlayerTime = 0.7f; }
                 }
 
                 //Cleanup:

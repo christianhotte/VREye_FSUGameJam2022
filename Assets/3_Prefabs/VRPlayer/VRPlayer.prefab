@@ -588,7 +588,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  spawnSound: {fileID: 8300000, guid: 14cdc182e30da4e4494301a45eb1da03, type: 3}
+  spawnSound: {fileID: 0}
   deathSound: {fileID: 8300000, guid: 2e5bb480826ef8d429981133e392ad6c, type: 3}
   handExplodeHaptics: {x: 1, y: 1.2}
 --- !u!82 &875417578051529296
@@ -1508,6 +1508,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -448801385069243133, guid: 2349c96183edd584e9fb8a2a72d341ea, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a626b1390ae42984e8a3f17cd56ac703, type: 2}
     - target: {fileID: 65702495048144492, guid: 2349c96183edd584e9fb8a2a72d341ea, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -1536,6 +1540,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 3388962215713617295, guid: 2349c96183edd584e9fb8a2a72d341ea, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7f8a14d3bd4c9174594062954380ad47, type: 2}
     - target: {fileID: 7753705370032899036, guid: 2349c96183edd584e9fb8a2a72d341ea, type: 3}
       propertyPath: m_Layer
       value: 11
@@ -1670,7 +1678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  sound: {fileID: 8300000, guid: 14cdc182e30da4e4494301a45eb1da03, type: 3}
+  sound: {fileID: 8300000, guid: 8ced38c78214faf44857800b2a0a6851, type: 3}
 --- !u!4 &5405623702215174112 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2349c96183edd584e9fb8a2a72d341ea, type: 3}
@@ -1804,7 +1812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 20
-  sound: {fileID: 8300000, guid: 14cdc182e30da4e4494301a45eb1da03, type: 3}
+  sound: {fileID: 8300000, guid: 8ced38c78214faf44857800b2a0a6851, type: 3}
 --- !u!1 &7795566648558796998 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2351285760355729613, guid: 2349c96183edd584e9fb8a2a72d341ea, type: 3}
@@ -1933,7 +1941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 50
-  sound: {fileID: 8300000, guid: 14cdc182e30da4e4494301a45eb1da03, type: 3}
+  sound: {fileID: 8300000, guid: 8ced38c78214faf44857800b2a0a6851, type: 3}
 --- !u!1 &8183241205373987785 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4819223349682164798, guid: 2349c96183edd584e9fb8a2a72d341ea, type: 3}

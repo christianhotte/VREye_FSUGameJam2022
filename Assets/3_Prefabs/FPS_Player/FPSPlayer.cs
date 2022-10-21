@@ -81,7 +81,7 @@ public class FPSPlayer : MonoBehaviour
     int isShooting_hash = Animator.StringToHash("FiringGun");
     int canvasReload_hash = Animator.StringToHash("FPS_Canvas_Reload");
 
-    bool grounded = false;
+    public bool grounded = false;
     bool hithead = false;
     bool bowLoaded = true;
     bool ads = false;
