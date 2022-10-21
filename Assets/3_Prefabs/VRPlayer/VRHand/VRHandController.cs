@@ -358,7 +358,7 @@ public class VRHandController : MonoBehaviour
                     float strikeForce = prevVelocity.magnitude;
                     VRPlayerController.SendHapticImpulse(side, maxSlamHaptics);
                     audioSource.PlayOneShot(stompSound);
-                    //print(strikeForce);
+                    print(strikeForce);
                 }
 
                 //Cleanup:
