@@ -12,7 +12,9 @@ public class Gibbifier : MonoBehaviour
     {
         foreach (Rigidbody rb in GetComponentsInChildren<Rigidbody>())
         {
-            rb.AddExplosionForce(explosionForce, explosionCenter.position, explosionRadius);
+            Vector3 center = transform.position;
+            if (explosionCenter != null) center = explosionCenter.position;
+            rb.AddExplosionForce(explosionForce, center, explosionRadius);
         }
     }
 }

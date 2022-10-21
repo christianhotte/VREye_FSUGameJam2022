@@ -32,6 +32,7 @@ public class VRPlayerController : MonoBehaviour
     //Settings:
     [Header("References & Prefabs:")]
     [SerializeField()] private GameObject handPrefab;
+    [SerializeField()] private GameObject gibbedPrefab;
     [SerializeField()] private Transform headModel;
     //[SerializeField] private 
     [Header("General Settings:")]
@@ -45,6 +46,8 @@ public class VRPlayerController : MonoBehaviour
     [Header("Sounds:")]
     [SerializeField] private AudioClip spawnSound;
     [SerializeField] private AudioClip deathSound;
+    [Header("Haptics:")]
+    [SerializeField] private Vector2 handExplodeHaptics;
 
     //Runtime Vars:
     internal int health;       //Amount of health player currently has
@@ -72,11 +75,20 @@ public class VRPlayerController : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        //Hand gibs:
+        //Gibs:
         yield return new WaitForSeconds(deathSequenceTimes[1]);
         leftHand.Gib();
+        SendHapticImpulse(HandType.Left, handExplodeHaptics);
         yield return new WaitForSeconds(deathSequenceTimes[2]);
         rightHand.Gib();
+        SendHapticImpulse(HandType.Right, handExplodeHaptics);
+        yield return new WaitForSeconds(deathSequenceTimes[3]);
+        Transform gibs = Instantiate(gibbedPrefab).transform;
+        gibs.parent = headModel.parent;
+        gibs.position = headModel.position;
+        gibs.rotation = headModel.rotation;
+        gibs.localScale = headModel.localScale;
+        Destroy(headModel.gameObject);
 
         //Cleanup:
         yield return null; //End sequence
@@ -139,6 +151,7 @@ public class VRPlayerController : MonoBehaviour
     /// </summary>
     private void Die()
     {
+        if (dead) return;
         dead = true;
         StartCoroutine(DeathSequence());
         audioSource.PlayOneShot(deathSound);

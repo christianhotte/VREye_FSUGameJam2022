@@ -542,6 +542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handPrefab: {fileID: 8621787170990023273, guid: 5fd457f674320c84d93ef3f143b268dd, type: 3}
+  gibbedPrefab: {fileID: 8068882582616200730, guid: a8f4e17e746840943b1456a40e862f37, type: 3}
   headModel: {fileID: 3197343730811009893}
   maxHealth: 100
   hardVerticalBounds: {x: 4, y: 33}
@@ -550,9 +551,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   deathSequenceTimes:
-  - 3
-  - 0.5
+  - 5
+  - 0.2
   - 0.7
+  - 1
   death_EyeFadeCurve:
     serializedVersion: 2
     m_Curve:
@@ -588,6 +590,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   spawnSound: {fileID: 8300000, guid: 14cdc182e30da4e4494301a45eb1da03, type: 3}
   deathSound: {fileID: 8300000, guid: 2e5bb480826ef8d429981133e392ad6c, type: 3}
+  handExplodeHaptics: {x: 1, y: 1.2}
 --- !u!82 &875417578051529296
 AudioSource:
   m_ObjectHideFlags: 0
