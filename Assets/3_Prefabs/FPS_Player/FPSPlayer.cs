@@ -603,9 +603,15 @@ public class FPSPlayer : MonoBehaviour
         Application.Quit();
     }
 
+    IEnumerator WaitThenWin()
+    {
+        yield return new WaitForSeconds(5.0f);
+        Win();
+    }
+
     private void CheckWin()
     {
-        if (VRPlayerController.main.health < 1) Win();
+        if (VRPlayerController.main.health < 1) StartCoroutine(WaitThenWin());
     }
 
     private void OnEnable()
