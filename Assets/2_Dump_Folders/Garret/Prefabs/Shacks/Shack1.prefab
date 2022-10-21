@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6725475396963192011
 Transform:
@@ -49,9 +49,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxShakeFreq: 0
   maxShakeDist: 0
-  shakeAxisOffset: 0
-  pullResetTime: 0.1
-  testShake: 0
+  shakeIntensityCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  tearForce: 0
+  strainForceValue: 0
   strainSound: {fileID: 8300000, guid: 81f3b34e3d53df349861e3b948e94891, type: 3}
   pullFreeSound: {fileID: 8300000, guid: 85406674d9a8e4c47ba8082c1d22ab08, type: 3}
 --- !u!82 &7786190831388194974
@@ -167,7 +172,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4872813913821534193
 Transform:
@@ -265,7 +270,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6474050133448072760
 Transform:

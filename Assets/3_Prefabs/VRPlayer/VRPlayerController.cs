@@ -126,6 +126,9 @@ public class VRPlayerController : MonoBehaviour
         //Initialize:
         audioSource.PlayOneShot(spawnSound); //Play spawn sound
         prevHeadPos = head.position;         //Get starting position of head
+        transform.position = new Vector3(0, -56.39f, 0);
+        origin.localPosition = Vector3.zero;
+        head.localPosition = Vector3.zero;
     }
     private void Update()
     {

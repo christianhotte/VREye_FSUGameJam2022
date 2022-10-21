@@ -23,14 +23,17 @@ public class FPSPlayer : MonoBehaviour
     [SerializeField] Animator cloneCanvas;
     [SerializeField] Animator invisCanvas;
     [SerializeField] Animation canvasBackColor;
-    [SerializeField] List<Animator> canvasHearts; 
+    [SerializeField] List<Animator> canvasHearts;
+    public GameObject gibs;
+    public Transform playerModel;
+    public AudioClip squishSound;
 
     [SerializeField] TrailRenderer shadowTrail;
     float shadowTrailITime;
     [SerializeField] Light faceLight;
     float faceLightStartLight;
     float faceLightILight;
-
+    [SerializeField] MeshRenderer worldBowMesh;
 
     [SerializeField] Camera cam;
     [SerializeField] Transform armsHolder;
@@ -125,6 +128,7 @@ public class FPSPlayer : MonoBehaviour
         fpsCanvas.gameObject.SetActive(false);
         iWeaponOrigin = -Vector3.up * 2.0f;
         weaponOrigin = iWeaponOrigin;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public static void StartGame()
@@ -471,6 +475,13 @@ public class FPSPlayer : MonoBehaviour
         fpsCanvas.gameObject.SetActive(false);
         Instantiate(deathCanvasPrefab);
         rb.velocity = Vector3.zero;
+        Transform newGibs = Instantiate(gibs).transform;
+        newGibs.parent = transform;
+        newGibs.position = playerModel.position;
+        newGibs.rotation = playerModel.rotation;
+        newGibs.localScale = playerModel.localScale;
+        playerModel.gameObject.SetActive(false);
+        aud.PlayOneShot(squishSound);
     }
 
     public void Die()
@@ -563,6 +574,7 @@ public class FPSPlayer : MonoBehaviour
         shadowTrail.enabled = !shadowTrail.enabled;
         faceLight.enabled = !faceLight.enabled;
         boltMesh.enabled = !faceLight.enabled;
+        worldBowMesh.enabled = !faceLight.enabled;
     }
     void HideSetAll(bool _set)
     {
@@ -571,6 +583,7 @@ public class FPSPlayer : MonoBehaviour
         shadowTrail.enabled = _set;
         faceLight.enabled = _set;
         boltMesh.enabled = _set;
+        worldBowMesh.enabled = _set;
     }
     public void DoInvis(InputAction.CallbackContext ctx)
     {

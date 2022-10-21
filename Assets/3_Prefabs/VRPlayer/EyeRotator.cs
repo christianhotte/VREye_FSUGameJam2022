@@ -21,6 +21,9 @@ public class EyeRotator : MonoBehaviour
     private void Awake()
     {
         main = this;
+    }
+    private void Start()
+    {
         GetComponent<Light>().enabled = false;
     }
     private void Update()

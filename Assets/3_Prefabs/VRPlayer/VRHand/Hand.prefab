@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a36971a6e0c5834f9a4c0760a3f2050, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 3
   sound: {fileID: 8300000, guid: 14cdc182e30da4e4494301a45eb1da03, type: 3}
 --- !u!82 &1095096139822876725
 AudioSource:
@@ -682,6 +682,7 @@ MonoBehaviour:
   stompEffectImpactRange: {x: 3, y: 50}
   earthQuakeRadius: {x: 15, y: 80}
   earthQuakeIntensityRange: {x: 0.01, y: 0.08}
+  activated: 0
 --- !u!82 &3550603057714943871
 AudioSource:
   m_ObjectHideFlags: 0

@@ -551,8 +551,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  gibs: {fileID: 702957971071486359, guid: 6482059b69afbaf4f8e8843d8567f348, type: 3}
+  playerModel: {fileID: 8851809467671863774}
+  squishSound: {fileID: 8300000, guid: 144ce1745d990a64d840b63fbe4002c4, type: 3}
   shadowTrail: {fileID: 1486957863}
   faceLight: {fileID: 8130770513139168248}
+  worldBowMesh: {fileID: 3346554136192914692}
   cam: {fileID: 1658674683545223284}
   armsHolder: {fileID: 1171928264}
   projectileSpawnPoint: {fileID: 430245025215803356}
@@ -569,6 +573,7 @@ MonoBehaviour:
   deathDistance: 0.9
   loseControlTime: 0.5
   squishScale: 0.07
+  winWaitTime: 10
   looseWeaponSway: 0
   weaponSwayX: 0.1
   weaponSwayY: 0.1
@@ -582,6 +587,7 @@ MonoBehaviour:
     m_Bits: 0
   NoFric: {fileID: 13400000, guid: e02cc60ff86b50d4c80e6b6f6d376806, type: 2}
   Fric: {fileID: 13400000, guid: 56202e75d8ef17841a1060fd2492cb52, type: 2}
+  grounded: 0
 --- !u!114 &1658674684814655490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1384,6 +1390,11 @@ Transform:
 --- !u!95 &3030487561478727225 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 8305577078893281331, guid: aaee3290d9aff7245b37cc4ec0c3d3e3, type: 3}
+  m_PrefabInstance: {fileID: 6434837069517973002}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3346554136192914692 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8591877949698274062, guid: aaee3290d9aff7245b37cc4ec0c3d3e3, type: 3}
   m_PrefabInstance: {fileID: 6434837069517973002}
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &5933303435738288049 stripped

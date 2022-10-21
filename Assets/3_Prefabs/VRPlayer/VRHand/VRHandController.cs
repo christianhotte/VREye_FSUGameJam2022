@@ -84,6 +84,7 @@ public class VRHandController : MonoBehaviour
     private Vector3 lastOriginVelocity;
     private bool prevObstructed;
     private float shookPlayerTime;
+    public bool activated = false;
 
     //Input Variables:
     private float gripValue;                    //How closed this hand currently is
@@ -125,14 +126,11 @@ public class VRHandController : MonoBehaviour
         }
         fingerTargets = newFingerTargets.ToArray(); //Store finger target list
         fingerRoots = newFingerRoots.ToArray();     //Store finger root list
-
-        //Get objects & components:
-        audioSource = GetComponent<AudioSource>(); //Get audio source
-        audioSource.enabled = false;
     }
     private void Start()
     {
         //Initialize:
+        
         if (controllerTarget != null)
         {
             obstructedTarget.position = controllerTarget.position; //Set target reference position if possible
@@ -143,6 +141,9 @@ public class VRHandController : MonoBehaviour
         {
             followOffset.x *= -1;
         }
+
+        //Get objects & components:
+        audioSource = GetComponent<AudioSource>(); //Get audio source
     }
     private void OnDisable()
     {
@@ -150,6 +151,7 @@ public class VRHandController : MonoBehaviour
     }
     private void Update()
     {
+        if (audioSource == null) audioSource = GetComponent<AudioSource>();
         if (shookPlayerTime > 0) shookPlayerTime = Mathf.Max(0, shookPlayerTime - Time.deltaTime);
 
         //Perform positional update:
@@ -325,7 +327,7 @@ public class VRHandController : MonoBehaviour
             }
 
             //Force effects:
-            if (projectionDepth.y < 0 && gripType == GripType.Open)
+            if (projectionDepth.y < 0 && gripType == GripType.Open && activated)
             {
                 Vector3 currentOriginPos = VRPlayerController.main.origin.position; //Get quick reference for current position of origin
                 Vector3 targetOriginPos = currentOriginPos;                         //Initialize positional target value at position of player
@@ -429,6 +431,7 @@ public class VRHandController : MonoBehaviour
                     //Initialize grip:
                     gripType = GripType.GrabLocked;         //Indicate that player is gripping surface
                     surfaceGripTarget = transform.position; //Set position of surface target
+                    if (activated) EyeRotator.main.EnableLight();
 
                     //Check for building:
                     foreach (Collider collider in palmSurfaces) //Iterate through each collider palm is touching
@@ -531,6 +534,6 @@ public class VRHandController : MonoBehaviour
     }
     public void EnableAudio()
     {
-        audioSource.enabled = true;
+        activated = true;
     }
 }

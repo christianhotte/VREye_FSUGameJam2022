@@ -11,6 +11,7 @@ public class Bell : MonoBehaviour, IShootable
     [SerializeField] Animator groundDoors;
     [SerializeField] AudioSource groundSource;
     [SerializeField] float groundWaitTime;
+    public AudioClip realBellSound;
 
     UnityEvent bellShotEvent = new UnityEvent();
     bool shot = false;
@@ -19,7 +20,8 @@ public class Bell : MonoBehaviour, IShootable
     {
         if (shot) return;
         mr.material = dontMat;
-        GetComponent<AudioSource>().Play();
+        GetComponent<AudioSource>().Stop();
+        GetComponent<AudioSource>().PlayOneShot(realBellSound);
         shot = true;
         bellShotEvent.Invoke();
         FPSPlayer.FPSShake(0.1f, 10, 0.25f, 0.05f);
