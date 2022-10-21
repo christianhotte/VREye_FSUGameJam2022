@@ -8,6 +8,9 @@ public class Bell : MonoBehaviour, IShootable
     [SerializeField] MeshRenderer mr;
     [SerializeField] Material dontMat;
     [SerializeField] MeshRenderer bellMr;
+    [SerializeField] Animator groundDoors;
+    [SerializeField] AudioSource groundSource;
+    [SerializeField] float groundWaitTime;
 
     UnityEvent bellShotEvent = new UnityEvent();
     bool shot = false;
@@ -23,6 +26,8 @@ public class Bell : MonoBehaviour, IShootable
         BossHpBar.DisplayBossHealth();
         StartCoroutine(TextFade());
         bellMr.material.SetColor("_EmissionColor", Color.black);
+        groundSource.Play();
+        WaitThenPlayAnim();
     }
 
     IEnumerator TextFade()
@@ -37,7 +42,13 @@ public class Bell : MonoBehaviour, IShootable
             yield return new WaitForSeconds(0.1f);
         }
         tempColor = mr.material.color;
-        tempColor.a -= 0.0f;
+        tempColor.a = 0.0f;
         mr.material.color = tempColor;
+    }
+
+    IEnumerator WaitThenPlayAnim()
+    {
+        yield return new WaitForSeconds(groundWaitTime);
+        groundDoors.Play("DoorOpen");
     }
 }
