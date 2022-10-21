@@ -93,7 +93,7 @@ public class FPS_Clone : MonoBehaviour
         faceLight.intensity = Mathf.Lerp(faceLight.intensity, faceLightILight, Time.deltaTime * 3.0f);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         cloneTrailFade.BreakOff();
     }
