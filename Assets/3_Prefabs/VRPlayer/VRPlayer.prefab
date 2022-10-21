@@ -545,8 +545,8 @@ MonoBehaviour:
   gibbedPrefab: {fileID: 8068882582616200730, guid: a8f4e17e746840943b1456a40e862f37, type: 3}
   headModel: {fileID: 3197343730811009893}
   maxHealth: 100
-  hardVerticalBounds: {x: 4, y: 33}
-  headRadius: 0.4
+  hardVerticalBounds: {x: -100, y: 33}
+  headRadius: 0.6
   obstructionLayers:
     serializedVersion: 2
     m_Bits: 1

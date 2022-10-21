@@ -8,5 +8,7 @@ public class GroundDoor : MonoBehaviour
     {
         FPSPlayer.FPSShake(0.05f, 6, 0.2f, 0.05f);
         BossHpBar.DisplayBossHealth();
+        foreach (VRHandController hand in VRHandController.hands) hand.EnableAudio();
+        EyeRotator.main.EnableLight();
     }
 }

@@ -679,9 +679,8 @@ MonoBehaviour:
   stompSound: {fileID: 8300000, guid: 29e6b703b358ee04aba54fac582105b1, type: 3}
   grabSound: {fileID: 8300000, guid: bd3921195a64c394da828953795aac1a, type: 3}
   buildingGrabSound: {fileID: 8300000, guid: 1b62145f70650a64683f7c3313cca3a4, type: 3}
-  stompEffectImpactRange: {x: 3, y: 35}
+  stompEffectImpactRange: {x: 3, y: 50}
   earthQuakeRadius: {x: 15, y: 80}
-  earthQuakeTimeRange: {x: 0.01, y: 0.04}
   earthQuakeIntensityRange: {x: 0.01, y: 0.08}
 --- !u!82 &3550603057714943871
 AudioSource:

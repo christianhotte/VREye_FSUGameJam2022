@@ -58,14 +58,16 @@ public class Building : MonoBehaviour
     /// <summary>
     /// Grabs this building with given hand.
     /// </summary>
-    public void Grab(VRHandController hand)
+    public bool Grab(VRHandController hand)
     {
         //Initialize:
+        if (uprooted) return false;
         if (!grabbingHands.Contains(hand)) grabbingHands.Add(hand);
         if (grabbingHands.Count > 1) //Building is being grabbed with both hands
         {
             model.GetComponent<MeshCollider>().enabled = false;
         }
+        return true;
     }
     /// <summary>
     /// Pull on grabbed building.
@@ -74,7 +76,8 @@ public class Building : MonoBehaviour
     {
         if (!uprooted)
         {
-            netPullForce = Mathf.Max(0, netPullForce + force.y);        //Add force to net pull force (do not go below zero)
+            //netPullForce = Mathf.Max(0, netPullForce + force.y);        //Add force to net pull force (do not go below zero)
+            netPullForce = Mathf.Max(0, netPullForce + force.magnitude);
             float forceValue = Mathf.Clamp01(netPullForce / tearForce); //Get value representing how pulled building is
 
             if (!strainTriggered && forceValue > strainForceValue)
@@ -88,8 +91,17 @@ public class Building : MonoBehaviour
                 uprooted = true; //Indicate that building is uprooted
                 model.localPosition = startingPos; //Return model to normal position
                 audioSource.PlayOneShot(pullFreeSound); //Play pull sound
+                foreach (Collider collider in GetComponentsInChildren<Collider>())
+                {
+                    collider.gameObject.SetActive(false);
+                }
+                foreach (VRHandController hand in grabbingHands)
+                {
+                    Release(hand);
+                    hand.OpenHand();
+                }
             }
-            if (netPullForce <= 0)
+            else if (netPullForce <= 0)
             {
                 strainTriggered = false;
                 model.localPosition = startingPos; //Return model to normal position

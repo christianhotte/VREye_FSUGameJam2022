@@ -37,9 +37,9 @@ public class VRPlayerController : MonoBehaviour
     //[SerializeField] private 
     [Header("General Settings:")]
     [SerializeField(), Tooltip("Health the player starts at")] private int maxHealth;
-    [MinMaxSlider(-50, 50), SerializeField, Tooltip("Vertical limits which player head may not move outside of")] private Vector2 hardVerticalBounds;
-    [Min(0), SerializeField, Tooltip("")]                                                                         private float headRadius;
-    [SerializeField, Tooltip("Physics layers which head is able to collide with")]                                private LayerMask obstructionLayers;
+    [SerializeField, Tooltip("Vertical limits which player head may not move outside of")] private Vector2 hardVerticalBounds;
+    [Min(0), SerializeField, Tooltip("")]                                                  private float headRadius;
+    [SerializeField, Tooltip("Physics layers which head is able to collide with")]         private LayerMask obstructionLayers;
     [Header("Death Sequencing:")]
     [SerializeField] private float[] deathSequenceTimes;
     [Min(0.01f), SerializeField(), Tooltip("Curve describing fade out effect of eye light upon death")]     private AnimationCurve death_EyeFadeCurve;

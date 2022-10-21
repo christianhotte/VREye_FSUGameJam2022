@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class EyeRotator : MonoBehaviour
 {
+    public static EyeRotator main;
+
     //Objects & Components:
     [SerializeField(), Tooltip("Target position and orientation which eye will move to and is trying to rotate to")] private Transform target;
 
@@ -16,6 +18,11 @@ public class EyeRotator : MonoBehaviour
     [SerializeField(), Tooltip("Rate at which eye lerps toward target")]              private float lerpRate;
 
     //RUNTIME METHODS:
+    private void Awake()
+    {
+        main = this;
+        GetComponent<Light>().enabled = false;
+    }
     private void Update()
     {
         //Get target rotation:
@@ -25,5 +32,9 @@ public class EyeRotator : MonoBehaviour
         //Cleanup:
         transform.position = target.transform.position + offset; //Snap position to target (with offset)
         transform.rotation = newRotation;                        //Set new rotation
+    }
+    public void EnableLight()
+    {
+        GetComponent<Light>().enabled = true;
     }
 }

@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 
 public class VRHandController : MonoBehaviour
 {
+    public static List<VRHandController> hands = new List<VRHandController>();
+
     //Objects & Components:
     /// <summary>
     /// Controller transform which this hand is following.
@@ -96,6 +98,7 @@ public class VRHandController : MonoBehaviour
         obstructedTarget = new GameObject().transform;                                                    //Instantiate a new transform object
         obstructedTarget.name = "ObstructedControllerPos";                                                //Give target a descriptive name
         if (VRPlayerController.main != null) obstructedTarget.parent = VRPlayerController.main.transform; //Child obstructedTarget marker to VR player if possible
+        hands.Add(this);
 
         //Set up finger IK:
         List<Transform> newFingerTargets = new List<Transform>();   //Initialize a list within which to store finger targets
@@ -125,6 +128,7 @@ public class VRHandController : MonoBehaviour
 
         //Get objects & components:
         audioSource = GetComponent<AudioSource>(); //Get audio source
+        audioSource.enabled = false;
     }
     private void Start()
     {
@@ -429,12 +433,11 @@ public class VRHandController : MonoBehaviour
                     //Check for building:
                     foreach (Collider collider in palmSurfaces) //Iterate through each collider palm is touching
                     {
-                        if (collider.transform.parent.TryGetComponent(out Building building)) //Check to see if collider is a building
+                        /*if (collider.transform.parent.TryGetComponent(out Building building)) //Check to see if collider is a building
                         {
-                            building.Grab(this);        //Indicate to building that it has been grabbed
-                            grabbedBuilding = building; //Save reference to grabbed building
+                            if (building.Grab(this)) grabbedBuilding = building;        //Indicate to building that it has been grabbed
                             break;                      //Ignore other colliders
-                        }
+                        }*/
                     }
                     if (grabbedBuilding != null && otherHand.grabbedBuilding == grabbedBuilding) //Both hands are grabbing the same building
                     {
@@ -446,9 +449,9 @@ public class VRHandController : MonoBehaviour
                     }
 
                     //Effects:
-                    VRPlayerController.SendHapticImpulse(side, grabHaptics);                 //Play grab haptics
-                    if (grabbedBuilding != null) audioSource.PlayOneShot(buildingGrabSound); //Play building grab sound if a building was grabbed
-                    else audioSource.PlayOneShot(grabSound);                                 //Play normal grab sound
+                    VRPlayerController.SendHapticImpulse(side, grabHaptics);                       //Play grab haptics
+                    if (grabbedBuilding != null) audioSource.PlayOneShot(buildingGrabSound, 0.5f); //Play building grab sound if a building was grabbed
+                    else audioSource.PlayOneShot(grabSound, 0.5f);                                 //Play normal grab sound
                 }
                 else if (gripValue >= fistGripThreshold) //Player is making a fist
                 {
@@ -468,6 +471,7 @@ public class VRHandController : MonoBehaviour
         {
             grabbedBuilding.Release(this); //Release held building
             grabbedBuilding = null;        //Indicate hand is no longer holding building
+            palmSurfaces = new List<Collider>();
         }
 
         //Cleanup:
@@ -524,5 +528,9 @@ public class VRHandController : MonoBehaviour
     private void SetIKWeights(float newWeight)
     {
         foreach (FABRIK solver in ikSolvers) solver.solver.IKPositionWeight = newWeight;
+    }
+    public void EnableAudio()
+    {
+        audioSource.enabled = true;
     }
 }
