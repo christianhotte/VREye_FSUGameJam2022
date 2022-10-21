@@ -27,13 +27,17 @@ public class Bell : MonoBehaviour, IShootable
 
     IEnumerator TextFade()
     {
+        Color tempColor;
         yield return new WaitForSeconds(5.0f);
         while (mr.material.color.a > 0.0f)
         {
-            Color tempColor = mr.material.color;
+            tempColor = mr.material.color;
             tempColor.a -= 0.05f;
             mr.material.color = tempColor;
             yield return new WaitForSeconds(0.1f);
         }
+        tempColor = mr.material.color;
+        tempColor.a -= 0.0f;
+        mr.material.color = tempColor;
     }
 }
